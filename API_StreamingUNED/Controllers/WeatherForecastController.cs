@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StreamingUNED.Controllers
+namespace API_StreamingUNED.Controllers
 {
     [ApiController]
     [Route("[controller]")]

@@ -1,6 +1,6 @@
 using System;
 
-namespace StreamingUNED
+namespace API_StreamingUNED
 {
     public class WeatherForecast
     {

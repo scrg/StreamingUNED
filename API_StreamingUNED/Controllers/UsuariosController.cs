@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using API_UNED.Context;
 using API_UNED.Models;
 
-namespace StreamingUNED.Controllers
+namespace API_StreamingUNED.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
