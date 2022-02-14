@@ -109,9 +109,7 @@ namespace API_StreamingUNED
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.FechaNacimiento)
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
+                entity.Property(e => e.FechaNacimiento).HasColumnType("datetime"); 
 
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(200)

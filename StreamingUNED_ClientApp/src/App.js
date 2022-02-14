@@ -26,8 +26,8 @@ const App = () => {
 
     if (user) {
       setCurrentUser(user);
-      setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
-      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+      setShowModeratorBoard(user.rolId===2);//2	Empleado
+      setShowAdminBoard(user.rolId===1); //1	Gestor
     }
 
     EventBus.on("logout", () => {

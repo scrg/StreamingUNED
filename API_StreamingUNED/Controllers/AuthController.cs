@@ -18,26 +18,17 @@ namespace API_StreamingUNED.Controllers
             this.jwtSettings = jwtSettings;
             _context = context;
         }
-        private IEnumerable<Usuarios> logins = new List<Usuarios>() {
-            new Usuarios() { 
-                        CorreoElectronico = "adminakp@gmail.com", 
-                        Clave = "Admin",
-                },
-                new Usuarios() { 
-                        CorreoElectronico = "adminakp@gmail.com", 
-                        Clave = "Admin",
-                }
-        };
+
         [HttpPost]
         public IActionResult GetToken(UserLogins userLogins)
         {
             try
             {
                 var Token = new UserTokens();
-                var Valid = logins.Any(x => x.CorreoElectronico.Equals(userLogins.UserName, StringComparison.OrdinalIgnoreCase));
-                if (Valid)
+                var Valid = _context.Usuarios.Where(x => x.CorreoElectronico.ToLower().Equals(userLogins.UserName.ToLower()) && x.Clave.Equals(userLogins.Password)).ToList().Count();
+                if (Valid == 1)
                 {
-                    var user = logins.FirstOrDefault(x => x.CorreoElectronico.Equals(userLogins.UserName, StringComparison.OrdinalIgnoreCase));
+                    var user = _context.Usuarios.FirstOrDefault(x => x.CorreoElectronico.Equals(userLogins.UserName));
                     Token = JwtHelpers.JwtHelpers.GenTokenkey(new UserTokens()
                     {
                         EmailId = user.CorreoElectronico, 
@@ -115,15 +106,15 @@ namespace API_StreamingUNED.Controllers
             }
         }
 
-        /// <summary>
-        /// Get List of UserAccounts
-        /// </summary>
-        /// <returns>List Of UserAccounts</returns>
-        [HttpGet]
-        //[Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult GetList()
-        {
-            return Ok(logins);
-        }
+        ///// <summary>
+        ///// Get List of UserAccounts
+        ///// </summary>
+        ///// <returns>List Of UserAccounts</returns>
+        //[HttpGet]
+        ////[Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        //public IActionResult GetList()
+        //{
+        //    return Ok(logins);
+        //}
     }
 }
