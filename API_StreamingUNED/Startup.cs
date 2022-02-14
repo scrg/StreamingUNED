@@ -1,12 +1,14 @@
-using API_UNED.Context;
+using API_StreamingUNED.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace API_StreamingUNED
 {
@@ -23,17 +25,48 @@ namespace API_StreamingUNED
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddControllersWithViews();
-            services.AddDbContext<UNED_DbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionUNED")));
+            services.AddControllersWithViews(); 
+            services.AddDbContext<UNED_streamingContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionUNED")));
 
-            // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
+            //services.AddSpaStaticFiles(configuration =>
+            //{
+            //    configuration.RootPath = "ClientApp/build";
+            //});
+
+            // Add Jwt Setings
+            var bindJwtSettings = new JwtSettings();
+            Configuration.Bind("JsonWebTokenKeys", bindJwtSettings);
+            services.AddSingleton(bindJwtSettings);
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options => {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    //IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    //ValidateIssuerSigningKey = bindJwtSettings.ValidateIssuerSigningKey,
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(bindJwtSettings.IssuerSigningKey)),
+                    //ValidateIssuer = bindJwtSettings.ValidateIssuer,
+                    //ValidIssuer = bindJwtSettings.ValidIssuer,
+                    //ValidateAudience = bindJwtSettings.ValidateAudience,
+                    //ValidAudience = bindJwtSettings.ValidAudience,
+                    //RequireExpirationTime = bindJwtSettings.RequireExpirationTime,
+                    //ValidateLifetime = bindJwtSettings.RequireExpirationTime,
+                    ClockSkew = TimeSpan.FromDays(1),
+                };
             });
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+       
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors(options =>
@@ -56,7 +89,7 @@ namespace API_StreamingUNED
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            //app.UseSpaStaticFiles();
 
             app.UseRouting();
 
@@ -67,15 +100,17 @@ namespace API_StreamingUNED
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
+            //app.UseSpa(spa =>
+            //{
+            //    spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-            });
+            //    if (env.IsDevelopment())
+            //    {
+            //        spa.UseReactDevelopmentServer(npmScript: "start");
+            //    }
+            //});
+
+            //app.UseAuthentication();  
         }
     }
 }

@@ -1,26 +1,35 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic; 
 
-namespace API_UNED.Models
+namespace API_StreamingUNED
 {
-    [Table("T_USUARIOS")]
-    public class Usuarios
-    {
-        [Key]
-        public int id { get; set; }
-        public string correoElectronico { get; set; }
-        public string nombre { get; set; }
-        public string apellido1 { get; set; }
-        public string apellido2 { get; set; }
-        public string direccion { get; set; }
-        public int fk_municipio { get; set; }
-        public int fk_provincia { get; set; }
-        public string codigoPostal { get; set; }
-        public string clave { get; set; }
-        public string cuentaBancaria { get; set; }
+    public partial class Usuarios
+    { 
+        public Usuarios()
+        {
+            Visualizaciones = new HashSet<Visualizaciones>();
+        }
+         
+        public int Id { get; set; }
+        public int FkRol { get; set; }
+        public int FkEstado { get; set; }
+        public string CorreoElectronico { get; set; }
+        public string Nombre { get; set; }
+        public string Apellido1 { get; set; }
+        public string Apellido2 { get; set; }
+        public string Direccion { get; set; }
+        public int? FkMunicipio { get; set; }
+        public int? FkProvincia { get; set; }
+        public int? FkCcaa { get; set; }
+        public string CodigoPostal { get; set; }
+        public string Clave { get; set; }
+        public string CuentaBancaria { get; set; }
+
+        public virtual Ccaas FkCcaaNavigation { get; set; }
+        public virtual UsuarioEstados FkEstadoNavigation { get; set; }
+        public virtual Municipios FkMunicipioNavigation { get; set; }
+        public virtual Provincias FkProvinciaNavigation { get; set; }
+        public virtual Roles FkRolNavigation { get; set; }
+        public virtual ICollection<Visualizaciones> Visualizaciones { get; set; }
     }
 }
