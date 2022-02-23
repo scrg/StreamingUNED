@@ -50,7 +50,7 @@ const App = () => {
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <Link to={"/"} className="navbar-brand">
-          bezKoder
+          Streaming_UNED
         </Link>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
@@ -77,8 +77,8 @@ const App = () => {
 
           {currentUser && (
             <li className="nav-item">
-              <Link to={"/user"} className="nav-link">
-                User
+              <Link to={"/profile"} className="nav-link">
+                Perfil
               </Link>
             </li>
           )}
