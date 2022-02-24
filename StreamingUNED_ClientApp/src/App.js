@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Switch,  Route, Link} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "@fortawesome/fontawesome-free/css/all.css";
+import "@fortawesome/fontawesome-free/js/all.js";
 import "./App.css";
 
 import AuthService from "./services/auth.service";
@@ -13,8 +15,13 @@ import BoardUser from "./components/board-user.component";
 import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
 
+
+import AddDirector from "./components/AddDirector";
+import Director from "./components/Director";
+import DirectoresList from "./components/DirectoresList";
+
 // import AuthVerify from "./common/AuthVerify";
-import EventBus from "./common/EventBus";
+import EventBus from "./common/EventBus"; 
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -26,8 +33,8 @@ const App = () => {
 
     if (user) {
       setCurrentUser(user);
-      setShowModeratorBoard(user.rolId===2);//2	Empleado
-      setShowAdminBoard(user.rolId===1); //1	Gestor
+      setShowModeratorBoard(user.rolId === 2);//2	Empleado
+      setShowAdminBoard(user.rolId === 1); //1	Gestor
     }
 
     EventBus.on("logout", () => {
@@ -74,6 +81,20 @@ const App = () => {
               </Link>
             </li>
           )}
+          {showAdminBoard && (
+            <li className="nav-item">
+              <Link to={"/directores"} className="nav-link">
+                Directores
+              </Link>
+            </li>
+          )}
+          {showAdminBoard && (
+            <li className="nav-item">
+              <Link to={"/add"} className="nav-link">
+                Add
+              </Link>
+            </li>
+          )}
 
           {currentUser && (
             <li className="nav-item">
@@ -114,17 +135,20 @@ const App = () => {
         )}
       </nav>
 
-      <div className="container mt-3">
-        <Routes>
-          <Route exact path={"/"} element={<Home />} />
-          <Route exact path={"/home"} element={<Home />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/register" element={<Register />} />
-          <Route exact path="/profile" element={<Profile />} />
-          <Route path="/user" element={<BoardUser />} />
-          <Route path="/mod" element={<BoardModerator />} />
-          <Route path="/admin" element={<BoardAdmin />} />
-        </Routes>
+      <div className="container mt-3"> 
+        <Switch>
+          <Route exact path={"/"} component={Home } />
+          <Route exact path={"/home"} component={Home } />
+          <Route exact path="/login" component={Login } />
+          <Route exact path="/register" component={Register } />
+          <Route exact path="/profile" component={Profile } />
+          <Route path="/user" component={BoardUser } />
+          <Route path="/mod" component={BoardModerator } />
+          <Route path="/admin" component={BoardAdmin } />
+          <Route exact path="/directores" component={DirectoresList} />
+          <Route exact path="/add" component={AddDirector} />
+          <Route path="/directores/:id" component={Director} />
+        </Switch>
       </div>
 
       {/* <AuthVerify logOut={logOut}/> */}

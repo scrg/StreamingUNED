@@ -20,12 +20,26 @@ namespace API_StreamingUNED.Controllers
             _context = context;
         }
 
+        //// GET: api/Directores
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Directores>>> GetDirectores()
+        //{
+        //    return await _context.Directores.ToListAsync();
+        //}
+
         // GET: api/Directores
+        // GET api/Directores?search=ped 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Directores>>> GetDirectores()
+        public async Task<ActionResult<IEnumerable<Directores>>> GetDirectores(string search)
         {
-            return await _context.Directores.ToListAsync();
+            if (string.IsNullOrEmpty(search))
+                return await _context.Directores.ToListAsync();
+            else
+            return await _context.Directores
+                      .Where(x => x.Nombre.Contains(search) || x.Apellido1.Contains(search) || x.Apellido2.Contains(search))
+                .ToListAsync();
         }
+         
 
         // GET: api/Directores/5
         [HttpGet("{id}")]
