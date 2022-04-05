@@ -14,7 +14,7 @@ namespace API_StreamingUNED.JwtHelpers
         {
             IEnumerable<Claim> claims = new Claim[] {
                 new Claim("Id", userAccounts.UserId.ToString()),
-                    new Claim(ClaimTypes.Role, userAccounts.RolId.ToString()),
+                    new Claim(ClaimTypes.Role, userAccounts.RolName),
                     new Claim(ClaimTypes.Email, userAccounts.EmailId),
                     new Claim(ClaimTypes.NameIdentifier, userAccounts.EmailId),
                     new Claim(ClaimTypes.Expiration, DateTime.UtcNow.AddDays(1).ToString("MMM ddd dd yyyy HH:mm:ss tt"))
@@ -37,11 +37,20 @@ namespace API_StreamingUNED.JwtHelpers
                 Guid Id = Guid.Empty;
                 DateTime expiredTime = DateTime.UtcNow.AddDays(1);
                 UserToken.Validaty = expiredTime.TimeOfDay;
-                var JWToken = new JwtSecurityToken(issuer: jwtSettings.ValidIssuer, audience: jwtSettings.ValidAudience, claims: GetClaims(model, out Id), notBefore: new DateTimeOffset(DateTime.Now).DateTime, expires: new DateTimeOffset(expiredTime).DateTime, signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256));
+                var JWToken = new JwtSecurityToken(
+                    issuer: jwtSettings.ValidIssuer,
+                    audience: jwtSettings.ValidAudience,
+                    claims: GetClaims(model, out Id),
+                    notBefore: new DateTimeOffset(DateTime.Now).DateTime,
+                    expires: new DateTimeOffset(expiredTime).DateTime,
+                    signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
+                    );
+
                 UserToken.Token = new JwtSecurityTokenHandler().WriteToken(JWToken);
                 UserToken.EmailId = model.EmailId;
                 UserToken.UserId = model.UserId;
-                UserToken.RolId = model.RolId; 
+                UserToken.RolId = model.RolId;
+                UserToken.RolName = model.RolName;
                 return UserToken;
             }
             catch (Exception)

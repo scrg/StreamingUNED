@@ -14,5 +14,12 @@ namespace API_StreamingUNED
         public string Nombre { get; set; }
 
         public virtual ICollection<Usuarios> Usuarios { get; set; }
+
+        public enum Role
+        {
+            Gestor,
+            Empleado,
+            Socio
+        }
     }
 }

@@ -4,11 +4,13 @@ using API_StreamingUNED.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using Microsoft.EntityFrameworkCore; 
 
 namespace API_StreamingUNED.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly UNED_streamingContext _context;
@@ -25,15 +27,19 @@ namespace API_StreamingUNED.Controllers
             try
             {
                 var Token = new UserTokens();
-                var Valid = _context.Usuarios.Where(x => x.CorreoElectronico.ToLower().Equals(userLogins.UserName.ToLower()) && x.Clave.Equals(userLogins.Password)).ToList().Count();
+                var Valid = _context.Usuarios
+                    .Where(x => x.CorreoElectronico.ToLower().Equals(userLogins.UserName.ToLower()) && x.Clave.Equals(userLogins.Password)).ToList().Count();
                 if (Valid == 1)
                 {
-                    var user = _context.Usuarios.FirstOrDefault(x => x.CorreoElectronico.Equals(userLogins.UserName));
+                    var user = _context.Usuarios
+                    .Include(x => x.FkRolNavigation)
+                    .FirstOrDefault(x => x.CorreoElectronico.Equals(userLogins.UserName));
                     Token = JwtHelpers.JwtHelpers.GenTokenkey(new UserTokens()
                     {
                         EmailId = user.CorreoElectronico, 
                         UserId = user.Id,
-                        RolId = user.FkRol
+                        RolId = user.FkRol,
+                        RolName = user.FkRolNavigation.Nombre
                     }, jwtSettings);
                 }
                 else
@@ -62,7 +68,8 @@ namespace API_StreamingUNED.Controllers
                     {
                         EmailId = user.CorreoElectronico,
                         UserId = user.Id,
-                        RolId = user.FkRol
+                        RolId = user.FkRol,
+                        RolName = user.FkRolNavigation.Nombre
                     }, jwtSettings);
                 }
                 else
@@ -91,7 +98,8 @@ namespace API_StreamingUNED.Controllers
                     {
                         EmailId = user.CorreoElectronico,
                         UserId = user.Id,
-                        RolId = user.FkRol
+                        RolId = user.FkRol,
+                        RolName = user.FkRolNavigation.Nombre
                     }, jwtSettings);
                 }
                 else

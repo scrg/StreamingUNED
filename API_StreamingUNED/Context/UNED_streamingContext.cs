@@ -34,9 +34,8 @@ namespace API_StreamingUNED
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=PC-SCRG\\SCRG_SQL2017;Database=UNED_streaming;Trusted_Connection=True;");
+            { 
+                optionsBuilder.UseSqlServer("Server=PC-SCRG\\SCRG_SQL2017;Database=UNED_streaming;Trusted_Connection=True;");           
             }
         }
 
@@ -240,6 +239,7 @@ namespace API_StreamingUNED
                     .WithMany(p => p.Usuarios)
                     .HasForeignKey(d => d.FkCcaa)
                     .HasConstraintName("FK_T_USUARIOS_TC_CCAAS");
+                 
 
                 entity.HasOne(d => d.FkEstadoNavigation)
                     .WithMany(p => p.Usuarios)
@@ -383,6 +383,7 @@ namespace API_StreamingUNED
                     .HasMaxLength(50)
                     .IsUnicode(false);
             });
+             
 
             OnModelCreatingPartial(modelBuilder);
         }

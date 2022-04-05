@@ -38,4 +38,8 @@ public class UserTokens
         get;
         set;
     }
+    public string RolName { 
+        get; 
+        set; 
+    }
 }
