@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import DirectorService from "../services/DirectorService";
+import DirectorService from "../services/DirectorService"; 
+import moment from 'moment';
+ 
 
 const Director = props => {
     const initialDirectorState = {
@@ -7,9 +9,11 @@ const Director = props => {
         nombre: "",
         apellido1: "",
         apellido2: "",
-        fechanacimiento: "",
+        fechaNacimiento: new Date(),
         published: false
     };
+
+
     const [currentDirector, setCurrentDirector] = useState(initialDirectorState);
     const [message, setMessage] = useState("");
 
@@ -39,7 +43,7 @@ const Director = props => {
             nombre: currentDirector.nombre,
             apellido1: currentDirector.apellido1,
             apellido2: currentDirector.apellido2,
-            fechanacimiento: currentDirector.fechanacimiento,
+            fechaNacimiento: currentDirector.fechaNacimiento,
             published: true
         };
 
@@ -117,15 +121,15 @@ const Director = props => {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="fechanacimiento">Fecha Nacimiento</label>
+                            <label htmlFor="fechaNacimiento">Fecha Nacimiento</label>
                             <input
                                 type="date"
                                 className="form-control"
-                                id="fechanacimiento"
+                                id="fechaNacimiento"
                                 required
-                                value={currentDirector.fechanacimiento}
+                                value={moment(currentDirector.fechaNacimiento).format('YYYY-MM-DD')}
                                 onChange={handleInputChange}
-                                name="fechanacimiento"
+                                name="fechaNacimiento"
                             />
                         </div>
 

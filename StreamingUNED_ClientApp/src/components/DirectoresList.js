@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import DirectorService from "../services/DirectorService";
-import { useTable } from "react-table";
+import { useTable } from "react-table"; 
 
 const DirectoresList = (props) => {
     const [directores, setDirectores] = useState([]);
@@ -57,6 +57,9 @@ const DirectoresList = (props) => {
         const id = directoresRef.current[rowIndex].id;         
         window.location.href = window.location.origin + "/directores/" + id;
     };
+    
+    const addDirector = () => {       
+        window.location.href = window.location.origin + "/adddirector" };
 
     const deleteDirector = (rowIndex) => {
         const id = directoresRef.current[rowIndex].id;
@@ -181,8 +184,8 @@ const DirectoresList = (props) => {
             </div>
 
             <div className="col-md-8">
-                <button className="btn btn-sm btn-danger" onClick={removeAllDirectores}>
-                    Remove All
+                <button className="btn btn-sm btn-danger" onClick={() => addDirector()}>
+                    Nuevo director
                 </button>
             </div>
         </div>

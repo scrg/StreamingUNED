@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Switch,  Route, Link} from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
+import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
@@ -8,7 +9,6 @@ import "./App.css";
 import AuthService from "./services/auth.service";
 
 import Login from "./components/login.component";
-import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
@@ -21,7 +21,8 @@ import Director from "./components/Director";
 import DirectoresList from "./components/DirectoresList";
 
 // import AuthVerify from "./common/AuthVerify";
-import EventBus from "./common/EventBus"; 
+import EventBus from "./common/EventBus";
+import AddUsuario from "./components/AddUsuario";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -55,98 +56,78 @@ const App = () => {
 
   return (
     <div>
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <Link to={"/"} className="navbar-brand">
-          Streaming_UNED
-        </Link>
-        <div className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <Link to={"/home"} className="nav-link">
-              Home
-            </Link>
-          </li>
+      <Navbar bg="light" expand="lg">
+        <Container>
+          <Navbar.Brand href="/home">Streaming_UNED</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              {showAdminBoard && (
+                <NavDropdown title="Administración" id="basic-nav-dropdown">
+                  <NavDropdown.Item href="/directores">Usuarios</NavDropdown.Item>
+                  <NavDropdown.Item href="/directores">Catálogo</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="/directores">Directores</NavDropdown.Item>
+                  <NavDropdown.Item href="/directores">Intérpretes</NavDropdown.Item>
+                  <NavDropdown.Item href="/directores">Productoras</NavDropdown.Item>
+                  <NavDropdown.Item href="/directores">Temáticas</NavDropdown.Item>
+                  <NavDropdown.Item href="/directores">Tipos</NavDropdown.Item>
+                </NavDropdown>
+              )}
+              {showAdminBoard && (
+                <NavDropdown title="Estadísticas" id="basic-nav-dropdown">
+                  <NavDropdown.Item href="#action/3.2">Por usuario</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">Por temática</NavDropdown.Item>
+                </NavDropdown>
+              )}
+              {showModeratorBoard && (
+                <NavDropdown title="Empleado" id="basic-nav-dropdown">
+                  <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                </NavDropdown>
+              )}
+              {currentUser && (
+              <NavDropdown title="Catálogo" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#action/3.2">Por temática</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">Por tipo</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">Búsqueda</NavDropdown.Item>
+              </NavDropdown>
+              )}
+              {currentUser && (
+              <Nav.Link href="#action/3.4">Histórico</Nav.Link>
+              )}
+              {currentUser && (
+                <Nav.Link href="/profile">Perfil</Nav.Link>
+              )}
+              {currentUser ? (
+                <Nav.Link href="/login" onClick={logOut}>LogOut</Nav.Link>
+              ) : (
+                <Nav.Link href="/login">Login</Nav.Link>
+              )}
 
-          {showModeratorBoard && (
-            <li className="nav-item">
-              <Link to={"/mod"} className="nav-link">
-                Moderator Board
-              </Link>
-            </li>
-          )}
+              {!currentUser && (
+                <Nav.Link href="/register">Registro</Nav.Link>
+              )}
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
 
-          {showAdminBoard && (
-            <li className="nav-item">
-              <Link to={"/admin"} className="nav-link">
-                Admin Board
-              </Link>
-            </li>
-          )}
-          {showAdminBoard && (
-            <li className="nav-item">
-              <Link to={"/directores"} className="nav-link">
-                Directores
-              </Link>
-            </li>
-          )}
-          {showAdminBoard && (
-            <li className="nav-item">
-              <Link to={"/add"} className="nav-link">
-                Add
-              </Link>
-            </li>
-          )}
-
-          {currentUser && (
-            <li className="nav-item">
-              <Link to={"/profile"} className="nav-link">
-                Perfil
-              </Link>
-            </li>
-          )}
-        </div>
-
-        {currentUser ? (
-          <div className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <Link to={"/profile"} className="nav-link">
-                {currentUser.username}
-              </Link>
-            </li>
-            <li className="nav-item">
-              <a href="/login" className="nav-link" onClick={logOut}>
-                LogOut
-              </a>
-            </li>
-          </div>
-        ) : (
-          <div className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <Link to={"/login"} className="nav-link">
-                Login
-              </Link>
-            </li>
-
-            <li className="nav-item">
-              <Link to={"/register"} className="nav-link">
-                Sign Up
-              </Link>
-            </li>
-          </div>
-        )}
-      </nav>
-
-      <div className="container mt-3"> 
+      <div className="container mt-3">
         <Switch>
-          <Route exact path={"/"} component={Home } />
-          <Route exact path={"/home"} component={Home } />
-          <Route exact path="/login" component={Login } />
-          <Route exact path="/register" component={Register } />
-          <Route exact path="/profile" component={Profile } />
-          <Route path="/user" component={BoardUser } />
-          <Route path="/mod" component={BoardModerator } />
-          <Route path="/admin" component={BoardAdmin } />
+          <Route exact path={"/"} component={Home} />
+          <Route exact path={"/home"} component={Home} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={AddUsuario} />
+          <Route exact path="/profile" component={Profile} />
+          <Route path="/user" component={BoardUser} />
+          <Route path="/mod" component={BoardModerator} />
+          <Route path="/admin" component={BoardAdmin} />
           <Route exact path="/directores" component={DirectoresList} />
-          <Route exact path="/add" component={AddDirector} />
+          <Route exact path="/adddirector" component={AddDirector} />
           <Route path="/directores/:id" component={Director} />
         </Switch>
       </div>

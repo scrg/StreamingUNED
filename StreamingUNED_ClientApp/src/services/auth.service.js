@@ -25,7 +25,13 @@ class AuthService {
         });
     }
     getCurrentUser() {
-        return JSON.parse(localStorage.getItem('user'));;
+        var user = JSON.parse(localStorage.getItem('user'));
+        if (user != null) {
+            if (new Date().toJSON() > user.expiredTime) {
+                this.logout();
+            }
+        }
+        return user;
     }
 }
 export default new AuthService();

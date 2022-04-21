@@ -51,6 +51,7 @@ namespace API_StreamingUNED.JwtHelpers
                 UserToken.UserId = model.UserId;
                 UserToken.RolId = model.RolId;
                 UserToken.RolName = model.RolName;
+                UserToken.ExpiredTime = expiredTime;
                 return UserToken;
             }
             catch (Exception)
