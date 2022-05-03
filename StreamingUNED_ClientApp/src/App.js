@@ -20,6 +20,10 @@ import AddDirector from "./components/AddDirector";
 import Director from "./components/Director";
 import DirectoresList from "./components/DirectoresList";
 
+import AddInterprete from "./components/AddInterprete";
+import Interprete from "./components/Interprete";
+import InterpreteList from "./components/InterpreteList";
+
 // import AuthVerify from "./common/AuthVerify";
 import EventBus from "./common/EventBus";
 import AddUsuario from "./components/AddUsuario";
@@ -62,23 +66,26 @@ const App = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              {showAdminBoard && (
-                <NavDropdown title="Administración" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="/directores">Usuarios</NavDropdown.Item>
-                  <NavDropdown.Item href="/directores">Catálogo</NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="/directores">Directores</NavDropdown.Item>
-                  <NavDropdown.Item href="/directores">Intérpretes</NavDropdown.Item>
-                  <NavDropdown.Item href="/directores">Productoras</NavDropdown.Item>
-                  <NavDropdown.Item href="/directores">Temáticas</NavDropdown.Item>
-                  <NavDropdown.Item href="/directores">Tipos</NavDropdown.Item>
-                </NavDropdown>
+              {!currentUser && (
+                <Nav.Link href="/register">Registro</Nav.Link>
               )}
               {showAdminBoard && (
-                <NavDropdown title="Estadísticas" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.2">Por usuario</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Por temática</NavDropdown.Item>
-                </NavDropdown>
+                <>
+                  <NavDropdown title="Administración" id="basic-nav-dropdown">
+                    <NavDropdown.Item href="/directores">Usuarios</NavDropdown.Item>
+                    <NavDropdown.Item href="/directores">Catálogo</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/directores">Directores</NavDropdown.Item>
+                    <NavDropdown.Item href="/interpretes">Intérpretes</NavDropdown.Item>
+                    <NavDropdown.Item href="/directores">Productoras</NavDropdown.Item>
+                    <NavDropdown.Item href="/directores">Temáticas</NavDropdown.Item>
+                    <NavDropdown.Item href="/directores">Tipos</NavDropdown.Item>
+                  </NavDropdown>
+                  <NavDropdown title="Estadísticas" id="basic-nav-dropdown">
+                    <NavDropdown.Item href="#action/3.2">Por usuario</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.2">Por temática</NavDropdown.Item>
+                  </NavDropdown>
+                </>
               )}
               {showModeratorBoard && (
                 <NavDropdown title="Empleado" id="basic-nav-dropdown">
@@ -90,27 +97,23 @@ const App = () => {
                 </NavDropdown>
               )}
               {currentUser && (
-              <NavDropdown title="Catálogo" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.2">Por temática</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Por tipo</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Búsqueda</NavDropdown.Item>
-              </NavDropdown>
+                <NavDropdown title="Catálogo" id="basic-nav-dropdown">
+                  <NavDropdown.Item href="#action/3.2">Por temática</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">Por tipo</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">Búsqueda</NavDropdown.Item>
+                </NavDropdown>
               )}
               {currentUser && (
-              <Nav.Link href="#action/3.4">Histórico</Nav.Link>
-              )}
-              {currentUser && (
-                <Nav.Link href="/profile">Perfil</Nav.Link>
+                <>
+                  <Nav.Link href="#action/3.4">Histórico</Nav.Link>
+                  <Nav.Link href="/profile">Perfil</Nav.Link>
+                </>
               )}
               {currentUser ? (
                 <Nav.Link href="/login" onClick={logOut}>LogOut</Nav.Link>
               ) : (
                 <Nav.Link href="/login">Login</Nav.Link>
-              )}
-
-              {!currentUser && (
-                <Nav.Link href="/register">Registro</Nav.Link>
-              )}
+              )} 
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -129,6 +132,9 @@ const App = () => {
           <Route exact path="/directores" component={DirectoresList} />
           <Route exact path="/adddirector" component={AddDirector} />
           <Route path="/directores/:id" component={Director} />
+          <Route exact path="/interpretes" component={InterpreteList} />
+          <Route exact path="/addinterprete" component={AddInterprete} />
+          <Route path="/interpretes/:id" component={Interprete} />
         </Switch>
       </div>
 

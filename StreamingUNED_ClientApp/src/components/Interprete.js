@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import DirectorService from "../services/DirectorService"; 
+import InterpreteService from "../services/InterpreteService"; 
 import moment from 'moment';
  
 
-const Director = props => {
-    const initialDirectorState = {
+const Interprete = props => {
+    const initialInterpreteState = {
         id: null,
         nombre: "",
         apellido1: "",
@@ -14,13 +14,13 @@ const Director = props => {
     };
 
 
-    const [currentDirector, setCurrentDirector] = useState(initialDirectorState);
+    const [currentInterprete, setCurrentInterprete] = useState(initialInterpreteState);
     const [message, setMessage] = useState("");
 
-    const getDirector = id => {
-        DirectorService.get(id)
+    const getInterprete = id => {
+        InterpreteService.get(id)
             .then(response => {
-                setCurrentDirector(response.data);
+                setCurrentInterprete(response.data);
                 console.log(response.data);
             })
             .catch(e => {
@@ -29,27 +29,27 @@ const Director = props => {
     };
 
     useEffect(() => {
-        getDirector(props.match.params.id);
+        getInterprete(props.match.params.id);
     }, [props.match.params.id]);
 
     const handleInputChange = event => {
         const { name, value } = event.target;
-        setCurrentDirector({ ...currentDirector, [name]: value });
+        setCurrentInterprete({ ...currentInterprete, [name]: value });
     };
 
     const updatePublished = status => {
         var data = {
-            id: currentDirector.id,
-            nombre: currentDirector.nombre,
-            apellido1: currentDirector.apellido1,
-            apellido2: currentDirector.apellido2,
-            fechaNacimiento: currentDirector.fechaNacimiento,
+            id: currentInterprete.id,
+            nombre: currentInterprete.nombre,
+            apellido1: currentInterprete.apellido1,
+            apellido2: currentInterprete.apellido2,
+            fechaNacimiento: currentInterprete.fechaNacimiento,
             published: true
         };
 
-        DirectorService.update(currentDirector.id, data)
+        InterpreteService.update(currentInterprete.id, data)
             .then(response => {
-                setCurrentDirector({ ...currentDirector, published: status });
+                setCurrentInterprete({ ...currentInterprete, published: status });
                 console.log(response.data);
                 setMessage("The status was updated successfully!");
             })
@@ -58,22 +58,22 @@ const Director = props => {
             });
     };
 
-    const updateDirector = () => {
-        DirectorService.update(currentDirector.id, currentDirector)
+    const updateInterprete = () => {
+        InterpreteService.update(currentInterprete.id, currentInterprete)
             .then(response => {
                 console.log(response.data);
-                setMessage("The Director was updated successfully!");
+                setMessage("The Interprete was updated successfully!");
             })
             .catch(e => {
                 console.log(e);
             });
     };
 
-    const deleteDirector = () => {
-        DirectorService.remove(currentDirector.id)
+    const deleteInterprete = () => {
+        InterpreteService.remove(currentInterprete.id)
             .then(response => {
                 console.log(response.data);
-                props.history.push("/Directores");
+                props.history.push("/Interpretes");
             })
             .catch(e => {
                 console.log(e);
@@ -82,9 +82,9 @@ const Director = props => {
 
     return (
         <div>
-            {currentDirector ? (
+            {currentInterprete ? (
                 <div className="edit-form">
-                    <h4>Director</h4>
+                    <h4>Interprete</h4>
                     <form>
                         <div className="form-group">
                             <label htmlFor="nombre">Nombre</label>
@@ -94,7 +94,7 @@ const Director = props => {
                                 id="nombre"
                                 name="nombre"
                                 required
-                                value={currentDirector.nombre}
+                                value={currentInterprete.nombre}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -106,7 +106,7 @@ const Director = props => {
                                 id="apellido1"
                                 name="apellido1"
                                 required
-                                value={currentDirector.apellido1}
+                                value={currentInterprete.apellido1}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -118,7 +118,7 @@ const Director = props => {
                                 id="apellido2"
                                 name="apellido2"
                                 required
-                                value={currentDirector.apellido2}
+                                value={currentInterprete.apellido2}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -130,7 +130,7 @@ const Director = props => {
                                 className="form-control"
                                 id="fechaNacimiento"
                                 required
-                                value={moment(currentDirector.fechaNacimiento).format('YYYY-MM-DD')}
+                                value={moment(currentInterprete.fechaNacimiento).format('YYYY-MM-DD')}
                                 onChange={handleInputChange}
                                 name="fechaNacimiento"
                             />
@@ -140,11 +140,11 @@ const Director = props => {
                             <label>
                                 <strong>Status:</strong>
                             </label>
-                            {currentDirector.published ? "Published" : "Pending"}
+                            {currentInterprete.published ? "Published" : "Pending"}
                         </div>
                     </form>
 
-                    {currentDirector.published ? (
+                    {currentInterprete.published ? (
                         <button
                             className="badge badge-primary mr-2"
                             onClick={() => updatePublished(false)}
@@ -160,14 +160,14 @@ const Director = props => {
                         </button>
                     )}
 
-                    <button className="badge badge-danger mr-2" onClick={deleteDirector}>
+                    <button className="badge badge-danger mr-2" onClick={deleteInterprete}>
                         Delete
                     </button>
 
                     <button
                         type="submit"
                         className="badge badge-success"
-                        onClick={updateDirector}
+                        onClick={updateInterprete}
                     >
                         Update
                     </button>
@@ -176,11 +176,11 @@ const Director = props => {
             ) : (
                 <div>
                     <br />
-                    <p>Please click on a Director...</p>
+                    <p>Please click on a Interprete...</p>
                 </div>
             )}
         </div>
     );
 };
 
-export default Director;
+export default Interprete;

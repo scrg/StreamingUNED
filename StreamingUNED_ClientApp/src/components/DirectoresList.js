@@ -131,6 +131,11 @@ const DirectoresList = (props) => {
     return (
         <div className="list row">
             <div className="col-md-8">
+                <button className="btn btn-sm btn-danger" onClick={() => addDirector()}>
+                    Nuevo director
+                </button>
+            </div>
+            <div className="col-md-8">
                 <div className="input-group mb-3">
                     <input
                         type="text"
@@ -183,11 +188,6 @@ const DirectoresList = (props) => {
                 </table>
             </div>
 
-            <div className="col-md-8">
-                <button className="btn btn-sm btn-danger" onClick={() => addDirector()}>
-                    Nuevo director
-                </button>
-            </div>
         </div>
     );
 };

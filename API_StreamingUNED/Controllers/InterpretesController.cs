@@ -20,11 +20,18 @@ namespace API_StreamingUNED.Controllers
             _context = context;
         }
 
-        // GET: api/Interpretes
+
+        // GET: api/Directores
+        // GET api/Directores?search=ped 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Interpretes>>> GetInterpretes()
+        public async Task<ActionResult<IEnumerable<Interpretes>>> GetInterpretes(string search)
         {
-            return await _context.Interpretes.ToListAsync();
+            if (string.IsNullOrEmpty(search))
+                return await _context.Interpretes.ToListAsync();
+            else
+                return await _context.Interpretes
+                          .Where(x => x.Nombre.Contains(search) || x.Apellido1.Contains(search) || x.Apellido2.Contains(search))
+                    .ToListAsync();
         }
 
         // GET: api/Interpretes/5

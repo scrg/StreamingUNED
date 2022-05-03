@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace API_StreamingUNED
 {
@@ -19,9 +20,12 @@ namespace API_StreamingUNED
         public string Título { get; set; }
         public int? FkProductora { get; set; }
         public int? AnyoEstreno { get; set; }
+        [DataType(DataType.Date)]
         public DateTime? Fecha { get; set; }
         public int? FkTematica { get; set; }
         public int? Duracion { get; set; }
+
+        [DataType(DataType.ImageUrl)]
         public string Caratula { get; set; }
         public string Recurso { get; set; }
 

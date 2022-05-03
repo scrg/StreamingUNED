@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace API_StreamingUNED
 {
@@ -13,6 +14,7 @@ namespace API_StreamingUNED
         public int Id { get; set; }
         public int FkRol { get; set; }
         public int FkEstado { get; set; }
+        [DataType(DataType.EmailAddress)]
         public string CorreoElectronico { get; set; }
         public string Nombre { get; set; }
         public string Apellido1 { get; set; }
@@ -22,6 +24,8 @@ namespace API_StreamingUNED
         public int? FkProvincia { get; set; }
         public int? FkCcaa { get; set; }
         public string CodigoPostal { get; set; }
+
+        [DataType(DataType.Password)]
         public string Clave { get; set; }
         public string CuentaBancaria { get; set; }
 
