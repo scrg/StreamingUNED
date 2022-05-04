@@ -105,7 +105,7 @@ const AddInterprete = () => {
                         />
                     </Form.Group> 
                     <Button variant="success" type="submit">
-                        Add New Employee
+                        Añadir intérprete
                     </Button>
                 </Form>
             )}

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import DirectorService from "../services/DirectorService"; 
+import DirectorService from "../services/DirectorService";
+import { Form, Button } from "react-bootstrap"
 import moment from 'moment';
- 
+
 
 const Director = props => {
     const initialDirectorState = {
@@ -9,7 +10,7 @@ const Director = props => {
         nombre: "",
         apellido1: "",
         apellido2: "",
-        fechaNacimiento:  new Date(Date.now()),
+        fechanacimiento: new Date(Date.now()),
         published: false
     };
 
@@ -37,32 +38,12 @@ const Director = props => {
         setCurrentDirector({ ...currentDirector, [name]: value });
     };
 
-    const updatePublished = status => {
-        var data = {
-            id: currentDirector.id,
-            nombre: currentDirector.nombre,
-            apellido1: currentDirector.apellido1,
-            apellido2: currentDirector.apellido2,
-            fechaNacimiento: currentDirector.fechaNacimiento,
-            published: true
-        };
-
-        DirectorService.update(currentDirector.id, data)
-            .then(response => {
-                setCurrentDirector({ ...currentDirector, published: status });
-                console.log(response.data);
-                setMessage("The status was updated successfully!");
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    };
-
-    const updateDirector = () => {
+    const updateDirector = (e) => {
+        e.preventDefault();
         DirectorService.update(currentDirector.id, currentDirector)
             .then(response => {
                 console.log(response.data);
-                setMessage("The Director was updated successfully!");
+                setMessage("Actualizado");
             })
             .catch(e => {
                 console.log(e);
@@ -80,107 +61,69 @@ const Director = props => {
             });
     };
 
-    return (
-        <div>
-            {currentDirector ? (
-                <div className="edit-form">
-                    <h4>Director</h4>
-                    <form>
-                        <div className="form-group">
-                            <label htmlFor="nombre">Nombre</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="nombre"
-                                name="nombre"
-                                required
-                                value={currentDirector.nombre}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="apellido1">Apellido 1</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="apellido1"
-                                name="apellido1"
-                                required
-                                value={currentDirector.apellido1}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="apellido2">Apellido 2</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="apellido2"
-                                name="apellido2"
-                                required
-                                value={currentDirector.apellido2}
-                                onChange={handleInputChange}
-                            />
-                        </div>
+    return ( 
+            <div className="edit-form">
+                <h4>Director</h4>
 
-                        <div className="form-group">
-                            <label htmlFor="fechaNacimiento">Fecha Nacimiento</label>
-                            <input
-                                type="date"
-                                className="form-control"
-                                id="fechaNacimiento"
-                                required
-                                value={moment(currentDirector.fechaNacimiento).format('YYYY-MM-DD')}
-                                onChange={handleInputChange}
-                                name="fechaNacimiento"
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label>
-                                <strong>Status:</strong>
-                            </label>
-                            {currentDirector.published ? "Published" : "Pending"}
-                        </div>
-                    </form>
-
-                    {currentDirector.published ? (
-                        <button
-                            className="badge badge-primary mr-2"
-                            onClick={() => updatePublished(false)}
-                        >
-                            UnPublish
-                        </button>
-                    ) : (
-                        <button
-                            className="badge badge-primary mr-2"
-                            onClick={() => updatePublished(true)}
-                        >
-                            Publish
-                        </button>
-                    )}
-
-                    <button className="badge badge-danger mr-2" onClick={deleteDirector}>
-                        Delete
-                    </button>
-
-                    <button
-                        type="submit"
-                        className="badge badge-success"
-                        onClick={updateDirector}
-                    >
-                        Update
-                    </button>
+                <Form onSubmit={updateDirector}>
+                    <Form.Group>
+                        <Form.Label htmlFor="nombre" >Nombre</Form.Label>
+                        <Form.Control
+                            type="text"
+                            className="form-control"
+                            id="nombre"
+                            required
+                            value={currentDirector.nombre}
+                            onChange={handleInputChange}
+                            name="nombre"
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor="apellido1" >Apellido 1</Form.Label>
+                        <Form.Control
+                            type="text"
+                            className="form-control"
+                            id="apellido1"
+                            required
+                            value={currentDirector.apellido1}
+                            onChange={handleInputChange}
+                            name="apellido1"
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor="apellido2" >Apellido 2</Form.Label>
+                        <Form.Control
+                            type="text"
+                            className="form-control"
+                            id="apellido2"
+                            required
+                            value={currentDirector.apellido2}
+                            onChange={handleInputChange}
+                            name="apellido2"
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor="fechanacimiento" >Fecha Nacimiento</Form.Label>
+                        <Form.Control
+                            type="date"
+                            className="form-control"
+                            id="fechanacimiento"
+                            required
+                            value={moment(currentDirector.fechanacimiento).format('YYYY-MM-DD')}
+                            onChange={handleInputChange}
+                            name="fechanacimiento"
+                        />
+                    </Form.Group>
+                    <Button variant="success" type="submit" >
+                        Actualizar
+                    </Button>
+                    <Button variant="danger" onClick={deleteDirector}>
+                        Eliminar
+                    </Button>
                     <p>{message}</p>
-                </div>
-            ) : (
-                <div>
-                    <br />
-                    <p>Please click on a Director...</p>
-                </div>
-            )}
-        </div>
-    );
+                </Form>
+            </div>
+            );
 };
 
-export default Director;
+            export default Director;

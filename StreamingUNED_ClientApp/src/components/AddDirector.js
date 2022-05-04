@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap"
 import DirectorService from "../services/DirectorService";
 
 const AddDirector = () => {
@@ -43,7 +44,7 @@ const AddDirector = () => {
         setSubmitted(false);
     };
     return (
-        <div className="submit-form">
+        <>
             {submitted ? (
                 <div>
                     <h4>Creado correctamente</h4>
@@ -52,10 +53,11 @@ const AddDirector = () => {
                     </button>
                 </div>
             ) : (
-                <div>
-                    <div className="form-group">
-                        <label htmlFor="nombre">Nombre</label>
-                        <input
+
+                <Form onSubmit={saveDirector}> 
+                    <Form.Group>
+                        <Form.Label htmlFor="nombre" >Nombre</Form.Label>
+                        <Form.Control
                             type="text"
                             className="form-control"
                             id="nombre"
@@ -64,10 +66,10 @@ const AddDirector = () => {
                             onChange={handleInputChange}
                             name="nombre"
                         />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="apellido1">Apellido 1</label>
-                        <input
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor="apellido1" >Apellido 1</Form.Label>
+                        <Form.Control
                             type="text"
                             className="form-control"
                             id="apellido1"
@@ -76,10 +78,10 @@ const AddDirector = () => {
                             onChange={handleInputChange}
                             name="apellido1"
                         />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="apellido2">Apellido 2</label>
-                        <input
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor="apellido2" >Apellido 2</Form.Label>
+                        <Form.Control
                             type="text"
                             className="form-control"
                             id="apellido2"
@@ -88,25 +90,25 @@ const AddDirector = () => {
                             onChange={handleInputChange}
                             name="apellido2"
                         />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="fechanacimiento">Fecha Nacimiento</label>
-                        <input
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor="fechanacimiento" >Fecha Nacimiento</Form.Label>
+                        <Form.Control
                             type="date"
                             className="form-control"
                             id="fechanacimiento"
                             required
-                            value={director.fechanacimiento}
+                            value={director.fechanacimiento ?? ""}
                             onChange={handleInputChange}
                             name="fechanacimiento"
                         />
-                    </div>
-                    <button onClick={saveDirector} className="btn btn-success">
-                        Crear
-                    </button>
-                </div>
+                    </Form.Group> 
+                    <Button variant="success" type="submit">
+                        Añadir director
+                    </Button>
+                </Form>
             )}
-        </div>
+        </>
     );
 };
 export default AddDirector; 

@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import { Button, Alert } from 'react-bootstrap';
+import React, { useState, useEffect, useRef } from 'react';
 import DirectorService from "../services/DirectorService";
-import { useTable } from "react-table"; 
+import Pagination from './Pagination';
 
 const DirectoresList = (props) => {
-    const [directores, setDirectores] = useState([]);
+    const [sortedElements, setDirectores] = useState([]);
     const [search, setSearch] = useState("");
     const directoresRef = useRef();
 
-    directoresRef.current = directores;
+    directoresRef.current = sortedElements;
 
     useEffect(() => {
         retrieveDirectores();
@@ -32,17 +33,6 @@ const DirectoresList = (props) => {
         retrieveDirectores();
     };
 
-    const removeAllDirectores = () => {
-        DirectorService.removeAll()
-            .then((response) => {
-                console.log(response.data);
-                refreshList();
-            })
-            .catch((e) => {
-                console.log(e);
-            });
-    };
-
     const findByAll = () => {
         DirectorService.findByAll(search)
             .then((response) => {
@@ -53,88 +43,66 @@ const DirectoresList = (props) => {
             });
     };
 
-    const openDirector = (rowIndex) => {
-        const id = directoresRef.current[rowIndex].id;         
+    const openDirector = (id) => { 
         window.location.href = window.location.origin + "/directores/" + id;
     };
-    
-    const addDirector = () => {       
-        window.location.href = window.location.origin + "/adddirector" };
 
-    const deleteDirector = (rowIndex) => {
-        const id = directoresRef.current[rowIndex].id;
+    const addDirector = () => {
+        window.location.href = window.location.origin + "/adddirector"
+    };
 
+    const deleteDirector = (id) => { 
         DirectorService.remove(id)
             .then((response) => {
                 props.history.push("/directores");
-
-                let newDirector = [...directoresRef.current];
-                newDirector.splice(rowIndex, 1);
-
-                setDirectores(newDirector);
+                refreshList();
             })
             .catch((e) => {
                 console.log(e);
             });
     };
 
-    const columns = useMemo(
-        () => [
-            {
-                Header: "Nombre",
-                accessor: "nombre",
-            },
-            {
-                Header: "Apellido 1",
-                accessor: "apellido1",
-            },
-            // {
-            //     Header: "Status",
-            //     accessor: "published",
-            //     Cell: (props) => {
-            //         return props.value ? "Published" : "Pending";
-            //     },
-            // },
-            {
-                Header: "Actions",
-                accessor: "actions",
-                Cell: (props) => {
-                    const rowIdx = props.row.id;
-                    return (
-                        <div>
-                            <span onClick={() => openDirector(rowIdx)}>
-                                <i className="far fa-edit action mr-2"></i>
-                            </span>
+    const [showAlert, setShowAlert] = useState(false);
 
-                            <span onClick={() => deleteDirector(rowIdx)}>
-                                <i className="fas fa-trash action"></i>
-                            </span>
-                        </div>
-                    );
-                },
-            },
-        ],
-        []
-    );
+    const [currentPage, setCurrentPage] = useState(1);
+    const [elementsPerPage] = useState(5)
 
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow,
-    } = useTable({
-        columns,
-        data: directores,
-    });
+    const handleShowAlert = () => {
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 2000)
+    }
+
+    useEffect(() => {
+        return () => {
+            handleShowAlert();
+        }
+    }, [sortedElements])
+
+    const indexOfLastElement = currentPage * elementsPerPage;
+    const indexOfFirstElement = indexOfLastElement - elementsPerPage;
+    const currentElements = sortedElements.slice(indexOfFirstElement, indexOfLastElement);
+    const totalPagesNum = Math.ceil(sortedElements.length / elementsPerPage);
+
 
     return (
-        <div className="list row">
-            <div className="col-md-8">
-                <button className="btn btn-sm btn-danger" onClick={() => addDirector()}>
-                    Nuevo director
-                </button>
+        <>
+            <div className="table-title">
+                <div className="row">
+                    <div className="col-sm-6">
+                        <h2>Administración Directores</h2>
+                    </div>
+                    <div className="col-sm-6">
+                        <Button onClick={() => addDirector()} className="btn btn-success"><span>Crear nuevo directoresRef</span></Button>
+                    </div>
+                </div>
             </div>
+
+            <Alert show={showAlert} variant="success">
+                Lista actualizada
+            </Alert>
+
             <div className="col-md-8">
                 <div className="input-group mb-3">
                     <input
@@ -155,40 +123,39 @@ const DirectoresList = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="col-md-12 list">
-                <table
-                    className="table table-striped table-bordered"
-                    {...getTableProps()}
-                >
-                    <thead>
-                        {headerGroups.map((headerGroup) => (
-                            <tr {...headerGroup.getHeaderGroupProps()}>
-                                {headerGroup.headers.map((column) => (
-                                    <th {...column.getHeaderProps()}>
-                                        {column.render("Header")}
-                                    </th>
-                                ))}
-                            </tr>
-                        ))}
-                    </thead>
-                    <tbody {...getTableBodyProps()}>
-                        {rows.map((row, i) => {
-                            prepareRow(row);
-                            return (
-                                <tr {...row.getRowProps()}>
-                                    {row.cells.map((cell) => {
-                                        return (
-                                            <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                                        );
-                                    })}
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-            </div>
 
-        </div>
+            <table className="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido 1</th>
+                        <th>Apellido 2</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {
+                        currentElements.map(Element => (
+                            <tr key={Element.id}>
+                                <td>{Element.nombre}</td>
+                                <td>{Element.apellido1}</td>
+                                <td>{Element.apellido2}</td>
+                                <td>
+                                    <button onClick={() => openDirector(Element.id)} className="btn text-warning btn-act"><i className="far fa-edit action mr-2"></i></button>
+                                    <button onClick={() => deleteDirector(Element.id)} className="btn text-danger btn-act"><i className="fas fa-trash action"></i></button>
+                                </td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </table>
+
+            <Pagination pages={totalPagesNum}
+                setCurrentPage={setCurrentPage}
+                currentElements={currentElements}
+                sortedElements={sortedElements} />
+        </>
     );
 };
 

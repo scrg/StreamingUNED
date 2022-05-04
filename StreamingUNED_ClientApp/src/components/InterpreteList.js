@@ -1,6 +1,6 @@
 import { Button, Alert } from 'react-bootstrap';
 import React, { useState, useEffect, useRef } from 'react';
-import InterpreteService from "../services/InterpreteService"; 
+import InterpreteService from "../services/InterpreteService";
 import Pagination from './Pagination';
 
 const InterpreteList = (props) => {
@@ -32,7 +32,7 @@ const InterpreteList = (props) => {
 
     const refreshList = () => {
         retrieveInterpretes();
-    }; 
+    };
 
     const findByAll = () => {
         InterpreteService.findByAll(search)
@@ -44,7 +44,7 @@ const InterpreteList = (props) => {
             });
     };
 
-    const openInterprete = (id) => { 
+    const openInterprete = (id) => {
         window.location.href = window.location.origin + "/interpretes/" + id;
     };
 
@@ -52,11 +52,11 @@ const InterpreteList = (props) => {
         window.location.href = window.location.origin + "/addinterprete"
     };
 
-    const deleteInterprete = (id) => { 
+    const deleteInterprete = (id) => {
 
         InterpreteService.remove(id)
             .then((response) => {
-                props.history.push("/interpretes"); 
+                props.history.push("/interpretes");
                 refreshList();
             })
             .catch((e) => {
@@ -64,7 +64,7 @@ const InterpreteList = (props) => {
             });
     };
 
-    const [showAlert, setShowAlert] = useState(false); 
+    const [showAlert, setShowAlert] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [elementsPerPage] = useState(5)
@@ -76,7 +76,7 @@ const InterpreteList = (props) => {
         }, 2000)
     }
 
-    useEffect(() => { 
+    useEffect(() => {
         return () => {
             handleShowAlert();
         }
@@ -102,7 +102,7 @@ const InterpreteList = (props) => {
             </div>
 
             <Alert show={showAlert} variant="success">
-                Emlployee List Updated Succefully!
+                Lista actualizada
             </Alert>
 
             <div className="col-md-8">
@@ -138,16 +138,16 @@ const InterpreteList = (props) => {
                 <tbody>
 
                     {
-                        currentElements.map(Element => ( 
-                                <tr key={Element.id}>
-                                    <td>{Element.nombre}</td>
-                                    <td>{Element.apellido1}</td>
-                                    <td>{Element.apellido2}</td>
-                                    <td>
-                                        <button onClick={() => openInterprete(Element.id)} className="btn text-warning btn-act"><i className="far fa-edit action mr-2"></i></button>
-                                        <button onClick={() => deleteInterprete(Element.id)} className="btn text-danger btn-act"><i className="fas fa-trash action"></i></button>
-                                    </td>
-                                </tr> 
+                        currentElements.map(Element => (
+                            <tr key={Element.id}>
+                                <td>{Element.nombre}</td>
+                                <td>{Element.apellido1}</td>
+                                <td>{Element.apellido2}</td>
+                                <td>
+                                    <button onClick={() => openInterprete(Element.id)} className="btn text-warning btn-act"><i className="far fa-edit action mr-2"></i></button>
+                                    <button onClick={() => deleteInterprete(Element.id)} className="btn text-danger btn-act"><i className="fas fa-trash action"></i></button>
+                                </td>
+                            </tr>
                         ))
                     }
                 </tbody>
