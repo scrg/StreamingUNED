@@ -34,6 +34,7 @@ namespace API_StreamingUNED
         public virtual ContenidoTematicas FkTematicaNavigation { get; set; }
         public virtual ContenidoTipos FkTipoNavigation { get; set; }
         public virtual ICollection<Visualizaciones> Visualizaciones { get; set; }
+        public virtual ICollection<Valoraciones> Valoraciones { get; set; }
 
         public virtual ICollection<Directores> FkDirectors { get; set; }
         public virtual ICollection<Interpretes> FkInterpretes { get; set; }

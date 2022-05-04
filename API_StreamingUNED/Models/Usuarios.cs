@@ -35,5 +35,6 @@ namespace API_StreamingUNED
         public virtual Provincias FkProvinciaNavigation { get; set; }
         public virtual Roles FkRolNavigation { get; set; }
         public virtual ICollection<Visualizaciones> Visualizaciones { get; set; }
+        public virtual ICollection<Valoraciones> Valoraciones { get; set; }
     }
 }

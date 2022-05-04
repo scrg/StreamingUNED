@@ -21,6 +21,7 @@ namespace API_StreamingUNED
         public virtual DbSet<Interpretes> Interpretes { get; set; }
         public virtual DbSet<Productoras> Productoras { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
+        public virtual DbSet<Valoraciones> Valoraciones { get; set; }
         public virtual DbSet<Visualizaciones> Visualizaciones { get; set; }
         public virtual DbSet<Ccaas> Ccaas { get; set; }
         public virtual DbSet<ContenidoEstados> ContenidoEstados { get; set; }
@@ -264,6 +265,35 @@ namespace API_StreamingUNED
                     .HasConstraintName("FK_T_USUARIOS_TC_ROLES");
             });
 
+            modelBuilder.Entity<Valoraciones>(entity =>
+            {
+                entity.HasKey(e => new { e.FkSocio, e.FkContenido });
+
+                entity.ToTable("T_VALORACIONES");
+
+                entity.Property(e => e.FkSocio).HasColumnName("fk_socio");
+
+                entity.Property(e => e.FkContenido).HasColumnName("fk_contenido");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnType("datetime")
+                    .HasColumnName("fecha");
+
+                entity.Property(e => e.Valoracion).HasColumnName("valoracion");
+
+                entity.HasOne(d => d.FkContenidoNavigation)
+                    .WithMany(p => p.Valoraciones)
+                    .HasForeignKey(d => d.FkContenido)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_T_VALORACIONES_T_CONTENIDOS");
+
+                entity.HasOne(d => d.FkSocioNavigation)
+                    .WithMany(p => p.Valoraciones)
+                    .HasForeignKey(d => d.FkSocio)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_T_VALORACIONES_T_USUARIOS");
+            });
+
             modelBuilder.Entity<Visualizaciones>(entity =>
             {
                 entity.ToTable("T_VISUALIZACIONES");
@@ -274,9 +304,7 @@ namespace API_StreamingUNED
 
                 entity.Property(e => e.FkContenido).HasColumnName("fk_contenido");
 
-                entity.Property(e => e.FkSocio).HasColumnName("fk_socio");
-
-                entity.Property(e => e.Valoracion).HasColumnName("valoracion");
+                entity.Property(e => e.FkSocio).HasColumnName("fk_socio"); 
 
                 entity.HasOne(d => d.FkContenidoNavigation)
                     .WithMany(p => p.Visualizaciones)
