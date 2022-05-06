@@ -27,6 +27,7 @@ import InterpreteList from "./components/InterpreteList";
 // import AuthVerify from "./common/AuthVerify";
 import EventBus from "./common/EventBus";
 import AddUsuario from "./components/AddUsuario";
+import { ContenidoPorTematica } from "./components/ContenidoPorTematica";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -98,7 +99,7 @@ const App = () => {
               )}
               {currentUser && (
                 <NavDropdown title="Catálogo" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.2">Por temática</NavDropdown.Item>
+                  <NavDropdown.Item href="/contenidoportematica">Por temática</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">Por tipo</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">Búsqueda</NavDropdown.Item>
                 </NavDropdown>
@@ -134,6 +135,7 @@ const App = () => {
           <Route path="/directores/:id" component={Director} />
           <Route exact path="/interpretes" component={InterpreteList} />
           <Route exact path="/addinterprete" component={AddInterprete} />
+          <Route exact path="/contenidoportematica" component={ContenidoPorTematica} />
           <Route path="/interpretes/:id" component={Interprete} />
         </Switch>
       </div>

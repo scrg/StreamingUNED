@@ -72,7 +72,7 @@ export default class Login extends Component {
             <div className="col-md-12">
                 <div className="card card-container">
                     <img
-                        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                        src={process.env.PUBLIC_URL + '/logo192.png'}
                         alt="profile-img"
                         className="profile-img-card"
                     />

@@ -27,6 +27,21 @@ namespace API_StreamingUNED.Controllers
             return await _context.Contenidos.ToListAsync();
         }
 
+
+
+        [HttpGet("{tipo}/{tematica}")]
+        public ActionResult<List<Contenidos>> GetContenidos(int tipo, int tematica)
+        {
+            var usuarios = _context.Contenidos.Where(x => (x.FkTipo== tipo || tipo == 0) && (x.FkTematica == tematica || tematica == 0)).ToList();
+
+            if (usuarios == null)
+            {
+                return NotFound();
+            }
+
+            return usuarios;
+        }
+
         // GET: api/Contenidos/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Contenidos>> GetContenidos(int id)
