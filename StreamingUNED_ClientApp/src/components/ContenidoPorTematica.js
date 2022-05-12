@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { DropdownButton, Dropdown } from 'react-bootstrap';
 import ContenidoTematicaService from "../services/ContenidoTematicaService";
 import ContenidoTipoService from "../services/ContenidoTipoService";
 import CalleTematica from "./CalleTematica"

@@ -59,5 +59,12 @@ namespace API_StreamingUNED.JwtHelpers
                 throw;
             }
         }
+        public static JwtSecurityToken ReadToken(string stream)
+        { 
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(stream);
+            return jsonToken as JwtSecurityToken;
+        }
+
     }
 }

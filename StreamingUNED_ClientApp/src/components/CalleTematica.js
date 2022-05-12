@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import ContenidoService from "../services/ContenidoService";
+import CarouselCards from "./CarouselCards"
 
 
 export const CalleTematica = (props) => {
@@ -24,9 +25,7 @@ export const CalleTematica = (props) => {
         <>
             <p>{props.nombre} " - " {props.id}</p>
             {
-                listContenidos.map(Element => (
-                    <label key={Element.id}>{Element.identificador} </label>
-                ))
+                <CarouselCards listContenidos={listContenidos} />
             }
         </>
     )

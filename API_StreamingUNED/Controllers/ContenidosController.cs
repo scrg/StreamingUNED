@@ -34,6 +34,8 @@ namespace API_StreamingUNED.Controllers
         {
             var usuarios = _context.Contenidos.Where(x => (x.FkTipo== tipo || tipo == 0) && (x.FkTematica == tematica || tematica == 0)).ToList();
 
+            //int idUsuario = Convert.ToInt16(HttpContext.User.Claims.ToList()[0].Value);
+
             if (usuarios == null)
             {
                 return NotFound();

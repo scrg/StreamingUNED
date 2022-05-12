@@ -79,8 +79,6 @@ const App = () => {
                     <NavDropdown.Item href="/directores">Directores</NavDropdown.Item>
                     <NavDropdown.Item href="/interpretes">Intérpretes</NavDropdown.Item>
                     <NavDropdown.Item href="/directores">Productoras</NavDropdown.Item>
-                    <NavDropdown.Item href="/directores">Temáticas</NavDropdown.Item>
-                    <NavDropdown.Item href="/directores">Tipos</NavDropdown.Item>
                   </NavDropdown>
                   <NavDropdown title="Estadísticas" id="basic-nav-dropdown">
                     <NavDropdown.Item href="#action/3.2">Por usuario</NavDropdown.Item>
