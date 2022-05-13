@@ -60,6 +60,9 @@ const Director = props => {
                 console.log(e);
             });
     };
+    const listado = () => {
+        window.location.href = window.location.origin + "/directores/";
+    };
 
     return ( 
             <div className="edit-form">
@@ -120,6 +123,8 @@ const Director = props => {
                     <Button variant="danger" onClick={deleteDirector}>
                         Eliminar
                     </Button>
+                    
+                    <Button onClick={() => listado()}>Volver</Button>  
                     <p>{message}</p>
                 </Form>
             </div>

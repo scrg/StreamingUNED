@@ -110,7 +110,7 @@ const InterpreteList = (props) => {
                     <input
                         type="text"
                         className="form-control"
-                        placeholder="Search by "
+                        placeholder="Texto"
                         value={search}
                         onChange={onChangeSearch}
                     />
@@ -120,7 +120,7 @@ const InterpreteList = (props) => {
                             type="button"
                             onClick={findByAll}
                         >
-                            Search
+                            Buscar
                         </button>
                     </div>
                 </div>

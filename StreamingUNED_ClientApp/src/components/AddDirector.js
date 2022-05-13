@@ -16,7 +16,8 @@ const AddDirector = () => {
         const { name, value } = event.target;
         setDirector({ ...director, [name]: value });
     };
-    const saveDirector = () => {
+    const saveDirector = (e) => {
+        e.preventDefault();
         var data = {
             nombre: director.nombre,
             apellido1: director.apellido1,
@@ -43,6 +44,9 @@ const AddDirector = () => {
         setDirector(initialDirectorState);
         setSubmitted(false);
     };
+    const listado = () => {
+        window.location.href = window.location.origin + "/directores/";
+    };
     return (
         <>
             {submitted ? (
@@ -54,7 +58,7 @@ const AddDirector = () => {
                 </div>
             ) : (
 
-                <Form onSubmit={saveDirector}> 
+                <Form onSubmit={saveDirector}>
                     <Form.Group>
                         <Form.Label htmlFor="nombre" >Nombre</Form.Label>
                         <Form.Control
@@ -102,12 +106,15 @@ const AddDirector = () => {
                             onChange={handleInputChange}
                             name="fechanacimiento"
                         />
-                    </Form.Group> 
-                    <Button variant="success" type="submit">
-                        Añadir director
-                    </Button>
+                    </Form.Group>
+                            <Button type="submit">
+                                Añadir director
+                            </Button>
                 </Form>
             )}
+            <div class="col text-center">
+                <Button onClick={() => listado()}><span>Volver</span></Button> 
+            </div>
         </>
     );
 };

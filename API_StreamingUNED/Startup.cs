@@ -71,7 +71,7 @@ namespace API_StreamingUNED
         {
             app.UseCors(options =>
             {
-                options.WithOrigins("http://localhost:3000");
+                options.WithOrigins("http://localhost:9000", "http://localhost:3000");
                 options.AllowAnyHeader();
                 options.AllowAnyMethod();
             });

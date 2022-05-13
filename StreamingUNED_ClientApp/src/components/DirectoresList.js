@@ -94,7 +94,7 @@ const DirectoresList = (props) => {
                         <h2>Administración Directores</h2>
                     </div>
                     <div className="col-sm-6">
-                        <Button onClick={() => addDirector()} className="btn btn-success"><span>Crear nuevo directoresRef</span></Button>
+                        <Button onClick={() => addDirector()} className="btn btn-success"><span>Crear nuevo directores</span></Button>
                     </div>
                 </div>
             </div>
@@ -108,7 +108,7 @@ const DirectoresList = (props) => {
                     <input
                         type="text"
                         className="form-control"
-                        placeholder="Search by "
+                        placeholder="Texto"
                         value={search}
                         onChange={onChangeSearch}
                     />
@@ -118,7 +118,7 @@ const DirectoresList = (props) => {
                             type="button"
                             onClick={findByAll}
                         >
-                            Search
+                            Buscar
                         </button>
                     </div>
                 </div>

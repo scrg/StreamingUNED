@@ -61,6 +61,10 @@ const Interprete = props => {
             });
     };
 
+    const listado = () => {
+        window.location.href = window.location.origin + "/interpretes/";
+    };
+
     return (
         <div className="edit-form">
             <h4>Interprete</h4>
@@ -119,6 +123,7 @@ const Interprete = props => {
                 <Button variant="danger" onClick={deleteInterprete}>
                     Eliminar
                 </Button>
+                <Button onClick={() => listado()}>Volver</Button>  
                 <p>{message}</p>
             </Form>
         </div>

@@ -16,7 +16,7 @@ const AddInterprete = () => {
         const { name, value } = event.target;
         setInterprete({ ...interprete, [name]: value });
     };
-    const saveInterprete = (e) => { 
+    const saveInterprete = (e) => {
         e.preventDefault();
         var data = {
             nombre: interprete.nombre,
@@ -44,6 +44,11 @@ const AddInterprete = () => {
         setInterprete(initialInterpreteState);
         setSubmitted(false);
     };
+
+    const listado = () => {
+        window.location.href = window.location.origin + "/interpretes/";
+    };
+
     return (
         <>
             {submitted ? (
@@ -55,7 +60,7 @@ const AddInterprete = () => {
                 </div>
             ) : (
 
-                <Form onSubmit={saveInterprete}> 
+                <Form onSubmit={saveInterprete}>
                     <Form.Group>
                         <Form.Label htmlFor="nombre" >Nombre</Form.Label>
                         <Form.Control
@@ -104,11 +109,14 @@ const AddInterprete = () => {
                             name="fechanacimiento"
                         />
                     </Form.Group> 
-                    <Button variant="success" type="submit">
-                        Añadir intérprete
-                    </Button>
+                        <Button type="submit">
+                            Añadir intérprete
+                        </Button> 
                 </Form>
             )}
+            <div class="col text-center">
+                <Button onClick={() => listado()}><span>Volver</span></Button> 
+            </div>
         </>
     );
 };
