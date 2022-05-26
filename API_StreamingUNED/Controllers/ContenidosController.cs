@@ -19,14 +19,19 @@ namespace API_StreamingUNED.Controllers
         {
             _context = context;
         }
+         
 
-        // GET: api/Contenidos
+        // GET api/Directores?search=ped 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Contenidos>>> GetContenidos()
+        public async Task<ActionResult<IEnumerable<Contenidos>>> GetContenidos(string search)
         {
-            return await _context.Contenidos.ToListAsync();
+            if (string.IsNullOrEmpty(search))
+                return await _context.Contenidos.Include(x=>x.FkEstadoNavigation).ToListAsync();
+            else
+                return await _context.Contenidos.Include(x=>x.FkEstadoNavigation)
+                          .Where(x => x.Titulo.Contains(search))
+                    .ToListAsync();
         }
-
 
 
         [HttpGet("{tipo}/{tematica}")]

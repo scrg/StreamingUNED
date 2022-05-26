@@ -45,8 +45,7 @@ namespace API_StreamingUNED
             modelBuilder.Entity<Contenidos>(entity =>
             {
                 entity.ToTable("T_CONTENIDOS");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                 
 
                 entity.Property(e => e.Caratula)
                     .HasMaxLength(200)
@@ -70,7 +69,7 @@ namespace API_StreamingUNED
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Título)
+                entity.Property(e => e.Titulo)
                     .HasMaxLength(200)
                     .IsUnicode(false);
 

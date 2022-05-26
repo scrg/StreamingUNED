@@ -17,7 +17,7 @@ namespace API_StreamingUNED
         public int FkEstado { get; set; }
         public string Identificador { get; set; }
         public int FkTipo { get; set; }
-        public string Título { get; set; }
+        public string Titulo { get; set; }
         public int? FkProductora { get; set; }
         public int? AnyoEstreno { get; set; }
         [DataType(DataType.Date)]

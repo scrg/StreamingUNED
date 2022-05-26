@@ -20,6 +20,10 @@ import AddDirector from "./components/AddDirector";
 import Director from "./components/Director";
 import DirectoresList from "./components/DirectoresList";
 
+import AddContenido from "./components/AddContenido";
+import Contenido from "./components/Contenido";
+import ContenidosList from "./components/ContenidosList";
+
 import AddInterprete from "./components/AddInterprete";
 import Interprete from "./components/Interprete";
 import InterpreteList from "./components/InterpreteList";
@@ -74,7 +78,7 @@ const App = () => {
                 <>
                   <NavDropdown title="Administración" id="basic-nav-dropdown">
                     <NavDropdown.Item href="/directores">Usuarios</NavDropdown.Item>
-                    <NavDropdown.Item href="/directores">Catálogo</NavDropdown.Item>
+                    <NavDropdown.Item href="/contenidos">Catálogo</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/directores">Directores</NavDropdown.Item>
                     <NavDropdown.Item href="/interpretes">Intérpretes</NavDropdown.Item>
@@ -131,10 +135,13 @@ const App = () => {
           <Route exact path="/directores" component={DirectoresList} />
           <Route exact path="/adddirector" component={AddDirector} />
           <Route path="/directores/:id" component={Director} />
+          <Route exact path="/contenidos" component={ContenidosList} />
+          <Route exact path="/addcontenido" component={AddContenido} />
+          <Route path="/contenidos/:id" component={Contenido} />
           <Route exact path="/interpretes" component={InterpreteList} />
           <Route exact path="/addinterprete" component={AddInterprete} />
-          <Route exact path="/contenidoportematica" component={ContenidoPorTematica} />
           <Route path="/interpretes/:id" component={Interprete} />
+          <Route exact path="/contenidoportematica" component={ContenidoPorTematica} />
         </Switch>
       </div>
 
