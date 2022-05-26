@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Text.Json.Serialization;
 
 namespace API_StreamingUNED
 {
@@ -27,7 +28,8 @@ namespace API_StreamingUNED
             services.AddCors();
             services.AddControllersWithViews(); 
             services.AddDbContext<UNED_streamingContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionUNED")));
-
+            services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             //services.AddSpaStaticFiles(configuration =>
             //{
             //    configuration.RootPath = "ClientApp/build";
