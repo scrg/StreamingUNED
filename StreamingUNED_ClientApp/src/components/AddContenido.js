@@ -3,20 +3,26 @@ import { Form, Button } from "react-bootstrap"
 import ContenidoService from "../services/ContenidoService";
 import ContenidoTematicaService from "../services/ContenidoTematicaService";
 import ContenidoTipoService from "../services/ContenidoTipoService";
+import DirectorService from "../services/DirectorService";
+import InterpreteService from "../services/InterpreteService";
+import ProductoraService from "../services/ProductoraService";
 import Select from 'react-select';
 // https://codesandbox.io/s/react-select-v2-required-input-3xvvb?fontsize=14&file=/src/App.js
 
 const AddContenido = () => {
     const [listTematicas, setTematicas] = useState([{ value: "value", label: "label" }]);
+    const [listDirectores, setDirectores] = useState([{ value: "value", label: "label" }]);
+    const [listInterpretes, setInterpretes] = useState([{ value: "value", label: "label" }]);
     const [listTipos, setTipos] = useState([{ value: "value", label: "label" }]);
+    const [listProductoras, setProductoras] = useState([{ value: "value", label: "label" }]);
     const [submitted, setSubmitted] = useState(false);
 
     const initialContenidoState = {
         id: null,
         fkEstado: 1,
-        fkTipo: 1,
-        fkTematica: 1,
-        fkProductora: 1,
+        fkTipo: 0,
+        fkTematica: 0,
+        fkProductora: null,
         identificador: "",
         titulo: "",
         anyoestreno: 0,
@@ -35,6 +41,9 @@ const AddContenido = () => {
     useEffect(() => {
         retrieveTematicas();
         retrieveTipos();
+        retrieveDirectores();
+        retrieveInterpretes();
+        retrieveProductoras();
     }, []);
 
     const retrieveTematicas = () => {
@@ -51,6 +60,19 @@ const AddContenido = () => {
             });
     };
 
+    const retrieveProductoras = () => {
+        ProductoraService.getAll()
+            .then((response) => {
+                const dropDownValue = response.data.map((response) => ({
+                    "value": response.id,
+                    "label": response.nombre
+                }))
+                setProductoras(dropDownValue);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
 
     const retrieveTipos = () => {
         ContenidoTipoService.getAll()
@@ -66,11 +88,70 @@ const AddContenido = () => {
             });
     };
 
+    const retrieveDirectores = () => {
+        DirectorService.getAll()
+            .then((response) => {
+                const dropDownValue = response.data.map((response) => ({
+                    "value": response.id,
+                    "label": response.nombreCompleto
+                }))
+                setDirectores(dropDownValue);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
+    const retrieveInterpretes = () => {
+        InterpreteService.getAll()
+            .then((response) => {
+                const dropDownValue = response.data.map((response) => ({
+                    "value": response.id,
+                    "label": response.nombreCompleto
+                }))
+                setInterpretes(dropDownValue);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
 
     const handleInputChange = event => {
         const { name, value } = event.target;
         setContenido({ ...contenido, [name]: value });
     };
+
+    const handleTipoChange = event => {
+        setContenido(contenido => ({
+            ...contenido,
+            fkTipo: event.value
+        }));
+    };
+    const handleTematicaChange = event => {
+        setContenido(contenido => ({
+            ...contenido,
+            fkTematica: event.value
+        }));
+    };
+    const handleProductoraChange = event => {
+        setContenido(contenido => ({
+            ...contenido,
+            fkProductora: event.value
+        }));
+    };
+    const handleDirectorChange = event => {
+        setContenido(contenido => ({
+            ...contenido,
+            fkDirectors: event
+        }));
+    };
+    const handleInterpreteChange = event => {
+        setContenido(contenido => ({
+            ...contenido,
+            fkInterpretes: event
+        }));
+    };
+
     const saveContenido = (e) => {
         e.preventDefault();
         var data = {
@@ -87,6 +168,12 @@ const AddContenido = () => {
             caratulaSrc: contenido.caratulaSrc,
             caratulaFile: contenido.caratulaFile,
             recurso: contenido.recurso,
+            ContenidoDirectores: contenido.fkDirectors.map((e) => ({
+                "FkDirector": e.value
+            })),
+            ContenidoInterpretes: contenido.fkInterpretes.map((e) => ({
+                "FkInterprete": e.value
+            })),
             fkDirectors: contenido.fkDirectors,
             fkInterpretes: contenido.fkInterpretes
         };
@@ -180,20 +267,57 @@ const AddContenido = () => {
                             options={listTipos}
                             className="basic-select"
                             classNamePrefix="select"
-                            onChange={handleInputChange}    
-                            
+                            onChange={handleTipoChange}
+                            value={[listTipos[contenido.fkTipo-1]]}
+
                         />
-                    </Form.Group> 
+                    </Form.Group>
                     <Form.Group>
                         <Form.Label htmlFor="tematica" >tematica</Form.Label>
                         <Select
-                            // defaultValue={[listTematicas[1]]}
-                            isMulti
                             name="tematica"
                             options={listTematicas}
                             className="basic-multi-select"
-                            classNamePrefix="select"      
-                            onChange={handleInputChange}                      
+                            classNamePrefix="select"
+                            onChange={handleTematicaChange}
+                            value={[listTematicas[contenido.fkTematica-1]]}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor="productora" >Productora</Form.Label>
+                        <Select                           
+                            name="productora"
+                            options={listProductoras}
+                            className="basic-select"
+                            classNamePrefix="select"
+                            onChange={handleProductoraChange}
+                            value={[listProductoras[contenido.fkProductora-1]]} 
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor="directores" >Directores</Form.Label>
+                        <Select
+                            // defaultValue={[listTematicas[1]]}
+                            isMulti
+                            name="directores"
+                            options={listDirectores}
+                            className="basic-multi-select"
+                            classNamePrefix="select"
+                            onChange={handleDirectorChange}
+                            value={contenido.fkDirectors}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor="interpretes" >Interpretes</Form.Label>
+                        <Select
+                            // defaultValue={[listTematicas[1]]}
+                            isMulti
+                            name="interpretes"
+                            options={listInterpretes}
+                            className="basic-multi-select"
+                            classNamePrefix="select"
+                            onChange={handleInterpreteChange}
+                            value={contenido.fkInterpretes}
                         />
                     </Form.Group>
                     <Button type="submit">

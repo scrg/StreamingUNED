@@ -28,6 +28,10 @@ import AddInterprete from "./components/AddInterprete";
 import Interprete from "./components/Interprete";
 import InterpreteList from "./components/InterpreteList";
 
+import AddProductora from "./components/AddProductora";
+import Productora from "./components/Productora";
+import ProductoraList from "./components/ProductoraList";
+
 // import AuthVerify from "./common/AuthVerify";
 import EventBus from "./common/EventBus";
 import AddUsuario from "./components/AddUsuario";
@@ -82,7 +86,7 @@ const App = () => {
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/directores">Directores</NavDropdown.Item>
                     <NavDropdown.Item href="/interpretes">Intérpretes</NavDropdown.Item>
-                    <NavDropdown.Item href="/directores">Productoras</NavDropdown.Item>
+                    <NavDropdown.Item href="/productoras">Productoras</NavDropdown.Item>
                   </NavDropdown>
                   <NavDropdown title="Estadísticas" id="basic-nav-dropdown">
                     <NavDropdown.Item href="#action/3.2">Por usuario</NavDropdown.Item>
@@ -141,6 +145,9 @@ const App = () => {
           <Route exact path="/interpretes" component={InterpreteList} />
           <Route exact path="/addinterprete" component={AddInterprete} />
           <Route path="/interpretes/:id" component={Interprete} />
+          <Route exact path="/productoras" component={ProductoraList} />
+          <Route exact path="/addproductora" component={AddProductora} />
+          <Route path="/productoras/:id" component={Productora} />
           <Route exact path="/contenidoportematica" component={ContenidoPorTematica} />
         </Switch>
       </div>

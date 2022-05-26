@@ -1,4 +1,5 @@
-﻿using System;
+﻿using API_StreamingUNED.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,9 +9,10 @@ namespace API_StreamingUNED
     {
         public Contenidos()
         {
+            Valoraciones = new HashSet<Valoraciones>();
             Visualizaciones = new HashSet<Visualizaciones>();
-            FkDirectors = new HashSet<Directores>();
-            FkInterpretes = new HashSet<Interpretes>();
+            ContenidoDirectores = new HashSet<ContenidoDirector>();
+            ContenidoInterpretes = new HashSet<ContenidoInterprete>();
         }
 
         public int Id { get; set; }
@@ -20,12 +22,9 @@ namespace API_StreamingUNED
         public string Titulo { get; set; }
         public int? FkProductora { get; set; }
         public int? AnyoEstreno { get; set; }
-        [DataType(DataType.Date)]
         public DateTime? Fecha { get; set; }
         public int? FkTematica { get; set; }
         public int? Duracion { get; set; }
-
-        [DataType(DataType.ImageUrl)]
         public string Caratula { get; set; }
         public string Recurso { get; set; }
 
@@ -33,10 +32,9 @@ namespace API_StreamingUNED
         public virtual Productoras FkProductoraNavigation { get; set; }
         public virtual ContenidoTematicas FkTematicaNavigation { get; set; }
         public virtual ContenidoTipos FkTipoNavigation { get; set; }
-        public virtual ICollection<Visualizaciones> Visualizaciones { get; set; }
         public virtual ICollection<Valoraciones> Valoraciones { get; set; }
-
-        public virtual ICollection<Directores> FkDirectors { get; set; }
-        public virtual ICollection<Interpretes> FkInterpretes { get; set; }
+        public virtual ICollection<Visualizaciones> Visualizaciones { get; set; }
+        public virtual ICollection<ContenidoDirector> ContenidoDirectores { get; set; }
+        public virtual ICollection<ContenidoInterprete> ContenidoInterpretes { get; set; }
     }
 }

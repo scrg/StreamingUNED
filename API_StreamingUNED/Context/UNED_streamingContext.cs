@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -31,12 +31,15 @@ namespace API_StreamingUNED
         public virtual DbSet<Provincias> Provincias { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<UsuarioEstados> UsuarioEstados { get; set; }
+        public virtual DbSet<ContenidoDirector> ContenidoDirectores { get; set; }
+        public virtual DbSet<ContenidoInterprete> ContenidoInterpretes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            { 
-                optionsBuilder.UseSqlServer("Server=PC-SCRG\\SCRG_SQL2017;Database=UNED_streaming;Trusted_Connection=True;");           
+            {
+                optionsBuilder.UseSqlServer("Server=PC-SCRG\\SCRG_SQL2017;Database=UNED_streaming;Trusted_Connection=True;");
+                optionsBuilder.LogTo(Console.WriteLine);
             }
         }
 
@@ -45,7 +48,6 @@ namespace API_StreamingUNED
             modelBuilder.Entity<Contenidos>(entity =>
             {
                 entity.ToTable("T_CONTENIDOS");
-                 
 
                 entity.Property(e => e.Caratula)
                     .HasMaxLength(200)
@@ -108,28 +110,11 @@ namespace API_StreamingUNED
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.FechaNacimiento).HasColumnType("datetime"); 
+                entity.Property(e => e.FechaNacimiento).HasColumnType("date");
 
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(200)
                     .IsUnicode(false);
-
-                entity.HasMany(d => d.FkContenidos)
-                    .WithMany(p => p.FkDirectors)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "TrContenidoDirectore",
-                        l => l.HasOne<Contenidos>().WithMany().HasForeignKey("FkContenido").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_TR_CONTENIDO_DIRECTOS_T_CONTENIDOS"),
-                        r => r.HasOne<Directores>().WithMany().HasForeignKey("FkDirector").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_TR_CONTENIDO_DIRECTOS_T_DIRECTORES"),
-                        j =>
-                        {
-                            j.HasKey("FkDirector", "FkContenido").HasName("PK_TR_CONTENIDO_DIRECTOS");
-
-                            j.ToTable("TR_CONTENIDO_DIRECTORES");
-
-                            j.IndexerProperty<int>("FkDirector").HasColumnName("fk_director");
-
-                            j.IndexerProperty<int>("FkContenido").HasColumnName("fk_contenido");
-                        });
             });
 
             modelBuilder.Entity<Interpretes>(entity =>
@@ -144,30 +129,11 @@ namespace API_StreamingUNED
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.FechaNacimiento)
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
+                entity.Property(e => e.FechaNacimiento).HasColumnType("date");
 
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(200)
                     .IsUnicode(false);
-
-                entity.HasMany(d => d.FkContenidos)
-                    .WithMany(p => p.FkInterpretes)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "TrContenidoInterprete",
-                        l => l.HasOne<Contenidos>().WithMany().HasForeignKey("FkContenido").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_TR_CONTENIDO_INTERPRETES_T_CONTENIDOS"),
-                        r => r.HasOne<Interpretes>().WithMany().HasForeignKey("FkInterprete").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_TR_CONTENIDO_INTERPRETES_T_INTERPRETES"),
-                        j =>
-                        {
-                            j.HasKey("FkInterprete", "FkContenido");
-
-                            j.ToTable("TR_CONTENIDO_INTERPRETES");
-
-                            j.IndexerProperty<int>("FkInterprete").HasColumnName("fk_interprete");
-
-                            j.IndexerProperty<int>("FkContenido").HasColumnName("fk_contenido");
-                        });
             });
 
             modelBuilder.Entity<Productoras>(entity =>
@@ -190,12 +156,13 @@ namespace API_StreamingUNED
                     .IsUnicode(false)
                     .HasColumnName("apellido1");
 
-                entity.Property(e => e.Apellido2) 
+                entity.Property(e => e.Apellido2)
                     .HasMaxLength(200)
                     .IsUnicode(false)
                     .HasColumnName("apellido2");
 
                 entity.Property(e => e.Clave)
+                    .IsRequired()
                     .HasMaxLength(200)
                     .IsUnicode(false)
                     .HasColumnName("clave");
@@ -206,6 +173,7 @@ namespace API_StreamingUNED
                     .HasColumnName("codigoPostal");
 
                 entity.Property(e => e.CorreoElectronico)
+                    .IsRequired()
                     .HasMaxLength(200)
                     .IsUnicode(false)
                     .HasColumnName("correoElectronico");
@@ -239,7 +207,6 @@ namespace API_StreamingUNED
                     .WithMany(p => p.Usuarios)
                     .HasForeignKey(d => d.FkCcaa)
                     .HasConstraintName("FK_T_USUARIOS_TC_CCAAS");
-                 
 
                 entity.HasOne(d => d.FkEstadoNavigation)
                     .WithMany(p => p.Usuarios)
@@ -303,7 +270,7 @@ namespace API_StreamingUNED
 
                 entity.Property(e => e.FkContenido).HasColumnName("fk_contenido");
 
-                entity.Property(e => e.FkSocio).HasColumnName("fk_socio"); 
+                entity.Property(e => e.FkSocio).HasColumnName("fk_socio");
 
                 entity.HasOne(d => d.FkContenidoNavigation)
                     .WithMany(p => p.Visualizaciones)
@@ -410,7 +377,57 @@ namespace API_StreamingUNED
                     .HasMaxLength(50)
                     .IsUnicode(false);
             });
-             
+
+            modelBuilder.Entity<ContenidoDirector>(entity =>
+            {
+                entity.HasKey(e => new { e.FkDirector, e.FkContenido })
+                    .HasName("PK_TR_CONTENIDO_DIRECTOS");
+
+                entity.ToTable("TR_CONTENIDO_DIRECTORES");
+
+                entity.Property(e => e.FkDirector).HasColumnName("fk_director");
+
+                entity.Property(e => e.FkContenido).HasColumnName("fk_contenido");
+
+                entity.Property(e => e.Orden).HasColumnName("orden");
+
+                entity.HasOne(d => d.FkContenidoNavigation)
+                    .WithMany(p => p.ContenidoDirectores)
+                    .HasForeignKey(d => d.FkContenido)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TR_CONTENIDO_DIRECTOS_T_CONTENIDOS");
+
+                entity.HasOne(d => d.FkDirectorNavigation)
+                    .WithMany(p => p.ContenidoDirectores)
+                    .HasForeignKey(d => d.FkDirector)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TR_CONTENIDO_DIRECTOS_T_DIRECTORES");
+            });
+
+            modelBuilder.Entity<ContenidoInterprete>(entity =>
+            {
+                entity.HasKey(e => new { e.FkInterprete, e.FkContenido });
+
+                entity.ToTable("TR_CONTENIDO_INTERPRETES");
+
+                entity.Property(e => e.FkInterprete).HasColumnName("fk_interprete");
+
+                entity.Property(e => e.FkContenido).HasColumnName("fk_contenido");
+
+                entity.Property(e => e.Orden).HasColumnName("orden");
+
+                entity.HasOne(d => d.FkContenidoNavigation)
+                    .WithMany(p => p.ContenidoInterpretes)
+                    .HasForeignKey(d => d.FkContenido)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TR_CONTENIDO_INTERPRETES_T_CONTENIDOS");
+
+                entity.HasOne(d => d.FkInterpreteNavigation)
+                    .WithMany(p => p.ContenidoInterpretes)
+                    .HasForeignKey(d => d.FkInterprete)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TR_CONTENIDO_INTERPRETES_T_INTERPRETES");
+            });
 
             OnModelCreatingPartial(modelBuilder);
         }

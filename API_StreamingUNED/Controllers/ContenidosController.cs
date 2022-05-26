@@ -99,12 +99,13 @@ namespace API_StreamingUNED.Controllers
         [HttpPost]
         public async Task<ActionResult<Contenidos>> PostContenidos(Contenidos contenidos)
         {
-            _context.Contenidos.Add(contenidos);
             try
-            {
+            {  
+                _context.Contenidos.Add(contenidos); 
+
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
                 if (ContenidosExists(contenidos.Id))
                 {
@@ -112,7 +113,7 @@ namespace API_StreamingUNED.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw e;
                 }
             }
 
