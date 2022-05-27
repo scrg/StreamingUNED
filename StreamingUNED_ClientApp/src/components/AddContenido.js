@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap"
+import { Form, Button, FormGroup } from "react-bootstrap"
 import ContenidoService from "../services/ContenidoService";
 import ContenidoTematicaService from "../services/ContenidoTematicaService";
 import ContenidoTipoService from "../services/ContenidoTipoService";
@@ -9,6 +9,8 @@ import ProductoraService from "../services/ProductoraService";
 import Select from 'react-select';
 // https://codesandbox.io/s/react-select-v2-required-input-3xvvb?fontsize=14&file=/src/App.js
 
+
+
 const AddContenido = () => {
     const [listTematicas, setTematicas] = useState([{ value: "value", label: "label" }]);
     const [listDirectores, setDirectores] = useState([{ value: "value", label: "label" }]);
@@ -16,6 +18,8 @@ const AddContenido = () => {
     const [listTipos, setTipos] = useState([{ value: "value", label: "label" }]);
     const [listProductoras, setProductoras] = useState([{ value: "value", label: "label" }]);
     const [submitted, setSubmitted] = useState(false);
+
+    const defaultImgSrc = '../logo192.png';
 
     const initialContenidoState = {
         id: null,
@@ -29,7 +33,7 @@ const AddContenido = () => {
         fecha: "",
         duracion: 0,
         caratula: "",
-        caratulaSrc: "",
+        caratulaSrc: defaultImgSrc,
         caratulaFile: "",
         recurso: "",
         fkDirectors: [],
@@ -151,6 +155,29 @@ const AddContenido = () => {
             fkInterpretes: event
         }));
     };
+    const showPreview = e => {
+        if (e.target.files && e.target.files[0]) {
+            let imageFile = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = x => {
+                setContenido({
+                    ...contenido,
+                    caratulaFile: imageFile,
+                    caratulaSrc: x.target.result
+                })
+            }
+            reader.readAsDataURL(imageFile);
+        }
+        else {
+            setContenido({
+                ...contenido,
+                caratulaFile: null,
+                caratulaSrc: defaultImgSrc
+            })
+        }
+    };
+
+
 
     const saveContenido = (e) => {
         e.preventDefault();
@@ -268,7 +295,7 @@ const AddContenido = () => {
                             className="basic-select"
                             classNamePrefix="select"
                             onChange={handleTipoChange}
-                            value={[listTipos[contenido.fkTipo-1]]}
+                            value={[listTipos[contenido.fkTipo - 1]]}
 
                         />
                     </Form.Group>
@@ -280,18 +307,18 @@ const AddContenido = () => {
                             className="basic-multi-select"
                             classNamePrefix="select"
                             onChange={handleTematicaChange}
-                            value={[listTematicas[contenido.fkTematica-1]]}
+                            value={[listTematicas[contenido.fkTematica - 1]]}
                         />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label htmlFor="productora" >Productora</Form.Label>
-                        <Select                           
+                        <Select
                             name="productora"
                             options={listProductoras}
                             className="basic-select"
                             classNamePrefix="select"
                             onChange={handleProductoraChange}
-                            value={[listProductoras[contenido.fkProductora-1]]} 
+                            value={[listProductoras[contenido.fkProductora - 1]]}
                         />
                     </Form.Group>
                     <Form.Group>
@@ -320,9 +347,22 @@ const AddContenido = () => {
                             value={contenido.fkInterpretes}
                         />
                     </Form.Group>
-                    <Button type="submit">
-                        Añadir contenido
-                    </Button>
+                    <Form.Group>
+                        <img src={contenido.caratulaSrc} style={{ height: '10rem', width: '10rem' }} className="card-img-top" alt="caratula"></img>
+                        <Form.Label htmlFor="caratula" >Caratula</Form.Label>
+                        <Form.Control
+                            type="file"
+                            className="form-control-file"
+                            id="caratula"
+                            onChange={showPreview}
+                            name="caratula"
+                        />
+                    </Form.Group>
+                    <Form.Group className="form-group text-center">
+                        <Button type="submit">
+                            Añadir contenido
+                        </Button>
+                    </Form.Group>
                 </Form>
             )}
             <div className="col text-center">

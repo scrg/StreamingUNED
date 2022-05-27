@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ProductoraService from "../services/ProductoraService";
-import { Form, Button } from "react-bootstrap"
-import moment from 'moment';
+import { Form, Button } from "react-bootstrap" 
 
 
 const Productora = props => {
