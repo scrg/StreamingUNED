@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_StreamingUNED;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace API_StreamingUNED.Controllers
 {
@@ -14,10 +16,12 @@ namespace API_StreamingUNED.Controllers
     public class ContenidosController : ControllerBase
     {
         private readonly UNED_streamingContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ContenidosController(UNED_streamingContext context)
+        public ContenidosController(UNED_streamingContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this._hostEnvironment = hostEnvironment;
         }
          
 
@@ -97,10 +101,12 @@ namespace API_StreamingUNED.Controllers
         // POST: api/Contenidos
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Contenidos>> PostContenidos(Contenidos contenidos)
+        public async Task<ActionResult<Contenidos>> PostContenidos([FromForm]Contenidos contenidos)
         {
             try
-            {  
+            {
+                if (contenidos.CaratulaFile!=null)
+                    contenidos.Caratula = await SaveImage(contenidos.CaratulaFile) ;
                 _context.Contenidos.Add(contenidos); 
 
                 await _context.SaveChangesAsync();
@@ -117,7 +123,8 @@ namespace API_StreamingUNED.Controllers
                 }
             }
 
-            return CreatedAtAction("GetContenidos", new { id = contenidos.Id }, contenidos);
+            return StatusCode(201);
+            //return CreatedAtAction("GetContenidos", new { id = contenidos.Id }, contenidos);
         }
 
         // DELETE: api/Contenidos/5
@@ -140,5 +147,18 @@ namespace API_StreamingUNED.Controllers
         {
             return _context.Contenidos.Any(e => e.Id == id);
         }
+
+        [NonAction]
+        public   async Task<string> SaveImage(IFormFile imgFile)
+        {
+            string imageName = new String(Path.GetFileNameWithoutExtension(imgFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+            imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imgFile.FileName);
+            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath,"Caratulas", imageName);
+            using(var fileStream = new FileStream(imagePath, FileMode.Create))
+            {
+                await imgFile.CopyToAsync(fileStream);
+            }
+            return imageName;
+        }      
     }
 }
