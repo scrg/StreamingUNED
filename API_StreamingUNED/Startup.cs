@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.IO;
 using System.Text.Json.Serialization;
 
 namespace API_StreamingUNED
@@ -90,8 +92,11 @@ namespace API_StreamingUNED
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            //app.UseSpaStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath,"Caratulas")),
+                RequestPath = "/Caratulas"
+            }); 
 
             app.UseRouting();
 
@@ -103,19 +108,7 @@ namespace API_StreamingUNED
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
-            });
-
-            //app.UseSpa(spa =>
-            //{
-            //    spa.Options.SourcePath = "ClientApp";
-
-            //    if (env.IsDevelopment())
-            //    {
-            //        spa.UseReactDevelopmentServer(npmScript: "start");
-            //    }
-            //});
-
-            //app.UseAuthentication();  
+            }); 
         }
     }
 }
