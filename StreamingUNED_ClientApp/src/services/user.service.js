@@ -1,6 +1,8 @@
 import axios from 'axios';
 import authHeader from './auth-header';
-const API_URL = 'https://localhost:44329/api/usuarios/';
+import {baseAPI} from "../common/Constantes";
+
+const API_URL =  baseAPI +'/api/usuarios/';
 const user = JSON.parse(localStorage.getItem('user'));
 class UserService {
     getPublicContent() {
