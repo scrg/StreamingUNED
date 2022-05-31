@@ -81,6 +81,9 @@ namespace API_StreamingUNED.Controllers
 
             try
             {
+
+                if (contenidos.CaratulaFile != null)
+                    contenidos.Caratula = await SaveImage(contenidos.CaratulaFile); 
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap"
 import ContenidoService from "../services/ContenidoService";
 import ContenidoTematicaService from "../services/ContenidoTematicaService";
 import ContenidoTipoService from "../services/ContenidoTipoService";
+import ContenidoEstadoService from "../services/ContenidoEstadoService";
 import DirectorService from "../services/DirectorService";
 import InterpreteService from "../services/InterpreteService";
 import ProductoraService from "../services/ProductoraService";
@@ -16,6 +17,7 @@ const AddContenido = () => {
     const [listDirectores, setDirectores] = useState([{ value: "value", label: "label" }]);
     const [listInterpretes, setInterpretes] = useState([{ value: "value", label: "label" }]);
     const [listTipos, setTipos] = useState([{ value: "value", label: "label" }]);
+    const [listEstados, setEstados] = useState([{ value: "value", label: "label" }]);
     const [listProductoras, setProductoras] = useState([{ value: "value", label: "label" }]);
     const [submitted, setSubmitted] = useState(false);
 
@@ -28,12 +30,10 @@ const AddContenido = () => {
         fkTematica: 0,
         fkProductora: 0,
         identificador: "",
-        titulo: "",
-        anyoestreno: 0,
+        titulo: "", 
         fecha: "",
-        duracion: 0,
-        caratula: "",
-        caratulaSrc: defaultImgSrc,
+        duracion: 0, 
+        caratula: defaultImgSrc,
         caratulaFile: "",
         recurso: "",
         fkDirectors: [],
@@ -46,6 +46,7 @@ const AddContenido = () => {
     useEffect(() => {
         retrieveTematicas();
         retrieveTipos();
+        retrieveEstados();
         retrieveDirectores();
         retrieveInterpretes();
         retrieveProductoras();
@@ -93,6 +94,20 @@ const AddContenido = () => {
             });
     };
 
+    const retrieveEstados = () => {
+        ContenidoEstadoService.getAll()
+            .then((response) => {
+                const dropDownValue = response.data.map((response) => ({
+                    "value": response.id,
+                    "label": response.nombre
+                }))
+                setEstados(dropDownValue);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
     const retrieveDirectores = () => {
         DirectorService.getAll()
             .then((response) => {
@@ -132,6 +147,12 @@ const AddContenido = () => {
             fkTipo: event.value
         }));
     };
+    const handleEstadoChange = event => {
+        setContenido(contenido => ({
+            ...contenido,
+            fkEstado: event.value
+        }));
+    };
     const handleTematicaChange = event => {
         setContenido(contenido => ({
             ...contenido,
@@ -164,7 +185,7 @@ const AddContenido = () => {
                 setContenido({
                     ...contenido,
                     caratulaFile: imageFile,
-                    caratulaSrc: x.target.result
+                    caratula: x.target.result
                 })
             }
             reader.readAsDataURL(imageFile);
@@ -173,7 +194,7 @@ const AddContenido = () => {
             setContenido({
                 ...contenido,
                 caratulaFile: null,
-                caratulaSrc: defaultImgSrc
+                caratula: defaultImgSrc
             })
         }
     };
@@ -183,7 +204,8 @@ const AddContenido = () => {
         let test ={}
         test.fkTematica = contenido.fkTematica>0;
         test.fkTipo = contenido.fkTipo>0;
-        test.caratulaSrc = contenido.caratulaSrc==defaultImgSrc?false:true;
+        test.fkEstado = contenido.fkEstado>0;
+        test.caratula = contenido.caratula==defaultImgSrc?false:true;
         setErrors(test);
         return Object.values(test).every(x=> x==true);
     }
@@ -196,7 +218,7 @@ const AddContenido = () => {
 
         if (validate()) {
 
-            const formData = new FormData()
+            const formData = new FormData() 
             formData.append('fkEstado', contenido.fkEstado)
             if ((contenido.fkTipo) > 0)
                 formData.append('fkTipo', contenido.fkTipo)
@@ -205,12 +227,10 @@ const AddContenido = () => {
             if ((contenido.fkProductora) > 0)
                 formData.append('fkProductora', contenido.fkProductora)
             formData.append('identificador', contenido.identificador)
-            formData.append('titulo', contenido.titulo)
-            formData.append('anyoestreno', contenido.anyoestreno)
+            formData.append('titulo', contenido.titulo) 
             formData.append('fecha', contenido.fecha)
-            formData.append('duracion', contenido.duracion)
+            formData.append('duracion', contenido.duracion) 
             formData.append('caratula', contenido.caratula)
-            formData.append('caratulaSrc', contenido.caratulaSrc)
             formData.append('caratulaFile', contenido.caratulaFile)
             formData.append('recurso', contenido.recurso)
             formData.append('ContenidoDirectores', contenido.fkDirectors.map((e) => ({
@@ -287,6 +307,18 @@ const AddContenido = () => {
                             name="fecha"
                         />
                     </Form.Group>
+                    <Form.Group className={applyInvalidClass('fkEstado')}>
+                        <Form.Label htmlFor="estado" >Estado</Form.Label>
+                        <Select
+                            defaultValue={[listEstados[0]]}                            
+                            name="estado"
+                            options={listEstados}
+                            className="basic-select"
+                            classNamePrefix="select"
+                            onChange={handleEstadoChange}
+                            value={[listEstados[contenido.fkEstado - 1]]}
+                        />
+                    </Form.Group>
                     <Form.Group className={applyInvalidClass('fkTipo')}>
                         <Form.Label htmlFor="tipo" >Tipo</Form.Label>
                         <Select
@@ -297,11 +329,10 @@ const AddContenido = () => {
                             classNamePrefix="select"
                             onChange={handleTipoChange}
                             value={[listTipos[contenido.fkTipo - 1]]}
-
                         />
                     </Form.Group>
                     <Form.Group className={applyInvalidClass('fkTematica')}>
-                        <Form.Label htmlFor="tematica" >tematica</Form.Label>
+                        <Form.Label htmlFor="tematica" >Temática</Form.Label>
                         <Select
                             name="tematica"
                             options={listTematicas}
@@ -348,8 +379,7 @@ const AddContenido = () => {
                             value={contenido.fkInterpretes}
                         />
                     </Form.Group>
-                    <Form.Group className={applyInvalidClass('caratulaSrc')}>
-                        <img src={contenido.caratulaSrc} style={{ height: '10rem', width: '10rem' }} className="card-img-top" alt="caratula"></img>
+                    <Form.Group className={applyInvalidClass('caratula')}>
                         <Form.Label htmlFor="caratula" >Caratula</Form.Label>
                         <Form.Control
                             type="file"
@@ -358,6 +388,7 @@ const AddContenido = () => {
                             onChange={showPreview}
                             name="caratula"
                         />
+                        <img src={contenido.caratula} style={{ height: '10rem', width: '10rem' }} className="card-img-top" alt="caratula"></img>
                     </Form.Group>
                     <Form.Group className="form-group text-center">
                         <Button type="submit">

@@ -22,8 +22,7 @@ namespace API_StreamingUNED
         public string Identificador { get; set; }
         public int FkTipo { get; set; }
         public string Titulo { get; set; } 
-        public int? FkProductora { get; set; }
-        public int? AnyoEstreno { get; set; }
+        public int? FkProductora { get; set; } 
         public DateTime? Fecha { get; set; }
         public int? FkTematica { get; set; }
         public int? Duracion { get; set; }
