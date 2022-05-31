@@ -36,6 +36,7 @@ import ProductoraList from "./components/ProductoraList";
 import EventBus from "./common/EventBus";
 import AddUsuario from "./components/AddUsuario";
 import { ContenidoPorTematica } from "./components/ContenidoPorTematica";
+import { ContenidoPorTipo } from "./components/ContenidoPorTipo";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -106,7 +107,7 @@ const App = () => {
               {currentUser && (
                 <NavDropdown title="Catálogo" id="basic-nav-dropdown">
                   <NavDropdown.Item href="/contenidoportematica">Por temática</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Por tipo</NavDropdown.Item>
+                  <NavDropdown.Item href="/contenidoportipo">Por tipo</NavDropdown.Item> 
                   <NavDropdown.Item href="#action/3.2">Búsqueda</NavDropdown.Item>
                 </NavDropdown>
               )}
@@ -149,6 +150,7 @@ const App = () => {
           <Route exact path="/addproductora" component={AddProductora} />
           <Route path="/productoras/:id" component={Productora} />
           <Route exact path="/contenidoportematica" component={ContenidoPorTematica} />
+          <Route exact path="/contenidoportipo" component={ContenidoPorTipo} />
         </Switch>
       </div>
 
