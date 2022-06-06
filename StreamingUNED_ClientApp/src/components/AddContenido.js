@@ -227,6 +227,7 @@ const AddContenido = () => {
         test.fkTematica = contenido.fkTematica > 0;
         test.fkTipo = contenido.fkTipo > 0;
         test.fkEstado = contenido.fkEstado > 0;
+        test.fkProductora = contenido.fkProductora > 0;
         test.caratula = contenido.caratula == defaultImgSrc ? false : true;
         test.recurso = contenido.recurso == "" ? false : true;
         setErrors(test);
@@ -320,6 +321,19 @@ const AddContenido = () => {
                         />
                     </Form.Group>
                     <Form.Group>
+                        <Form.Label htmlFor="duracion" >Duración</Form.Label>
+                        <Form.Control
+                            type="text"
+                            className="form-control"
+                            id="duracion"
+                            pattern="[0-9]*"
+                            required
+                            value={contenido.duracion}
+                            onChange={handleInputChange}
+                            name="duracion"
+                        />
+                    </Form.Group>
+                    <Form.Group>
                         <Form.Label htmlFor="fecha" >Fecha</Form.Label>
                         <Form.Control
                             type="date"
@@ -366,7 +380,7 @@ const AddContenido = () => {
                             value={[listTematicas[contenido.fkTematica - 1]]}
                         />
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group className={applyInvalidClass('fkProductora')}>
                         <Form.Label htmlFor="productora" >Productora</Form.Label>
                         <Select
                             name="productora"
