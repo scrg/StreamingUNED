@@ -181,6 +181,8 @@ ClientBin/
 orleans.codegen.cs
 
 /node_modules
+/Caratulas
+/Videos
 
 # RIA/Silverlight projects
 Generated_Code/
