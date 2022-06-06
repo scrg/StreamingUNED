@@ -108,8 +108,10 @@ namespace API_StreamingUNED.Controllers
         {
             try
             {
-                if (contenidos.CaratulaFile!=null)
-                    contenidos.Caratula = await SaveImage(contenidos.CaratulaFile) ;
+                if (contenidos.CaratulaFile != null)
+                    contenidos.Caratula = await SaveImage(contenidos.CaratulaFile);
+                if (contenidos.RecursoFile != null)
+                    contenidos.Recurso = await SaveVideo(contenidos.RecursoFile);
                 _context.Contenidos.Add(contenidos); 
 
                 await _context.SaveChangesAsync();
@@ -152,16 +154,29 @@ namespace API_StreamingUNED.Controllers
         }
 
         [NonAction]
-        public   async Task<string> SaveImage(IFormFile imgFile)
+        public async Task<string> SaveImage(IFormFile imgFile)
         {
             string imageName = new String(Path.GetFileNameWithoutExtension(imgFile.FileName).Take(10).ToArray()).Replace(' ', '-');
             imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imgFile.FileName);
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath,"Caratulas", imageName);
-            using(var fileStream = new FileStream(imagePath, FileMode.Create))
+            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Caratulas", imageName);
+            using (var fileStream = new FileStream(imagePath, FileMode.Create))
             {
                 await imgFile.CopyToAsync(fileStream);
             }
             return imageName;
-        }      
+        }
+
+        [NonAction]
+        public async Task<string> SaveVideo(IFormFile videoFile)
+        {
+            string videoName = new String(Path.GetFileNameWithoutExtension(videoFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+            videoName = videoName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(videoFile.FileName);
+            var videoPath = Path.Combine(_hostEnvironment.ContentRootPath, "Videos", videoName);
+            using (var fileStream = new FileStream(videoPath, FileMode.Create))
+            {
+                await videoFile.CopyToAsync(fileStream);
+            }
+            return videoName;
+        }
     }
 }

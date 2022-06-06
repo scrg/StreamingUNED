@@ -30,12 +30,13 @@ const AddContenido = () => {
         fkTematica: 0,
         fkProductora: 0,
         identificador: "",
-        titulo: "", 
+        titulo: "",
         fecha: "",
-        duracion: 0, 
+        duracion: 0,
         caratula: defaultImgSrc,
         caratulaFile: "",
         recurso: "",
+        recursoFile: "",
         fkDirectors: [],
         fkInterpretes: []
 
@@ -198,19 +199,41 @@ const AddContenido = () => {
             })
         }
     };
+    const handleRecursoChange = e => {
+        if (e.target.files && e.target.files[0]) {
+            let videoFile = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = x => {
+                setContenido({
+                    ...contenido,
+                    recursoFile: videoFile,
+                    recurso: x.target.result
+                })
+            }
+            reader.readAsDataURL(videoFile);
+        }
+        else {
+            setContenido({
+                ...contenido,
+                recursoFile: null,
+                recurso: ""
+            })
+        }
+    };
 
 
-    const validate=()=>{
-        let test ={}
-        test.fkTematica = contenido.fkTematica>0;
-        test.fkTipo = contenido.fkTipo>0;
-        test.fkEstado = contenido.fkEstado>0;
-        test.caratula = contenido.caratula==defaultImgSrc?false:true;
+    const validate = () => {
+        let test = {}
+        test.fkTematica = contenido.fkTematica > 0;
+        test.fkTipo = contenido.fkTipo > 0;
+        test.fkEstado = contenido.fkEstado > 0;
+        test.caratula = contenido.caratula == defaultImgSrc ? false : true;
+        test.recurso = contenido.recurso == "" ? false : true;
         setErrors(test);
-        return Object.values(test).every(x=> x==true);
+        return Object.values(test).every(x => x == true);
     }
 
-    const applyInvalidClass = field =>((field in errors && errors[field]==false)?' invalid-field':'')
+    const applyInvalidClass = field => ((field in errors && errors[field] == false) ? ' invalid-field' : '')
 
 
     const saveContenido = (e) => {
@@ -218,7 +241,7 @@ const AddContenido = () => {
 
         if (validate()) {
 
-            const formData = new FormData() 
+            const formData = new FormData()
             formData.append('fkEstado', contenido.fkEstado)
             if ((contenido.fkTipo) > 0)
                 formData.append('fkTipo', contenido.fkTipo)
@@ -227,12 +250,13 @@ const AddContenido = () => {
             if ((contenido.fkProductora) > 0)
                 formData.append('fkProductora', contenido.fkProductora)
             formData.append('identificador', contenido.identificador)
-            formData.append('titulo', contenido.titulo) 
+            formData.append('titulo', contenido.titulo)
             formData.append('fecha', contenido.fecha)
-            formData.append('duracion', contenido.duracion) 
+            formData.append('duracion', contenido.duracion)
             formData.append('caratula', contenido.caratula)
             formData.append('caratulaFile', contenido.caratulaFile)
             formData.append('recurso', contenido.recurso)
+            formData.append('recursoFile', contenido.recursoFile)
             formData.append('ContenidoDirectores', contenido.fkDirectors.map((e) => ({
                 "FkDirector": e.value
             })))
@@ -310,7 +334,7 @@ const AddContenido = () => {
                     <Form.Group className={applyInvalidClass('fkEstado')}>
                         <Form.Label htmlFor="estado" >Estado</Form.Label>
                         <Select
-                            defaultValue={[listEstados[0]]}                            
+                            defaultValue={[listEstados[0]]}
                             name="estado"
                             options={listEstados}
                             className="basic-select"
@@ -389,6 +413,16 @@ const AddContenido = () => {
                             name="caratula"
                         />
                         <img src={contenido.caratula} style={{ height: '10rem', width: '10rem' }} className="card-img-top" alt="caratula"></img>
+                    </Form.Group>
+                    <Form.Group className={applyInvalidClass('recurso')}>
+                        <Form.Label htmlFor="recurso" >Recurso</Form.Label>
+                        <Form.Control
+                            type="file"
+                            className="form-control-file"
+                            id="recurso"
+                            onChange={handleRecursoChange}
+                            name="recurso"
+                        />                        
                     </Form.Group>
                     <Form.Group className="form-group text-center">
                         <Button type="submit">

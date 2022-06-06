@@ -30,7 +30,9 @@ namespace API_StreamingUNED
         [NotMapped]
         public IFormFile CaratulaFile { get; set; }
         public string Recurso { get; set; }
-    
+        [NotMapped]
+        public IFormFile RecursoFile { get; set; }
+
         public virtual ContenidoEstados FkEstadoNavigation { get; set; }
         public virtual Productoras FkProductoraNavigation { get; set; }
         public virtual ContenidoTematicas FkTematicaNavigation { get; set; }
