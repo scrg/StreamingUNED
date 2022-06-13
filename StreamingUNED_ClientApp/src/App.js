@@ -34,7 +34,7 @@ import ProductoraList from "./components/ProductoraList";
 
 // import AuthVerify from "./common/AuthVerify";
 import EventBus from "./common/EventBus";
-import AddUsuario from "./components/AddUsuario";
+import Registro from "./components/Registro";
 import { ContenidoPorTematica } from "./components/ContenidoPorTematica";
 import { ContenidoPorTipo } from "./components/ContenidoPorTipo";
 
@@ -132,7 +132,7 @@ const App = () => {
           <Route exact path={"/"} component={Home} />
           <Route exact path={"/home"} component={Home} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={AddUsuario} />
+          <Route exact path="/register" component={Registro} />
           <Route exact path="/profile" component={Profile} />
           <Route path="/user" component={BoardUser} />
           <Route path="/mod" component={BoardModerator} />
