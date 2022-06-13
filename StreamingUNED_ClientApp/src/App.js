@@ -50,8 +50,8 @@ const App = () => {
       setCurrentUser(user);
       setShowModeratorBoard(user.rolId === 2);//2	Empleado
       setShowAdminBoard(user.rolId === 1); //1	Gestor
-    }
-
+    } 
+    
     EventBus.on("logout", () => {
       logOut();
     });
@@ -65,7 +65,7 @@ const App = () => {
     AuthService.logout();
     setShowModeratorBoard(false);
     setShowAdminBoard(false);
-    setCurrentUser(undefined);
+    setCurrentUser(undefined); 
   };
 
   return (
@@ -76,22 +76,22 @@ const App = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              {!currentUser && (
+              {currentUser===undefined && (
                 <Nav.Link href="/register">Registro</Nav.Link>
               )}
               {showAdminBoard && (
                 <>
                   <NavDropdown title="Administración" id="basic-nav-dropdown">
                     <NavDropdown.Item href="/directores">Usuarios</NavDropdown.Item>
-                    <NavDropdown.Item href="/contenidos">Catálogo</NavDropdown.Item>
+                    <NavDropdown.Item href="/contenidos">Contenidos</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/directores">Directores</NavDropdown.Item>
                     <NavDropdown.Item href="/interpretes">Intérpretes</NavDropdown.Item>
                     <NavDropdown.Item href="/productoras">Productoras</NavDropdown.Item>
                   </NavDropdown>
                   <NavDropdown title="Estadísticas" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.2">Por usuario</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">Por temática</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.2">Visualizaciones</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.2">Valoraciones</NavDropdown.Item>
                   </NavDropdown>
                 </>
               )}

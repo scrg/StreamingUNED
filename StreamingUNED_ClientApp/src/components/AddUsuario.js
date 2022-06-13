@@ -64,7 +64,7 @@ const AddUsuario = () => {
                     <Form.Group> 
                         <Form.Label htmlFor="correoelectronico" >Correo Electrónico</Form.Label>
                         <Form.Control
-                            type="text"  
+                            type="email"  
                             className="form-control"
                             id="correoelectronico"
                             required

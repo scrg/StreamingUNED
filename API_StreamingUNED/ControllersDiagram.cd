@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="API_StreamingUNED.Controllers.AuthController">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Controllers\AuthController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.CcaasController">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAABABAAAAAAAAAABAAAAAAAAAACBAAAAAAA=</HashCode>
+      <FileName>Controllers\CcaasController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.ContenidoEstadosController">
+    <Position X="9.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABgAAAEAAABAAAAAAAAABAAAAAAAAAAE=</HashCode>
+      <FileName>Controllers\ContenidoEstadosController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.ContenidosController">
+    <Position X="11" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgABCAAAAAAAAAAAiAAAAAAAAAgAABAQBA=</HashCode>
+      <FileName>Controllers\ContenidosController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.ContenidoTematicasController">
+    <Position X="12.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>CAAAIAAAAAAEBAAAAAAAAAAABAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Controllers\ContenidoTematicasController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.ContenidoTiposController">
+    <Position X="3.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAIBAAAAAIAAAAAAAAAAACAAAgAAAAAAAA=</HashCode>
+      <FileName>Controllers\ContenidoTiposController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.DirectoresController">
+    <Position X="7.5" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAABAACAAAAAAAAIAAAAAEAAAIAAAAAAAA=</HashCode>
+      <FileName>Controllers\DirectoresController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.InterpretesController">
+    <Position X="9.25" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAgCAAAAAAABAAAAAAAAAAAAAAAAAAAAAgABAAAAQA=</HashCode>
+      <FileName>Controllers\InterpretesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.MunicipiosController">
+    <Position X="11" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABBAAQAAAAAAAAAAAAAAAAAAAAAkEAAA=</HashCode>
+      <FileName>Controllers\MunicipiosController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.ProductorasController">
+    <Position X="12.75" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAEYBAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\ProductorasController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.ProvinciasController">
+    <Position X="3.5" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAABAAAAAABAAAAAAAAIAAAAAAAAABAAAA=</HashCode>
+      <FileName>Controllers\ProvinciasController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.RolesController">
+    <Position X="8.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAABAAAAAAAwAAACAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Controllers\RolesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.UsuarioEstadosController">
+    <Position X="11.25" Y="5.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAABAAIgAAAEAAAAAAAAAABAAAAAAABAAA=</HashCode>
+      <FileName>Controllers\UsuarioEstadosController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.UsuariosController">
+    <Position X="11" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIBABAAAEAAAAAAAAAAAAAAEAAQAAgAAA=</HashCode>
+      <FileName>Controllers\UsuariosController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.ValoracionesController">
+    <Position X="14.75" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Controllers\ValoracionesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API_StreamingUNED.Controllers.VisualizacionesController">
+    <Position X="5.75" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAABAAAgCAAAAAAAEAAAAAI=</HashCode>
+      <FileName>Controllers\VisualizacionesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
