@@ -77,6 +77,10 @@ namespace API_StreamingUNED.Controllers
         [HttpPost]
         public async Task<ActionResult<Visualizaciones>> PostVisualizaciones(Visualizaciones visualizaciones)
         {
+
+            int idUsuario = Convert.ToInt16(HttpContext.User.Claims.ToList()[0].Value);
+            visualizaciones.FkSocio = idUsuario;
+            visualizaciones.Fecha = DateTime.Now;
             _context.Visualizaciones.Add(visualizaciones);
             await _context.SaveChangesAsync();
 

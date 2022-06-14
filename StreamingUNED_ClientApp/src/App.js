@@ -37,6 +37,7 @@ import EventBus from "./common/EventBus";
 import Registro from "./components/Registro";
 import { ContenidoPorTematica } from "./components/ContenidoPorTematica";
 import { ContenidoPorTipo } from "./components/ContenidoPorTipo";
+import { ViewContenido } from "./components/ViewContenido";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -151,6 +152,7 @@ const App = () => {
           <Route path="/productoras/:id" component={Productora} />
           <Route exact path="/contenidoportematica" component={ContenidoPorTematica} />
           <Route exact path="/contenidoportipo" component={ContenidoPorTipo} />
+          <Route exact path="/viewcontenido/:id" component={ViewContenido} />
         </Switch>
       </div>
 
