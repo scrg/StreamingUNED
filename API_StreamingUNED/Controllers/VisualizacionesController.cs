@@ -24,8 +24,14 @@ namespace API_StreamingUNED.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Visualizaciones>>> GetVisualizaciones()
         {
-            return await _context.Visualizaciones.ToListAsync();
+            int idUsuario = Convert.ToInt16(HttpContext.User.Claims.ToList()[0].Value);
+            return await _context.Visualizaciones
+                .Include(x => x.FkContenidoNavigation)
+                .Where(x => x.FkSocio == idUsuario)
+                .OrderByDescending(x => x.Fecha)
+                .ToListAsync();
         }
+         
 
         // GET: api/Visualizaciones/5
         [HttpGet("{id}")]

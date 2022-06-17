@@ -6,7 +6,7 @@ import {baseAPI} from "../common/Constantes";
 export const ContenidoCard = (props) => {
     
     const openContenido = (id) => {
-        window.location.href = window.location.origin + "/contenido/" + id;
+        window.location.href = window.location.origin + "/viewcontenido/" + id;
     };
 
     return (

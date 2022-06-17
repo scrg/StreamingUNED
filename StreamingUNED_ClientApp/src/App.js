@@ -38,6 +38,7 @@ import Registro from "./components/Registro";
 import { ContenidoPorTematica } from "./components/ContenidoPorTematica";
 import { ContenidoPorTipo } from "./components/ContenidoPorTipo";
 import { ViewContenido } from "./components/ViewContenido";
+import { Historico } from "./components/Historico";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -114,7 +115,7 @@ const App = () => {
               )}
               {currentUser && (
                 <>
-                  <Nav.Link href="#action/3.4">Histórico</Nav.Link>
+                  <Nav.Link href="/Historico">Histórico</Nav.Link>
                   <Nav.Link href="/profile">Perfil</Nav.Link>
                 </>
               )}
@@ -153,6 +154,7 @@ const App = () => {
           <Route exact path="/contenidoportematica" component={ContenidoPorTematica} />
           <Route exact path="/contenidoportipo" component={ContenidoPorTipo} />
           <Route exact path="/viewcontenido/:id" component={ViewContenido} />
+          <Route exact path="/historico" component={Historico} />
         </Switch>
       </div>
 
