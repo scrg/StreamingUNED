@@ -2,6 +2,9 @@ import http from "../common/http-API";
 const getAll = () => {
   return http.get("/Visualizaciones");
 };
+const getHistorico = () => {
+  return http.get("/Visualizaciones/GetHistorico");
+};
 const get = (id) => {
   return http.get(`/Visualizaciones/${id}`);
 };
@@ -24,5 +27,6 @@ const VisualizacionService = {
   update,
   remove, 
   findByAll,
+  getHistorico
 };
 export default VisualizacionService;

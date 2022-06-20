@@ -16,7 +16,7 @@ export const Historico = (props) => {
  
 
     const retrieveVisualizaciones = () => {
-        VisualizacionService.getAll()
+        VisualizacionService.getHistorico()
             .then((response) => {
                 setVisualizaciones(response.data);
             })

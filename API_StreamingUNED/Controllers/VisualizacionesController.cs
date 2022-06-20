@@ -23,6 +23,14 @@ namespace API_StreamingUNED.Controllers
         // GET: api/Visualizaciones
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Visualizaciones>>> GetVisualizaciones()
+        {            
+            return await _context.Visualizaciones.ToListAsync();
+        }
+        
+       [HttpGet]
+        [Route("GetHistorico")]
+        // GET: api/Visualizaciones/GetHistorico
+        public async Task<ActionResult<IEnumerable<Visualizaciones>>> GetHistorico()
         {
             int idUsuario = Convert.ToInt16(HttpContext.User.Claims.ToList()[0].Value);
             return await _context.Visualizaciones
@@ -31,12 +39,12 @@ namespace API_StreamingUNED.Controllers
                 .OrderByDescending(x => x.Fecha)
                 .ToListAsync();
         }
-         
+
 
         // GET: api/Visualizaciones/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Visualizaciones>> GetVisualizaciones(int id)
-        {
+       {
             var visualizaciones = await _context.Visualizaciones.FindAsync(id);
 
             if (visualizaciones == null)
