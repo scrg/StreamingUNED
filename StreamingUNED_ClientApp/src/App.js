@@ -10,7 +10,7 @@ import AuthService from "./services/auth.service";
 
 import Login from "./components/login.component";
 import Home from "./components/home.component";
-import Profile from "./components/profile.component";
+import Perfil from "./components/Perfil";
 import BoardUser from "./components/board-user.component";
 import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
@@ -116,7 +116,7 @@ const App = () => {
               {currentUser && (
                 <>
                   <Nav.Link href="/Historico">Histórico</Nav.Link>
-                  <Nav.Link href="/profile">Perfil</Nav.Link>
+                  <Nav.Link href="/Perfil">Perfil</Nav.Link>
                 </>
               )}
               {currentUser ? (
@@ -135,7 +135,7 @@ const App = () => {
           <Route exact path={"/home"} component={Home} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Registro} />
-          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/Perfil" component={Perfil} />
           <Route path="/user" component={BoardUser} />
           <Route path="/mod" component={BoardModerator} />
           <Route path="/admin" component={BoardAdmin} />
