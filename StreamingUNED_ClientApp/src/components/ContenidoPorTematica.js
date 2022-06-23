@@ -4,7 +4,7 @@ import ContenidoTematicaService from "../services/ContenidoTematicaService";
 import ContenidoTipoService from "../services/ContenidoTipoService";
 import CalleTematica from "./CalleTematica"
 
-export const ContenidoPorTematica = () => {
+const ContenidoPorTematica = () => {
     const [listTematicas, setTematicas] = useState([]);
     const [listTipos, setTipos] = useState([]);
     const [idTipo, setTipo] = useState(0);
@@ -60,3 +60,5 @@ export const ContenidoPorTematica = () => {
         </>
     )
 }
+
+export default ContenidoPorTematica; 

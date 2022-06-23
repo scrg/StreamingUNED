@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
@@ -35,10 +35,11 @@ import ProductoraList from "./components/ProductoraList";
 // import AuthVerify from "./common/AuthVerify";
 import EventBus from "./common/EventBus";
 import Registro from "./components/Registro";
-import { ContenidoPorTematica } from "./components/ContenidoPorTematica";
-import { ContenidoPorTipo } from "./components/ContenidoPorTipo";
-import { ViewContenido } from "./components/ViewContenido";
-import { Historico } from "./components/Historico";
+import  ContenidoPorTematica  from "./components/ContenidoPorTematica";
+import  ContenidoPorTipo  from "./components/ContenidoPorTipo";
+import  ViewContenido  from "./components/ViewContenido";
+import  Historico  from "./components/Historico";
+import  Error  from "./components/Error";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -129,33 +130,34 @@ const App = () => {
         </Container>
       </Navbar>
 
-      <div className="container mt-3">
-        <Switch>
-          <Route exact path={"/"} component={Home} />
-          <Route exact path={"/home"} component={Home} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Registro} />
-          <Route exact path="/Perfil" component={Perfil} />
-          <Route path="/user" component={BoardUser} />
-          <Route path="/mod" component={BoardModerator} />
-          <Route path="/admin" component={BoardAdmin} />
-          <Route exact path="/directores" component={DirectoresList} />
-          <Route exact path="/adddirector" component={AddDirector} />
-          <Route path="/directores/:id" component={Director} />
-          <Route exact path="/contenidos" component={ContenidosList} />
-          <Route exact path="/addcontenido" component={AddContenido} />
-          <Route path="/contenidos/:id" component={Contenido} />
-          <Route exact path="/interpretes" component={InterpreteList} />
-          <Route exact path="/addinterprete" component={AddInterprete} />
-          <Route path="/interpretes/:id" component={Interprete} />
-          <Route exact path="/productoras" component={ProductoraList} />
-          <Route exact path="/addproductora" component={AddProductora} />
-          <Route path="/productoras/:id" component={Productora} />
-          <Route exact path="/contenidoportematica" component={ContenidoPorTematica} />
-          <Route exact path="/contenidoportipo" component={ContenidoPorTipo} />
-          <Route exact path="/viewcontenido/:id" component={ViewContenido} />
-          <Route exact path="/historico" component={Historico} />
-        </Switch>
+      <div className="container mt-3"> 
+        <Routes>
+          <Route exact path={"/"} element={<Home/>} />
+          <Route exact path={"/home"} element={<Home/>} />
+          <Route exact path="/login" element={<Login/>} />
+          <Route exact path="/register" element={<Registro/>} />
+          <Route exact path="/Perfil" element={<Perfil/>} />
+          <Route path="/user" element={<BoardUser/>} />
+          <Route path="/mod" element={<BoardModerator/>} />
+          <Route path="/admin" element={<BoardAdmin/>} />
+          <Route exact path="/directores" element={<DirectoresList/>} />
+          <Route exact path="/adddirector" element={<AddDirector/>} />
+          <Route path="/directores/:id" element={<Director/>} />
+          <Route exact path="/contenidos" element={<ContenidosList/>} />
+          <Route exact path="/addcontenido" element={<AddContenido/>} />
+          <Route path="/contenidos/:id" element={<Contenido/>} />
+          <Route exact path="/interpretes" element={<InterpreteList/>} />
+          <Route exact path="/addinterprete" element={<AddInterprete/>} />
+          <Route path="/interpretes/:id" element={<Interprete/>} />
+          <Route exact path="/productoras" element={<ProductoraList/>} />
+          <Route exact path="/addproductora" element={<AddProductora/>} />
+          <Route path="/productoras/:id" element={<Productora/>} />
+          <Route exact path="/contenidoportematica" element={<ContenidoPorTematica/>} />
+          <Route exact path="/contenidoportipo" element={<ContenidoPorTipo/>} />
+          <Route exact path="/viewcontenido/:id" element={<ViewContenido/>} />
+          <Route exact path="/historico" element={<Historico/>} />
+          <Route path="*" element={<Error/>} />
+        </Routes> 
       </div>
 
       {/* <AuthVerify logOut={logOut}/> */}
