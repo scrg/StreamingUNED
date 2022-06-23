@@ -8,7 +8,7 @@ import { Form, Button } from "react-bootstrap"
 
 const Perfil = props => {
     const initialUsuarioState = {
-        id: AuthService.getCurrentUser().userId,
+        id: 0,
         nombre: "",
         apellido1: "",
         apellido2: "",
@@ -34,9 +34,14 @@ const Perfil = props => {
     const [listMunicipios, setMunicipios] = useState([]);
 
 
-    useEffect(() => { 
-            getUsuario(currentUsuario.id); 
-            retrieveCcaas(); 
+    useEffect(() => {
+        setUsuarioId(AuthService.getCurrentUser().userId);
+        retrieveCcaas();
+    }, []);
+
+    useEffect(() => {
+        if (idUsuario > 0)
+            getUsuario(idUsuario);
     }, [idUsuario]);
 
     const retrieveCcaas = () => {
@@ -47,7 +52,7 @@ const Perfil = props => {
             .catch((e) => {
                 console.log(e);
             });
-    }; 
+    };
 
     const handleCcaaChange = event => {
         const { name, value } = event.target;
@@ -207,7 +212,7 @@ const Perfil = props => {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label htmlFor="Ccaa" >Comunidad Autonoma</Form.Label>
-                    <Form.Select className="form-control" required id="Ccaa" onChange={handleCcaaChange}>
+                    <Form.Select className="form-control" required id="Ccaa" onChange={handleCcaaChange} defaultValue={currentUsuario.fkCcaa}>
                         <option>Selecciona CCAA</option>
                         {
                             listCcaas.map(Element => (
@@ -244,4 +249,3 @@ const Perfil = props => {
 };
 
 export default Perfil;
- 
