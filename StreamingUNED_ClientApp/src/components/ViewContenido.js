@@ -5,6 +5,7 @@ import VisualizacionService from "../services/VisualizacionService";
 import ReactPlayer from 'react-player'
 
 import ReactStars from "react-rating-stars-component";
+import { useParams } from 'react-router-dom';
 
 
 
@@ -28,7 +29,7 @@ export const ViewContenido = props => {
         fkDirectors: [],
         fkInterpretes: []
 
-    };
+    }; 
     const [contenido, setContenido] = useState(initialContenidoState);
 
 
@@ -43,9 +44,10 @@ export const ViewContenido = props => {
             });
     };
 
+    const { id } = useParams();
     useEffect(() => {
-        getContenido(props.match.params.id);
-    }, [props.match.params.id]);
+        getContenido(id);
+    }, [id]);
 
     const onPlay = () => {
         var data = {

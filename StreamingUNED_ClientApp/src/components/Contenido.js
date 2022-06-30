@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import DirectorService from "../services/DirectorService";
 import { Form, Button } from "react-bootstrap"
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
+ 
 
 
 const Director = props => {
@@ -14,6 +16,7 @@ const Director = props => {
         published: false
     };
 
+    const history = useNavigate();
 
     const [currentDirector, setCurrentDirector] = useState(initialDirectorState);
     const [message, setMessage] = useState("");
@@ -49,19 +52,9 @@ const Director = props => {
                 console.log(e);
             });
     };
-
-    const deleteDirector = () => {
-        DirectorService.remove(currentDirector.id)
-            .then(response => {
-                console.log(response.data);
-                props.history.push("/Directores");
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    };
+ 
     const listado = () => {
-        window.location.href = window.location.origin + "/directores/";
+        history("/directores/");
     };
 
     return ( 
@@ -119,10 +112,7 @@ const Director = props => {
                     </Form.Group>
                     <Button variant="success" type="submit" >
                         Actualizar
-                    </Button>
-                    <Button variant="danger" onClick={deleteDirector}>
-                        Eliminar
-                    </Button>
+                    </Button> 
                     
                     <Button onClick={() => listado()}>Volver</Button>  
                     <p>{message}</p>

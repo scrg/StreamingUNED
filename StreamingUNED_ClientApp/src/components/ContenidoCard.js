@@ -1,12 +1,15 @@
 import { Card } from 'react-bootstrap';
 import {baseAPI} from "../common/Constantes";
 
+import { useNavigate } from 'react-router-dom';
+ 
 
 
 export const ContenidoCard = (props) => {
     
+    const history = useNavigate();
     const openContenido = (id) => {
-        window.location.href = window.location.origin + "/viewcontenido/" + id;
+        history("/viewcontenido/" + id);
     };
 
     return (

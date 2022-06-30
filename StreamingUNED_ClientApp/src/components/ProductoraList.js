@@ -2,12 +2,14 @@ import { Button, Alert } from 'react-bootstrap';
 import React, { useState, useEffect, useRef } from 'react';
 import ProductoraService from "../services/ProductoraService";
 import Pagination from './Pagination';
+import { useNavigate } from 'react-router-dom';
 
 const ProductorasList = (props) => {
     const [sortedElements, setProductoras] = useState([]);
     const [search, setSearch] = useState("");
     const productorasRef = useRef();
 
+    const history = useNavigate();
     productorasRef.current = sortedElements;
 
     useEffect(() => {
@@ -44,17 +46,17 @@ const ProductorasList = (props) => {
     };
 
     const openProductora = (id) => { 
-        window.location.href = window.location.origin + "/productoras/" + id;
+        history("/productoras/" + id);
     };
 
     const addProductora = () => {
-        window.location.href = window.location.origin + "/addproductora"
+        history("/addproductora")
     };
 
     const deleteProductora = (id) => { 
         ProductoraService.remove(id)
             .then((response) => {
-                props.history.push("/productoraes");
+                history("/productoras");
                 refreshList();
             })
             .catch((e) => {
@@ -94,7 +96,7 @@ const ProductorasList = (props) => {
                         <h2>Administración Productoras</h2>
                     </div>
                     <div className="col-sm-6">
-                        <Button onClick={() => addProductora()} className="btn btn-success"><span>Crear nuevo productoraes</span></Button>
+                        <Button onClick={() => addProductora()} className="btn btn-success"><span>Crear nueva productora</span></Button>
                     </div>
                 </div>
             </div>

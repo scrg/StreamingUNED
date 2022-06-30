@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap"
 import UsuarioService from "../services/UsuarioService";
 import MunicipioService from "../services/MunicipioService";
 import ProvinciaService from "../services/ProvinciaService";
-import CcaaService from "../services/CcaaService"; 
+import CcaaService from "../services/CcaaService";
 
 const Registro = () => {
     const initialUsuarioState = {
@@ -16,9 +16,9 @@ const Registro = () => {
         correoelectronico: "",
         clave: "",
         direccion: "",
-        fkCcaa:0,
-        fkProvincia:0,
-        fkMunicipio:0,
+        fkCcaa: 0,
+        fkProvincia: 0,
+        fkMunicipio: 0,
         codigoPostal: 0,
         cuentaBancaria: ""
     };
@@ -36,7 +36,7 @@ const Registro = () => {
 
 
     useEffect(() => {
-        retrieveCcaas();  
+        retrieveCcaas();
     }, []);
 
 
@@ -60,7 +60,7 @@ const Registro = () => {
             .catch((e) => {
                 console.log(e);
             });
-    }; 
+    };
     const handleProvinciaChange = event => {
         const { name, value } = event.target;
         setUsuario({ ...usuario, fkProvincia: value });
@@ -71,11 +71,11 @@ const Registro = () => {
             .catch((e) => {
                 console.log(e);
             });
-    }; 
+    };
     const handleMunicipioChange = event => {
         const { name, value } = event.target;
         setUsuario({ ...usuario, fkMunicipio: value });
-    }; 
+    };
 
     const saveUsuario = (e) => {
         e.preventDefault();
@@ -111,7 +111,7 @@ const Registro = () => {
                 console.log(e);
             });
     };
-    
+
     return (
         <>
             {submitted ? (
@@ -192,7 +192,7 @@ const Registro = () => {
                             name="apellido2"
                         />
                     </Form.Group>
-                    
+
                     <Form.Group>
                         <Form.Label htmlFor="direccion" >Dirección</Form.Label>
                         <Form.Control
@@ -205,7 +205,7 @@ const Registro = () => {
                             name="direccion"
                         />
                     </Form.Group>
-                    
+
                     <Form.Group>
                         <Form.Label htmlFor="codigoPostal" >Código Postal</Form.Label>
                         <Form.Control
@@ -230,7 +230,7 @@ const Registro = () => {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label htmlFor="Provincia" >Provincia</Form.Label>
-                        <Form.Select className="form-control" required id="Provincia"  onChange={handleProvinciaChange}>
+                        <Form.Select className="form-control" required id="Provincia" onChange={handleProvinciaChange}>
                             <option>Selecciona Provincia</option>
                             {
                                 listProvincias.map(Element => (
@@ -240,7 +240,7 @@ const Registro = () => {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label htmlFor="Municipio" >Municipio</Form.Label>
-                        <Form.Select className="form-control" required id="Municipio"   onChange={handleMunicipioChange}> 
+                        <Form.Select className="form-control" required id="Municipio" onChange={handleMunicipioChange}>
                             {
                                 listMunicipios.map(Element => (
                                     <option key={Element.id} value={Element.id} >{Element.nombre}</option>
@@ -248,10 +248,12 @@ const Registro = () => {
                         </Form.Select>
                     </Form.Group>
 
+                    <Form.Group>
 
-                    <Button variant="success" type="submit">
-                        Registro
-                    </Button>
+                        <Button variant="success" type="submit">
+                            Registro
+                        </Button>
+                    </Form.Group>
                 </Form>
             )}
         </>

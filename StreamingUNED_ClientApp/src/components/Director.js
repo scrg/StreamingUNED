@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import DirectorService from "../services/DirectorService";
 import { Form, Button } from "react-bootstrap"
 import moment from 'moment';
+import { useParams, useNavigate } from 'react-router-dom';
 
 
 const Director = props => {
@@ -15,6 +16,7 @@ const Director = props => {
     };
 
 
+    const history = useNavigate();
     const [currentDirector, setCurrentDirector] = useState(initialDirectorState);
     const [message, setMessage] = useState("");
 
@@ -29,9 +31,11 @@ const Director = props => {
             });
     };
 
+    const { id } = useParams();
+
     useEffect(() => {
-        getDirector(props.match.params.id);
-    }, [props.match.params.id]);
+        getDirector(id);
+    }, [id]);
 
     const handleInputChange = event => {
         const { name, value } = event.target;
@@ -49,22 +53,13 @@ const Director = props => {
                 console.log(e);
             });
     };
-
-    const deleteDirector = () => {
-        DirectorService.remove(currentDirector.id)
-            .then(response => {
-                console.log(response.data);
-                props.history.push("/Directores");
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    };
+ 
     const listado = () => {
-        window.location.href = window.location.origin + "/directores/";
+        history("/Directores");
     };
 
-    return ( 
+    return (
+        <>
             <div className="edit-form">
                 <h4>Director</h4>
 
@@ -99,7 +94,6 @@ const Director = props => {
                             type="text"
                             className="form-control"
                             id="apellido2"
-                            required
                             value={currentDirector.apellido2}
                             onChange={handleInputChange}
                             name="apellido2"
@@ -117,18 +111,19 @@ const Director = props => {
                             name="fechanacimiento"
                         />
                     </Form.Group>
-                    <Button variant="success" type="submit" >
-                        Actualizar
-                    </Button>
-                    <Button variant="danger" onClick={deleteDirector}>
-                        Eliminar
-                    </Button>
-                    
-                    <Button onClick={() => listado()}>Volver</Button>  
-                    <p>{message}</p>
+                    <Form.Group className="d-flex justify-content-center mt-3">
+                        <Button variant="success" type="submit" >
+                            Actualizar
+                        </Button>
+                    </Form.Group>
                 </Form>
+                <p className="d-flex justify-content-center mt-3">{message}</p>
             </div>
-            );
+            <div className="d-flex justify-content-center mt-3">
+                <Button className="btn btn-success" onClick={() => listado()}><span>Volver</span></Button>
+            </div>
+        </>
+    );
 };
 
-            export default Director;
+export default Director;

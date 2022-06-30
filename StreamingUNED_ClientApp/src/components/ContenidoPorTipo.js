@@ -43,7 +43,7 @@ const ContenidoPorTipo = () => {
     return (
         <>
             <h1>CONTENIDO POR TIPO</h1>
-            <select className="form-control" name="city" onChange={handleInputChange}>
+            <select className="form-control" name="tematica" onChange={handleInputChange}>
                 <option value={Number(0)}>Filtro tematica</option>
                 {
                     listTematicas.map(Element => (

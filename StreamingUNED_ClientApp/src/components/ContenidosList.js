@@ -1,18 +1,38 @@
 import { Button, Alert } from 'react-bootstrap';
 import React, { useState, useEffect, useRef } from 'react';
 import ContenidoService from "../services/ContenidoService";
+import ContenidoTematicaService from "../services/ContenidoTematicaService";
+import ContenidoEstadoService from "../services/ContenidoEstadoService";
+import ContenidoTipoService from "../services/ContenidoTipoService";
 import Pagination from './Pagination';
+import { useNavigate } from 'react-router-dom';
+
 
 const ContenidosList = (props) => {
     const [sortedElements, setContenidos] = useState([]);
     const [search, setSearch] = useState("");
     const contenidosRef = useRef();
+    const [listTematicas, setTematicas] = useState([]);
+    const [listTipos, setTipos] = useState([]);
+    const [listEstados, setEstados] = useState([]);
+    const [idTipo, setTipo] = useState(0);
+    const [idEstado, setEstado] = useState(0);
+    const [idTematica, setTematica] = useState(0);
 
+    const history = useNavigate();
     contenidosRef.current = sortedElements;
 
     useEffect(() => {
         retrieveContenidos();
+        retrieveEstados();
+        retrieveTematicas();
+        retrieveTipos();
     }, []);
+
+    
+    useEffect(() => {
+        filterSelect(); 
+    }, [idTipo, idTematica, idEstado]);
 
     const onChangeSearch = (e) => {
         const search = e.target.value;
@@ -23,6 +43,35 @@ const ContenidosList = (props) => {
         ContenidoService.getAll()
             .then((response) => {
                 setContenidos(response.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+    const retrieveTematicas = () => {
+        ContenidoTematicaService.getAll()
+            .then((response) => {
+                setTematicas(response.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
+
+    const retrieveTipos = () => {
+        ContenidoTipoService.getAll()
+            .then((response) => {
+                setTipos(response.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+    const retrieveEstados = () => {
+        ContenidoEstadoService.getAll()
+            .then((response) => {
+                setEstados(response.data);
             })
             .catch((e) => {
                 console.log(e);
@@ -42,19 +91,29 @@ const ContenidosList = (props) => {
                 console.log(e);
             });
     };
+    const clearFilter = () => {
+        window.location.reload(false);
+    };
+
+    const filterSelect = () => {
+        setContenidos(sortedElements
+            .filter((c=>c.fkEstado==idEstado || idEstado==0))
+            .filter((c=>c.fkTematica==idTematica || idTematica==0))
+            .filter((c=>c.fkTipo==idTipo || idTipo==0)));
+    };
 
     const openContenido = (id) => {
-        window.location.href = window.location.origin + "/contenidos/" + id;
+        history("/contenidos/" + id);
     };
 
     const addContenido = () => {
-        window.location.href = window.location.origin + "/addcontenido"
+        history("/addcontenido");
     };
 
     const deleteContenido = (id) => {
         ContenidoService.remove(id)
             .then((response) => {
-                props.history.push("/contenidos");
+                history("/contenidos");
                 refreshList();
             })
             .catch((e) => {
@@ -85,6 +144,15 @@ const ContenidosList = (props) => {
     const currentElements = sortedElements.slice(indexOfFirstElement, indexOfLastElement);
     const totalPagesNum = Math.ceil(sortedElements.length / elementsPerPage);
 
+    const handleEstadoChange = (e) => {
+        setEstado(e.target.value);  
+    }
+    const handleTipoChange = (e) => {
+        setTipo(e.target.value);  
+    }
+    const handleTematicaChange = (e) => {
+        setTematica(e.target.value);  
+    }
 
     return (
         <>
@@ -103,7 +171,38 @@ const ContenidosList = (props) => {
                 Lista actualizada
             </Alert>
 
-            <div className="col-md-8">
+            <div class="d-flex justify-content-between">
+                <div className="input-group mb-3">
+                    <select className="form-control" name="estado" onChange={handleEstadoChange}>
+                        <option value={Number(0)}>Filtro estado</option>{
+                            listEstados.map(Element => (
+                                <option key={Element.id} value={Element.id} >{Element.nombre}</option>
+                            ))
+                        }
+                    </select>
+                </div>
+                <div className="input-group mb-3">
+                    <select className="form-control" name="tematica" onChange={handleTematicaChange}>
+                        <option value={Number(0)}>Filtro tematica</option>
+                        {
+                            listTematicas.map(Element => (
+                                <option key={Element.id} value={Element.id} >{Element.nombre}</option>
+                            ))
+                        }
+                    </select>
+                </div>
+                <div className="input-group mb-3">
+                    <select className="form-control" name="tipo"  onChange={handleTipoChange}>
+                        <option value={Number(0)}>Filtro tipo</option>
+                        {
+                            listTipos.map(Element => (
+                                <option key={Element.id} value={Element.id} >{Element.nombre}</option>
+                            ))
+                        }
+                    </select>
+                </div>
+            </div>
+            <div>
                 <div className="input-group mb-3">
                     <input
                         type="text"
@@ -120,6 +219,13 @@ const ContenidosList = (props) => {
                         >
                             Buscar
                         </button>
+                        <button
+                            className="btn btn-outline-secondary"
+                            type="button"
+                            onClick={clearFilter}
+                        >
+                            Limpiar
+                        </button>
                     </div>
                 </div>
             </div>
@@ -129,6 +235,8 @@ const ContenidosList = (props) => {
                     <tr>
                         <th>Título</th>
                         <th>Estado</th>
+                        <th>Tipo</th>
+                        <th>Temática</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -139,6 +247,8 @@ const ContenidosList = (props) => {
                             <tr key={Element.id}>
                                 <td>{Element.titulo}</td>
                                 <td>{Element.fkEstadoNavigation.nombre}</td>
+                                <td>{Element.fkTipoNavigation.nombre}</td>
+                                <td>{Element.fkTematicaNavigation.nombre}</td>
 
                                 <td>
                                     <button onClick={() => openContenido(Element.id)} className="btn text-warning btn-act"><i className="far fa-edit action mr-2"></i></button>

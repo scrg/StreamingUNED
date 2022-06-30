@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap"
 import DirectorService from "../services/DirectorService";
 
+import { useNavigate } from 'react-router-dom';
+ 
 const AddDirector = () => {
     const initialDirectorState = {
         id: null,
@@ -10,6 +12,7 @@ const AddDirector = () => {
         apellido2: "",
         fechanacimiento: ""
     };
+    const history = useNavigate();
     const [director, setDirector] = useState(initialDirectorState);
     const [submitted, setSubmitted] = useState(false);
     const handleInputChange = event => {
@@ -45,7 +48,7 @@ const AddDirector = () => {
         setSubmitted(false);
     };
     const listado = () => {
-        window.location.href = window.location.origin + "/directores/";
+        history("/directores/");
     };
     return (
         <>
@@ -88,8 +91,7 @@ const AddDirector = () => {
                         <Form.Control
                             type="text"
                             className="form-control"
-                            id="apellido2"
-                            required
+                            id="apellido2" 
                             value={director.apellido2}
                             onChange={handleInputChange}
                             name="apellido2"
@@ -107,13 +109,15 @@ const AddDirector = () => {
                             name="fechanacimiento"
                         />
                     </Form.Group>
-                            <Button type="submit">
+                    <Form.Group className="d-flex justify-content-center mt-3"> 
+                            <Button type="submit" className="btn btn-success">
                                 Añadir director
                             </Button>
+                    </Form.Group>
                 </Form>
             )}
-            <div class="col text-center">
-                <Button onClick={() => listado()}><span>Volver</span></Button> 
+            <div className="d-flex justify-content-center mt-3"> 
+                <Button className="btn btn-success" onClick={() => listado()}><span>Volver</span></Button> 
             </div>
         </>
     );

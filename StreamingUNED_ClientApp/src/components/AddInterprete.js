@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap"
 import InterpreteService from "../services/InterpreteService";
 
+import { useNavigate } from 'react-router-dom';
+
 const AddInterprete = () => {
     const initialInterpreteState = {
         id: null,
@@ -10,6 +12,7 @@ const AddInterprete = () => {
         apellido2: "",
         fechanacimiento: ""
     };
+    const history = useNavigate();
     const [interprete, setInterprete] = useState(initialInterpreteState);
     const [submitted, setSubmitted] = useState(false);
     const handleInputChange = event => {
@@ -46,7 +49,7 @@ const AddInterprete = () => {
     };
 
     const listado = () => {
-        window.location.href = window.location.origin + "/interpretes/";
+        history("/interpretes/");
     };
 
     return (
@@ -91,7 +94,6 @@ const AddInterprete = () => {
                             type="text"
                             className="form-control"
                             id="apellido2"
-                            required
                             value={interprete.apellido2}
                             onChange={handleInputChange}
                             name="apellido2"
@@ -108,14 +110,17 @@ const AddInterprete = () => {
                             onChange={handleInputChange}
                             name="fechanacimiento"
                         />
-                    </Form.Group> 
-                        <Button type="submit">
+                    </Form.Group>
+
+                    <Form.Group className="d-flex justify-content-center mt-3">
+                        <Button type="submit" className="btn btn-success">
                             Añadir intérprete
-                        </Button> 
+                        </Button>
+                    </Form.Group>
                 </Form>
             )}
-            <div class="col text-center">
-                <Button onClick={() => listado()}><span>Volver</span></Button> 
+            <div className="d-flex justify-content-center mt-3">
+                <Button className="btn btn-success" onClick={() => listado()}><span>Volver</span></Button>
             </div>
         </>
     );

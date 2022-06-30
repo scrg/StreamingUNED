@@ -8,6 +8,7 @@ import DirectorService from "../services/DirectorService";
 import InterpreteService from "../services/InterpreteService";
 import ProductoraService from "../services/ProductoraService";
 import Select from 'react-select';
+import {useNavigate} from 'react-router-dom'
 // https://codesandbox.io/s/react-select-v2-required-input-3xvvb?fontsize=14&file=/src/App.js
 
 
@@ -41,6 +42,7 @@ const AddContenido = () => {
         fkInterpretes: []
 
     };
+    const history = useNavigate();
     const [contenido, setContenido] = useState(initialContenidoState);
     const [errors, setErrors] = useState({});
 
@@ -282,7 +284,7 @@ const AddContenido = () => {
         setSubmitted(false);
     };
     const listado = () => {
-        window.location.href = window.location.origin + "/contenidos/";
+        history("/contenidos/");
     };
     return (
         <>

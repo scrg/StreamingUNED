@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import ProductoraService from "../services/ProductoraService";
-import { Form, Button } from "react-bootstrap" 
+import { Form, Button } from "react-bootstrap"
+import { useParams, useNavigate } from 'react-router-dom';
 
 
 const Productora = props => {
     const initialProductoraState = {
         id: null,
-        nombre: "", 
+        nombre: "",
         published: false
     };
 
 
+    const history = useNavigate();
     const [currentProductora, setCurrentProductora] = useState(initialProductoraState);
     const [message, setMessage] = useState("");
 
@@ -25,9 +27,10 @@ const Productora = props => {
             });
     };
 
+    const { id } = useParams();
     useEffect(() => {
-        getProductora(props.match.params.id);
-    }, [props.match.params.id]);
+        getProductora(id);
+    }, [id]);
 
     const handleInputChange = event => {
         const { name, value } = event.target;
@@ -45,22 +48,13 @@ const Productora = props => {
                 console.log(e);
             });
     };
-
-    const deleteProductora = () => {
-        ProductoraService.remove(currentProductora.id)
-            .then(response => {
-                console.log(response.data);
-                props.history.push("/Productoras");
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    };
+ 
     const listado = () => {
-        window.location.href = window.location.origin + "/productoras/";
+        history("/productoras/");
     };
 
-    return ( 
+    return (
+        <>
             <div className="edit-form">
                 <h4>Productora</h4>
 
@@ -76,19 +70,20 @@ const Productora = props => {
                             onChange={handleInputChange}
                             name="nombre"
                         />
-                    </Form.Group> 
-                    <Button variant="success" type="submit" >
-                        Actualizar
-                    </Button>
-                    <Button variant="danger" onClick={deleteProductora}>
-                        Eliminar
-                    </Button>
-                    
-                    <Button onClick={() => listado()}>Volver</Button>  
-                    <p>{message}</p>
+                    </Form.Group>
+                    <Form.Group className="d-flex justify-content-center mt-3">
+                        <Button variant="success" type="submit" >
+                            Actualizar
+                        </Button>
+                    </Form.Group>
                 </Form>
+                <p className="d-flex justify-content-center mt-3">{message}</p>
             </div>
-            );
+            <div className="d-flex justify-content-center mt-3">
+                <Button className="btn btn-success" onClick={() => listado()}><span>Volver</span></Button>
+            </div>
+        </>
+    );
 };
 
-            export default Productora;
+export default Productora;

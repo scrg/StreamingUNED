@@ -23,17 +23,24 @@ namespace API_StreamingUNED.Controllers
             _context = context;
             this._hostEnvironment = hostEnvironment;
         }
-         
+
 
         // GET api/Directores?search=ped 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Contenidos>>> GetContenidos(string search)
         {
             if (string.IsNullOrEmpty(search))
-                return await _context.Contenidos.Include(x=>x.FkEstadoNavigation).ToListAsync();
+                return await _context.Contenidos
+                    .Include(x => x.FkEstadoNavigation)
+                    .Include(x => x.FkTipoNavigation)
+                    .Include(x => x.FkTematicaNavigation)
+                    .ToListAsync();
             else
-                return await _context.Contenidos.Include(x=>x.FkEstadoNavigation)
-                          .Where(x => x.Titulo.Contains(search))
+                return await _context.Contenidos
+                    .Include(x => x.FkEstadoNavigation)
+                    .Include(x => x.FkTipoNavigation)
+                    .Include(x => x.FkTematicaNavigation)
+                    .Where(x => x.Titulo.Contains(search))
                     .ToListAsync();
         }
 

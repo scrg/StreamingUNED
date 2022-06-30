@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap"
 import ProductoraService from "../services/ProductoraService";
 
+import { useNavigate } from 'react-router-dom';
+ 
 const AddProductora = () => {
     const initialProductoraState = {
         id: null,
         nombre: ""
     };
+    const history = useNavigate();
     const [productora, setProductora] = useState(initialProductoraState);
     const [submitted, setSubmitted] = useState(false);
     const handleInputChange = event => {
@@ -36,7 +39,7 @@ const AddProductora = () => {
         setSubmitted(false);
     };
     const listado = () => {
-        window.location.href = window.location.origin + "/productoras/";
+        history("/productoras/");
     };
     return (
         <>
@@ -62,13 +65,15 @@ const AddProductora = () => {
                             name="nombre"
                         />
                     </Form.Group>
-                            <Button type="submit">
+                    <Form.Group className="d-flex justify-content-center mt-3"> 
+                            <Button type="submit" className="btn btn-success">
                                 Añadir productora
                             </Button>
+                    </Form.Group>
                 </Form>
             )}
-            <div class="col text-center">
-                <Button onClick={() => listado()}><span>Volver</span></Button> 
+            <div className="d-flex justify-content-center mt-3"> 
+                <Button className="btn btn-success" onClick={() => listado()}><span>Volver</span></Button> 
             </div>
         </>
     );

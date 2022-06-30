@@ -3,12 +3,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import DirectorService from "../services/DirectorService";
 import Pagination from './Pagination';
 
+import { useNavigate } from 'react-router-dom';
+
 const DirectoresList = (props) => {
     const [sortedElements, setDirectores] = useState([]);
     const [search, setSearch] = useState("");
     const directoresRef = useRef();
 
     directoresRef.current = sortedElements;
+    const history = useNavigate();
 
     useEffect(() => {
         retrieveDirectores();
@@ -44,17 +47,17 @@ const DirectoresList = (props) => {
     };
 
     const openDirector = (id) => { 
-        window.location.href = window.location.origin + "/directores/" + id;
+        history("/directores/" + id);
     };
 
     const addDirector = () => {
-        window.location.href = window.location.origin + "/adddirector"
+        history("/adddirector");
     };
 
     const deleteDirector = (id) => { 
         DirectorService.remove(id)
             .then((response) => {
-                props.history.push("/directores");
+                history("/directores");
                 refreshList();
             })
             .catch((e) => {

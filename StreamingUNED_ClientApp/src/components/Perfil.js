@@ -55,7 +55,7 @@ const Perfil = props => {
     };
 
     const handleCcaaChange = event => {
-        const { name, value } = event.target;
+        const {  value } = event.target;
         setCurrentUsuario({ ...currentUsuario, fkCcaa: value });
         ProvinciaService.getAll()
             .then((response) => {
@@ -66,7 +66,7 @@ const Perfil = props => {
             });
     };
     const handleProvinciaChange = event => {
-        const { name, value } = event.target;
+        const {  value } = event.target;
         setCurrentUsuario({ ...currentUsuario, fkProvincia: value });
         MunicipioService.getAll()
             .then((response) => {
@@ -77,7 +77,7 @@ const Perfil = props => {
             });
     };
     const handleMunicipioChange = event => {
-        const { name, value } = event.target;
+        const {  value } = event.target;
         setCurrentUsuario({ ...currentUsuario, fkMunicipio: value });
     };
 
@@ -239,10 +239,12 @@ const Perfil = props => {
                             ))}
                     </Form.Select>
                 </Form.Group>
-                <Button variant="success" type="submit" >
-                    Actualizar
-                </Button>
-                <p>{message}</p>
+                <Form.Group className="d-flex justify-content-center mt-3"> 
+                    <Button variant="success" type="submit" >
+                        Actualizar
+                    </Button> 
+                </Form.Group>
+                    <p className="d-flex justify-content-center mt-3">{message}</p> 
             </Form>
         </div>
     );

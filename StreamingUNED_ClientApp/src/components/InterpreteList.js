@@ -3,12 +3,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import InterpreteService from "../services/InterpreteService";
 import Pagination from './Pagination';
 
+import { useNavigate } from 'react-router-dom';
+
 const InterpreteList = (props) => {
 
     const [sortedElements, setInterpretes] = useState([]);
     const [search, setSearch] = useState("");
     const interpretesRef = useRef();
 
+    const history = useNavigate();
     interpretesRef.current = sortedElements;
 
     useEffect(() => {
@@ -45,18 +48,18 @@ const InterpreteList = (props) => {
     };
 
     const openInterprete = (id) => {
-        window.location.href = window.location.origin + "/interpretes/" + id;
+        history("/interpretes/" + id);
     };
 
     const addInterprete = (e) => {
-        window.location.href = window.location.origin + "/addinterprete"
+        history("/addinterprete");
     };
 
     const deleteInterprete = (id) => {
 
         InterpreteService.remove(id)
             .then((response) => {
-                props.history.push("/interpretes");
+                history("/interpretes");
                 refreshList();
             })
             .catch((e) => {
