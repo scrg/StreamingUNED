@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import ContenidoService from "../services/ContenidoService";
 import VisualizacionService from "../services/VisualizacionService";
+import ValoracionService from "../services/ValoracionService";
 import ReactPlayer from 'react-player'
 
 import ReactStars from "react-rating-stars-component";
@@ -29,8 +30,10 @@ export const ViewContenido = props => {
         fkDirectors: [],
         fkInterpretes: []
 
-    }; 
-    const [contenido, setContenido] = useState(initialContenidoState);
+    };
+ 
+
+    const [contenido, setContenido] = useState(initialContenidoState); 
 
 
     const getContenido = id => {
@@ -46,9 +49,9 @@ export const ViewContenido = props => {
 
     const { id } = useParams();
     useEffect(() => {
-        getContenido(id);
+        getContenido(id); 
     }, [id]);
-
+  
     const onPlay = () => {
         var data = {
             fkContenido: contenido.id
@@ -62,6 +65,19 @@ export const ViewContenido = props => {
             });
     }
 
+    const Rating = (newRating) => {
+        var data = {
+            fkContenido: contenido.id,
+            valoracion: newRating
+        };
+        ValoracionService.create(data)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });      
+    }
     return (
         <>
             <div className='player-wrapper'>
@@ -77,11 +93,9 @@ export const ViewContenido = props => {
                 <ReactStars
                     size={50}
                     half={false}
-                    onChange={newRating => {
-                        console.log(newRating);
-                    }}
+                    onChange={Rating} 
                 />
-            </div>
+            </div> 
         </>
     );
 };
