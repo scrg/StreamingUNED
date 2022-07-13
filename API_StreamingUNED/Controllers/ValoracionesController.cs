@@ -76,7 +76,7 @@ namespace API_StreamingUNED.Controllers
             Valoraciones.Fecha = DateTime.Now;
             if (!ValoracionesExists(Valoraciones.FkContenido, Valoraciones.FkSocio))
             {
-                _context.Valoraciones.Add(Valoraciones);
+                _context.Valoraciones.Add(Valoraciones);    
                 await _context.SaveChangesAsync();
                 return CreatedAtAction("GetValoraciones", new { id = Valoraciones.FkContenido }, Valoraciones);
             }

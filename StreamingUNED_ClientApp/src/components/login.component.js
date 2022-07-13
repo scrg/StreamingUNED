@@ -104,7 +104,7 @@ export default class Login extends Component {
                                 validations={[required]}
                             />
                         </div>
-                        <div className="form-group">
+                        <div  className="form-group text-center mt-3">
                             <button
                                 className="btn btn-primary btn-block"
                                 disabled={this.state.loading}

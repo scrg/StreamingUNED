@@ -171,7 +171,7 @@ const ContenidosList = (props) => {
                 Lista actualizada
             </Alert>
 
-            <div class="d-flex justify-content-between">
+            <div className="d-flex justify-content-between">
                 <div className="input-group mb-3">
                     <select className="form-control" name="estado" onChange={handleEstadoChange}>
                         <option value={Number(0)}>Filtro estado</option>{

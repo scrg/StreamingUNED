@@ -38,8 +38,8 @@ const AddContenido = () => {
         caratulaFile: "",
         recurso: "",
         recursoFile: "",
-        fkDirectors: [],
-        fkInterpretes: []
+        contenidoDirectores: [],
+        contenidoInterpretes: []
 
     };
     const history = useNavigate();
@@ -171,13 +171,13 @@ const AddContenido = () => {
     const handleDirectorChange = event => {
         setContenido(contenido => ({
             ...contenido,
-            fkDirectors: event
+            contenidoDirectores: event
         }));
     };
     const handleInterpreteChange = event => {
         setContenido(contenido => ({
             ...contenido,
-            fkInterpretes: event
+            contenidoInterpretes: event
         }));
     };
     const showPreview = e => {
@@ -259,15 +259,15 @@ const AddContenido = () => {
             formData.append('caratula', contenido.caratula)
             formData.append('caratulaFile', contenido.caratulaFile)
             formData.append('recurso', contenido.recurso)
-            formData.append('recursoFile', contenido.recursoFile)
-            formData.append('ContenidoDirectores', contenido.fkDirectors.map((e) => ({
-                "FkDirector": e.value
+            formData.append('recursoFile', contenido.recursoFile) 
+            formData.append('contenidoDirectores', contenido.contenidoDirectores.map((e) => ({ 
+                "fkDirector": e.value 
             })))
-            formData.append('ContenidoInterpretes', contenido.fkInterpretes.map((e) => ({
-                "FkInterprete": e.value
+            formData.append('contenidoInterpretes', contenido.contenidoInterpretes.map((e) => ({ 
+                "fkInterprete": e.value 
             })))
-            formData.append('fkDirectors', contenido.fkDirectors)
-            formData.append('fkInterpretes', contenido.fkInterpretes)
+            formData.append('contenidoDirectoresStr', contenido.contenidoDirectores.map(x=>x.value).toString())
+            formData.append('contenidoInterpretesStr', contenido.contenidoInterpretes.map(x=>x.value).toString()) 
 
             ContenidoService.create(formData)
                 .then(response => {
@@ -403,7 +403,7 @@ const AddContenido = () => {
                             className="basic-multi-select"
                             classNamePrefix="select"
                             onChange={handleDirectorChange}
-                            value={contenido.fkDirectors}
+                            value={contenido.contenidoDirectores}
                         />
                     </Form.Group>
                     <Form.Group>
@@ -416,7 +416,7 @@ const AddContenido = () => {
                             className="basic-multi-select"
                             classNamePrefix="select"
                             onChange={handleInterpreteChange}
-                            value={contenido.fkInterpretes}
+                            value={contenido.contenidoInterpretes}
                         />
                     </Form.Group>
                     <Form.Group className={applyInvalidClass('caratula')}>

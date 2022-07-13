@@ -64,7 +64,10 @@ namespace API_StreamingUNED.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Contenidos>> GetContenidos(int id)
         {
-            var contenidos = await _context.Contenidos.FindAsync(id);
+            var contenidos = await _context.Contenidos
+                    .Include(x => x.ContenidoDirectores)
+                    .Include(x => x.ContenidoInterpretes)
+                    .FirstOrDefaultAsync(x => x.Id == id);
 
             if (contenidos == null)
             {
@@ -77,7 +80,7 @@ namespace API_StreamingUNED.Controllers
         // PUT: api/Contenidos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContenidos(int id, Contenidos contenidos)
+        public async Task<IActionResult> PutContenidos(int id, [FromForm] Contenidos contenidos)
         {
             if (id != contenidos.Id)
             {
@@ -90,7 +93,23 @@ namespace API_StreamingUNED.Controllers
             {
 
                 if (contenidos.CaratulaFile != null)
-                    contenidos.Caratula = await SaveImage(contenidos.CaratulaFile); 
+                    contenidos.Caratula = await SaveImage(contenidos.CaratulaFile);
+                if (contenidos.contenidoDirectoresStr.Length > 0)
+                {
+                    foreach (string d in contenidos.contenidoDirectoresStr.Split(','))
+                    {
+                        int dir = Convert.ToInt32(d);
+                        contenidos.ContenidoDirectores.Add(new ContenidoDirector() { FkDirector = dir });
+                    }
+                }
+                if (contenidos.contenidoInterpretesStr.Length > 0)
+                {
+                    foreach (string d in contenidos.contenidoInterpretesStr.Split(','))
+                    {
+                        int inte = Convert.ToInt32(d);
+                        contenidos.ContenidoInterpretes.Add(new ContenidoInterprete() { FkInterprete = inte });
+                    }
+                }
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -119,6 +138,22 @@ namespace API_StreamingUNED.Controllers
                     contenidos.Caratula = await SaveImage(contenidos.CaratulaFile);
                 if (contenidos.RecursoFile != null)
                     contenidos.Recurso = await SaveVideo(contenidos.RecursoFile);
+                if (contenidos.contenidoDirectoresStr.Length > 0)
+                {
+                    foreach (string d in contenidos.contenidoDirectoresStr.Split(','))
+                    {
+                        int dir = Convert.ToInt32(d);
+                        contenidos.ContenidoDirectores.Add(new ContenidoDirector() { FkDirector = dir });
+                    }
+                }
+                if (contenidos.contenidoInterpretesStr.Length > 0)
+                {
+                    foreach (string d in contenidos.contenidoInterpretesStr.Split(','))
+                    {
+                        int inte = Convert.ToInt32(d);
+                        contenidos.ContenidoInterpretes.Add(new ContenidoInterprete() { FkInterprete = inte });
+                    }
+                }
                 _context.Contenidos.Add(contenidos); 
 
                 await _context.SaveChangesAsync();

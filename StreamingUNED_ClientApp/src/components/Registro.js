@@ -248,7 +248,7 @@ const Registro = () => {
                         </Form.Select>
                     </Form.Group>
 
-                    <Form.Group>
+                    <Form.Group className="form-group text-center">
 
                         <Button variant="success" type="submit">
                             Registro
