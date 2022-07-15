@@ -24,9 +24,19 @@ namespace API_StreamingUNED.Controllers
 
         // GET: api/Usuarios
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Usuarios>>> GetUsuarios()
+        public async Task<ActionResult<IEnumerable<Usuarios>>> GetUsuarios(string search)
         {
-            return await _context.Usuarios.ToListAsync();
+            if (string.IsNullOrEmpty(search))
+                return await _context.Usuarios
+                    .Include(x => x.FkEstadoNavigation)
+                    .Include(x => x.FkRolNavigation)
+                    .ToListAsync();
+            else
+                return await _context.Usuarios
+                    .Include(x => x.FkEstadoNavigation)
+                    .Include(x => x.FkRolNavigation)
+                      .Where(x => x.Nombre.Contains(search) || x.Apellido1.Contains(search) || x.Apellido2.Contains(search))
+                    .ToListAsync();
         }
 
         // GET: api/Usuarios/5
@@ -119,6 +129,32 @@ namespace API_StreamingUNED.Controllers
         private bool UsuarioExists(int id)
         {
             return _context.Usuarios.Any(e => e.Id == id);
+        }
+
+
+        [HttpGet]
+        [Route("Activar")]
+        // GET: api/usuarios/Activar
+        public async Task<IActionResult> Activar()
+        {
+            var user = _context.Usuarios.Find(1);
+            user.FkEstado = (int)EstadosUsuario.Activo;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+
+        }
+        [HttpPut]
+        [Route("CambiarEstado/{id}/{idEstado}")]
+        // GET: api/usuarios/CambiarEstado/2/2
+        public async Task<IActionResult> CambiarEstado(int id, int idEstado)
+        {
+            var user = _context.Usuarios.Find(id);
+            user.FkEstado = idEstado;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+
         }
     }
 }

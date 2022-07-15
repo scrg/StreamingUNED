@@ -28,7 +28,9 @@ namespace API_StreamingUNED.Controllers
             {
                 var Token = new UserTokens();
                 var Valid = _context.Usuarios
-                    .Where(x => x.CorreoElectronico.ToLower().Equals(userLogins.UserName.ToLower()) && x.Clave.Equals(userLogins.Password)).ToList().Count();
+                    .Where(x => x.CorreoElectronico.ToLower().Equals(userLogins.UserName.ToLower()) && x.Clave.Equals(userLogins.Password))
+                    .Where(x => x.FkEstado == (int)EstadosUsuario.Activo)
+                    .ToList().Count();
                 if (Valid == 1)
                 {
                     var user = _context.Usuarios
@@ -44,7 +46,7 @@ namespace API_StreamingUNED.Controllers
                 }
                 else
                 {
-                    return BadRequest("wrong password");
+                    return BadRequest("Credenciales no válidas");
                 }
                 return Ok(Token);
             }

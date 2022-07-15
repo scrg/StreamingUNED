@@ -48,16 +48,10 @@ export default class Login extends Component {
                     
                     window.location.href = window.location.origin + '/home';
                 },
-                error => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
+                error => { 
                     this.setState({
                         loading: false,
-                        message: resMessage
+                        message: error.response.data
                     });
                 }
             );

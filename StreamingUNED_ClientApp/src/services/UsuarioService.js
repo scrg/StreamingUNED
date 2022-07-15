@@ -14,6 +14,9 @@ const update = (id, data) => {
 const remove = (id) => {
   return http.delete(`/usuarios/${id}`);
 }; 
+const cambiarEstado = (id, idEstado) => {
+  return http.put(`/usuarios/CambiarEstado/${id}/${idEstado}`);
+}; 
 const findByAll = (search) => {
   return http.get(`/usuarios?search=${search}`);
 };
@@ -23,6 +26,7 @@ const UsuarioService = {
   create,
   update,
   remove, 
-  findByAll,
+  findByAll, 
+  cambiarEstado,
 };
 export default UsuarioService;

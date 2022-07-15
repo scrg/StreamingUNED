@@ -41,6 +41,8 @@ import  ViewContenido  from "./components/ViewContenido";
 import  Historico  from "./components/Historico";
 import  Error  from "./components/Error";
 
+import UsuariosList from "./components/UsuariosList";
+
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
@@ -85,7 +87,7 @@ const App = () => {
               {showAdminBoard && (
                 <>
                   <NavDropdown title="Administración" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="/directores">Usuarios</NavDropdown.Item>
+                    <NavDropdown.Item href="/usuarios">Usuarios</NavDropdown.Item>
                     <NavDropdown.Item href="/contenidos">Contenidos</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/directores">Directores</NavDropdown.Item>
@@ -140,6 +142,7 @@ const App = () => {
           <Route path="/user" element={<BoardUser/>} />
           <Route path="/mod" element={<BoardModerator/>} />
           <Route path="/admin" element={<BoardAdmin/>} />
+          <Route exact path="/usuarios" element={<UsuariosList/>} />
           <Route exact path="/directores" element={<DirectoresList/>} />
           <Route exact path="/adddirector" element={<AddDirector/>} />
           <Route path="/directores/:id" element={<Director/>} />
