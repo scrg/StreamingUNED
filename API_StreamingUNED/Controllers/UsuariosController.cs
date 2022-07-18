@@ -24,19 +24,15 @@ namespace API_StreamingUNED.Controllers
 
         // GET: api/Usuarios
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Usuarios>>> GetUsuarios(string search)
+        public async Task<ActionResult<IEnumerable<Usuarios>>> GetUsuarios(string search, int idRol, int idEstado)
         {
-            if (string.IsNullOrEmpty(search))
-                return await _context.Usuarios
-                    .Include(x => x.FkEstadoNavigation)
-                    .Include(x => x.FkRolNavigation)
-                    .ToListAsync();
-            else
-                return await _context.Usuarios
-                    .Include(x => x.FkEstadoNavigation)
-                    .Include(x => x.FkRolNavigation)
-                      .Where(x => x.Nombre.Contains(search) || x.Apellido1.Contains(search) || x.Apellido2.Contains(search))
-                    .ToListAsync();
+            return await _context.Usuarios
+                .Include(x => x.FkEstadoNavigation)
+                .Include(x => x.FkRolNavigation)
+                  .Where(x => string.IsNullOrEmpty(search) || x.Nombre.Contains(search) || x.Apellido1.Contains(search) || x.Apellido2.Contains(search))
+                  .Where(x => idRol == 0 || x.FkRol == idRol)
+                  .Where(x => idEstado == 0 || x.FkEstado == idEstado)
+                .ToListAsync();
         }
 
         // GET: api/Usuarios/5

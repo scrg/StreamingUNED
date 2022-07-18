@@ -5,6 +5,7 @@ import UsuarioEstadoService from "../services/UsuarioEstadoService";
 import RolService from "../services/RolService";
 import Pagination from './Pagination';
 import { useNavigate } from 'react-router-dom';
+import AuthService from "../services/auth.service";
 
 
 const UsuariosList = (props) => {
@@ -15,36 +16,30 @@ const UsuariosList = (props) => {
     const [listEstados, setEstados] = useState([]);
     const [idRol, setRol] = useState(0);
     const [idEstado, setEstado] = useState(0);
+    const [idRolLogin, setRolLoginId] = useState(0);
 
     const history = useNavigate();
     usuariosRef.current = sortedElements;
 
     useEffect(() => {
-        retrieveUsuarios();
+        setRolLoginId(AuthService.getCurrentUser().rolId);
         retrieveEstados();
         retrieveRoles();
     }, []);
 
 
     useEffect(() => {
-        filterSelect();
+        findByAll();
     }, [idRol, idEstado]);
+
+    useEffect(() => {
+        setRol((idRolLogin == 2) ? 3 : 0);
+    }, [idRolLogin]);
 
     const onChangeSearch = (e) => {
         const search = e.target.value;
         setSearch(search);
     };
-
-    const retrieveUsuarios = () => {
-        UsuarioService.getAll()
-            .then((response) => {
-                setUsuarios(response.data);
-            })
-            .catch((e) => {
-                console.log(e);
-            });
-    };
-
 
     const retrieveEstados = () => {
         UsuarioEstadoService.getAll()
@@ -65,12 +60,9 @@ const UsuariosList = (props) => {
                 console.log(e);
             });
     };
-    const refreshList = () => {
-        retrieveUsuarios();
-    };
 
     const findByAll = () => {
-        UsuarioService.findByAll(search)
+        UsuarioService.findByAll(search, idRol, idEstado)
             .then((response) => {
                 setUsuarios(response.data);
             })
@@ -82,12 +74,7 @@ const UsuariosList = (props) => {
         window.location.reload(false);
     };
 
-    const filterSelect = () => {
-        setUsuarios(sortedElements
-            .filter((c => c.fkEstado == idEstado || idEstado == 0))
-            .filter((c => c.fkRol == idRol || idRol == 0)));
-    };
- 
+
     const addUsuario = () => {
         history("/addusuario");
     };
@@ -96,12 +83,12 @@ const UsuariosList = (props) => {
         UsuarioService.cambiarEstado(id, idEstado)
             .then(() => {
                 history("/usuarios");
-                refreshList();
+                findByAll();
             })
             .catch((e) => {
                 console.log(e);
             });
-    }; 
+    };
 
     const [showAlert, setShowAlert] = useState(false);
 
@@ -140,9 +127,11 @@ const UsuariosList = (props) => {
                     <div className="col-sm-6">
                         <h2>Administración Usuarios</h2>
                     </div>
-                    <div className="col-sm-6">
-                        <Button onClick={() => addUsuario()} className="btn btn-success"><span>Crear nuevo empleado</span></Button>
-                    </div>
+                    {(idRolLogin !== 2) &&
+                        <div className="col-sm-6">
+                            <Button onClick={() => addUsuario()} className="btn btn-success"><span>Crear nuevo empleado</span></Button>
+                        </div>
+                    }
                 </div>
             </div>
 
@@ -160,16 +149,18 @@ const UsuariosList = (props) => {
                         }
                     </select>
                 </div>
-                <div className="input-group mb-3">
-                    <select className="form-control" name="rol" onChange={handleRolChange}>
-                        <option value={Number(0)}>Filtro Rol</option>
-                        {
-                            listRoles.map(Element => (
-                                <option key={Element.id} value={Element.id} >{Element.nombre}</option>
-                            ))
-                        }
-                    </select>
-                </div>
+                {(idRolLogin !== 2) &&
+                    <div className="input-group mb-3">
+                        <select className="form-control" name="rol" onChange={handleRolChange}>
+                            <option value={Number(0)}>Filtro Rol</option>
+                            {
+                                listRoles.map(Element => (
+                                    <option key={Element.id} value={Element.id} >{Element.nombre}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                }
             </div>
             <div>
                 <div className="input-group mb-3">

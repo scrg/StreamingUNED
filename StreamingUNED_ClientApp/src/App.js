@@ -12,7 +12,7 @@ import Login from "./components/login.component";
 import Home from "./components/home.component";
 import Perfil from "./components/Perfil";
 import BoardUser from "./components/board-user.component";
-import BoardModerator from "./components/board-moderator.component";
+import BoardEmpleado from "./components/board-empleado.component";
 import BoardAdmin from "./components/board-admin.component";
 
 
@@ -44,7 +44,7 @@ import  Error  from "./components/Error";
 import UsuariosList from "./components/UsuariosList";
 
 const App = () => {
-  const [showModeratorBoard, setShowModeratorBoard] = useState(false);
+  const [showEmpleadoBoard, setShowEmpleadoBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
 
@@ -53,7 +53,7 @@ const App = () => {
 
     if (user) {
       setCurrentUser(user);
-      setShowModeratorBoard(user.rolId === 2);//2	Empleado
+      setShowEmpleadoBoard(user.rolId === 2);//2	Empleado
       setShowAdminBoard(user.rolId === 1); //1	Gestor
     } 
     
@@ -68,7 +68,7 @@ const App = () => {
 
   const logOut = () => {
     AuthService.logout();
-    setShowModeratorBoard(false);
+    setShowEmpleadoBoard(false);
     setShowAdminBoard(false);
     setCurrentUser(undefined); 
   };
@@ -100,14 +100,17 @@ const App = () => {
                   </NavDropdown>
                 </>
               )}
-              {showModeratorBoard && (
-                <NavDropdown title="Empleado" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                </NavDropdown>
+              {showEmpleadoBoard && (
+                <>
+                  <NavDropdown title="Administración" id="basic-nav-dropdown">
+                    <NavDropdown.Item href="/usuarios">Usuarios</NavDropdown.Item>
+                    <NavDropdown.Item href="/contenidos">Contenidos</NavDropdown.Item> 
+                  </NavDropdown>
+                  <NavDropdown title="Estadísticas" id="basic-nav-dropdown">
+                    <NavDropdown.Item href="#action/3.2">Visualizaciones</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.2">Valoraciones</NavDropdown.Item>
+                  </NavDropdown>
+                </>
               )}
               {currentUser && (
                 <NavDropdown title="Catálogo" id="basic-nav-dropdown">
@@ -140,7 +143,7 @@ const App = () => {
           <Route exact path="/register" element={<Registro/>} />
           <Route exact path="/Perfil" element={<Perfil/>} />
           <Route path="/user" element={<BoardUser/>} />
-          <Route path="/mod" element={<BoardModerator/>} />
+          <Route path="/mod" element={<BoardEmpleado/>} />
           <Route path="/admin" element={<BoardAdmin/>} />
           <Route exact path="/usuarios" element={<UsuariosList/>} />
           <Route exact path="/directores" element={<DirectoresList/>} />

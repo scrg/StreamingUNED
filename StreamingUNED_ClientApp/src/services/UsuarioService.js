@@ -17,8 +17,8 @@ const remove = (id) => {
 const cambiarEstado = (id, idEstado) => {
   return http.put(`/usuarios/CambiarEstado/${id}/${idEstado}`);
 }; 
-const findByAll = (search) => {
-  return http.get(`/usuarios?search=${search}`);
+const findByAll = (search, idRol, idEstado) => {
+  return http.get(`/usuarios?search=${search}&idRol=${idRol}&idEstado=${idEstado}`);
 };
 const UsuarioService = {
   getAll,
