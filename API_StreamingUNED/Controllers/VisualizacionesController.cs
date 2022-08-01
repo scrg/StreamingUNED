@@ -24,7 +24,11 @@ namespace API_StreamingUNED.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Visualizaciones>>> GetVisualizaciones()
         {            
-            return await _context.Visualizaciones.ToListAsync();
+            return await _context.Visualizaciones
+                .Include(x => x.FkContenidoNavigation)
+                .Include(x => x.FkContenidoNavigation.FkTematicaNavigation)
+                .Include(x => x.FkContenidoNavigation.FkTipoNavigation)
+                .ToListAsync();
         }
         
        [HttpGet]

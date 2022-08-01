@@ -43,6 +43,9 @@ import  Error  from "./components/Error";
 
 import UsuariosList from "./components/UsuariosList";
 
+import InformesVisualizaciones from "./components/InformesVisualizaciones";
+import InformesValoraciones from "./components/InformesValoraciones";
+
 const App = () => {
   const [showEmpleadoBoard, setShowEmpleadoBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
@@ -95,8 +98,8 @@ const App = () => {
                     <NavDropdown.Item href="/productoras">Productoras</NavDropdown.Item>
                   </NavDropdown>
                   <NavDropdown title="Estadísticas" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.2">Visualizaciones</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">Valoraciones</NavDropdown.Item>
+                    <NavDropdown.Item href="/InformesVisualizaciones">Visualizaciones</NavDropdown.Item>
+                    <NavDropdown.Item href="/InformesValoraciones">Valoraciones</NavDropdown.Item>
                   </NavDropdown>
                 </>
               )}
@@ -107,8 +110,8 @@ const App = () => {
                     <NavDropdown.Item href="/contenidos">Contenidos</NavDropdown.Item> 
                   </NavDropdown>
                   <NavDropdown title="Estadísticas" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.2">Visualizaciones</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">Valoraciones</NavDropdown.Item>
+                    <NavDropdown.Item href="/InformesVisualizaciones">Visualizaciones</NavDropdown.Item>
+                    <NavDropdown.Item href="/InformesValoraciones">Valoraciones</NavDropdown.Item>
                   </NavDropdown>
                 </>
               )}
@@ -162,6 +165,8 @@ const App = () => {
           <Route exact path="/contenidoportipo" element={<ContenidoPorTipo/>} />
           <Route exact path="/viewcontenido/:id" element={<ViewContenido/>} />
           <Route exact path="/historico" element={<Historico/>} />
+          <Route exact path="/InformesVisualizaciones" element={<InformesVisualizaciones/>} />
+          <Route exact path="/InformesValoraciones" element={<InformesValoraciones/>} />          
           <Route path="*" element={<Error/>} />
         </Routes> 
       </div>
