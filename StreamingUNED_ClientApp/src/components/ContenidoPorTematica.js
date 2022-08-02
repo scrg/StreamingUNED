@@ -50,8 +50,7 @@ const ContenidoPorTematica = () => {
                         <option key={Element.id} value={Element.id} >{Element.nombre}</option>
                     ))
                 }
-            </select>
-            <h4>You selected {idTipo}</h4>
+            </select> 
             {
                 listTematicas.map(Element => (
                     <CalleTematica key={Element.id} id={Element.id} nombre={Element.nombre} tipo={Number(idTipo)} />

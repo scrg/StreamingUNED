@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ContenidoService from "../services/ContenidoService";
 import CarouselCards from "./CarouselCards"
+import { Card } from 'react-bootstrap';
+import CardHeader from 'react-bootstrap/esm/CardHeader';
 
 
 export const CalleTematica = (props) => {
-    const [listContenidos, setContenidos] = useState([]); 
- 
+    const [listContenidos, setContenidos] = useState([]);
+
 
     useEffect(() => {
         retrieveContenidos();
@@ -19,14 +21,20 @@ export const CalleTematica = (props) => {
             .catch((e) => {
                 console.log(e);
             });
-    }; 
+    };
 
     return (
         <>
-            <p>{props.nombre} " - " {props.id}</p>
-            {
-                <CarouselCards listContenidos={listContenidos} />
-            }
+
+            <Card>
+                <CardHeader className='text-center'>{props.nombre}</CardHeader>
+                <Card.Body>
+                    {
+                        <CarouselCards listContenidos={listContenidos} />
+                    }
+                </Card.Body>
+            </Card>
+
         </>
     )
 }

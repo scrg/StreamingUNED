@@ -5,6 +5,9 @@ const getAll = () => {
 const getHistorico = () => {
   return http.get("/Visualizaciones/GetHistorico");
 };
+const getInformeVisualizaciones = () => {
+  return http.get("/Visualizaciones/GetInformeVisualizaciones");
+};
 const get = (id) => {
   return http.get(`/Visualizaciones/${id}`);
 };
@@ -27,6 +30,7 @@ const VisualizacionService = {
   update,
   remove, 
   findByAll,
-  getHistorico
+  getHistorico,
+  getInformeVisualizaciones
 };
 export default VisualizacionService;

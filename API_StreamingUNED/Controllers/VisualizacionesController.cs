@@ -44,6 +44,18 @@ namespace API_StreamingUNED.Controllers
                 .ToListAsync();
         }
 
+        [HttpGet]
+        [Route("GetInformeVisualizaciones")]
+        // GET: api/Visualizaciones/GetInformeVisualizaciones
+        public async Task<ActionResult<IEnumerable<Visualizaciones>>> GetInformeVisualizacionesPorUsuario()
+        { 
+            return await _context.Visualizaciones
+                .Include(x => x.FkSocioNavigation)
+                .Include(x => x.FkContenidoNavigation)
+                .Include(x => x.FkContenidoNavigation.FkTematicaNavigation)
+                .Include(x => x.FkContenidoNavigation.FkTipoNavigation)
+                .ToListAsync();
+        }
 
         // GET: api/Visualizaciones/5
         [HttpGet("{id}")]

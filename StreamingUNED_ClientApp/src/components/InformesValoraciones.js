@@ -1,8 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import ContenidoTematicaService from "../services/ContenidoTematicaService";
-import ContenidoTipoService from "../services/ContenidoTipoService";
-import DoughnutComponent from "./DoughnutComponent"
+import ContenidoTipoService from "../services/ContenidoTipoService"; 
 
 const InformesValoraciones = () => {
     const [listTematicas, setTematicas] = useState([]);
@@ -57,7 +56,7 @@ const InformesValoraciones = () => {
                     <CalleTematica key={Element.id} id={Element.id} nombre={Element.nombre} tipo={Number(idTipo)} />
                 ))
             } */}
-            <DoughnutComponent/>
+            
         </>
     )
 }

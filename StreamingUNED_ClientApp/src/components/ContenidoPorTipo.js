@@ -51,7 +51,7 @@ const ContenidoPorTipo = () => {
                     ))
                 }
             </select>
-            <h4>You selected {idTematica}</h4>
+            <br/>
             {
                 listTipos.map(Element => (
                     <CalleTipo key={Element.id} id={Element.id} nombre={Element.nombre} tematica={Number(idTematica)} />
