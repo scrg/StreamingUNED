@@ -42,7 +42,7 @@ const ContenidoPorTipo = () => {
 
     return (
         <>
-            <h1>CONTENIDO POR TIPO</h1>
+        <h2 className="col text-center">CONTENIDO POR TIPO</h2>
             <select className="form-control" name="tematica" onChange={handleInputChange}>
                 <option value={Number(0)}>Filtro tematica</option>
                 {
