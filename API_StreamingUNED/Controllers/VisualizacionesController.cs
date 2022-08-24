@@ -47,7 +47,7 @@ namespace API_StreamingUNED.Controllers
         [HttpGet]
         [Route("GetInformeVisualizaciones")]
         // GET: api/Visualizaciones/GetInformeVisualizaciones
-        public async Task<ActionResult<IEnumerable<Visualizaciones>>> GetInformeVisualizacionesPorUsuario()
+        public async Task<ActionResult<IEnumerable<Visualizaciones>>> GetInformeVisualizaciones()
         { 
             return await _context.Visualizaciones
                 .Include(x => x.FkSocioNavigation)

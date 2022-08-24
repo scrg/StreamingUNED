@@ -80,7 +80,7 @@ const App = () => {
     <div>
       <Navbar bg="light" expand="lg">
         <Container>
-          <Navbar.Brand href="/home"><img src="/logo192.png" alt="profile-img" class="profile-img-card"/></Navbar.Brand>
+          <Navbar.Brand href="/home"><img src="/logo192.png" alt="profile-img" className="profile-img-card"/></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">

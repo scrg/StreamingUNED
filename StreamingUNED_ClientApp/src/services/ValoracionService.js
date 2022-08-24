@@ -5,6 +5,9 @@ const getAll = () => {
 const get = (id) => {
   return http.get(`/Valoraciones/${id}`);
 };
+const getInformeValoraciones = () => {
+  return http.get("/Valoraciones/GetInformeValoraciones");
+};
 const create = (data) => {
   return http.post("/Valoraciones", data);
 };
@@ -23,6 +26,7 @@ const VisualizacionService = {
   create,
   update,
   remove, 
-  findByAll 
+  findByAll,
+  getInformeValoraciones
 };
 export default VisualizacionService;

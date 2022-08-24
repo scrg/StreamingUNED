@@ -41,6 +41,19 @@ namespace API_StreamingUNED.Controllers
             return Valoraciones;
         }
 
+        [HttpGet]
+        [Route("GetInformeValoraciones")]
+        // GET: api/Visualizaciones/GetInformeValoraciones
+        public async Task<ActionResult<IEnumerable<Valoraciones>>> GetInformeValoraciones()
+        {
+            return await _context.Valoraciones
+                .Include(x => x.FkSocioNavigation)
+                .Include(x => x.FkContenidoNavigation)
+                .Include(x => x.FkContenidoNavigation.FkTematicaNavigation)
+                .Include(x => x.FkContenidoNavigation.FkTipoNavigation)
+                .ToListAsync();
+        }
+
         // PUT: api/Valoraciones/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

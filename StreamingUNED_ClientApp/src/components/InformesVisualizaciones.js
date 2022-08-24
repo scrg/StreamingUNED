@@ -326,7 +326,7 @@ const InformesVisualizaciones = () => {
                                     onChange={handleFechaDesdeChange}
                                     name="Fecha desde"
                                 />
-                            </Col> 
+                            </Col>
                             <Col>
                                 <Form.Label htmlFor="fechaHasta" >Fecha Hasta</Form.Label>
                                 <Form.Control
@@ -369,32 +369,32 @@ const InformesVisualizaciones = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="row">
-                <div>
+                <div className="row">
                     <div>
-                        <Card>
-                            <CardHeader className='text-center'>Top 10 Por usuario</CardHeader>
-                            <Card.Body>
-                                {
-                                    <Bar data={datosUsuario} options={options} />
-                                }
-                            </Card.Body>
-                        </Card>
+                        <div>
+                            <Card>
+                                <CardHeader className='text-center'>Top 10 Por usuario</CardHeader>
+                                <Card.Body>
+                                    {
+                                        <Bar data={datosUsuario} options={options} />
+                                    }
+                                </Card.Body>
+                            </Card>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="row">
-                <div>
+                <div className="row">
                     <div>
-                        <Card>
-                            <CardHeader className='text-center'>Top 10 Por contenido</CardHeader>
-                            <Card.Body>
-                                {
-                                    <Bar data={datosContenido} options={options} />
-                                }
-                            </Card.Body>
-                        </Card>
+                        <div>
+                            <Card>
+                                <CardHeader className='text-center'>Top 10 Por contenido</CardHeader>
+                                <Card.Body>
+                                    {
+                                        <Bar data={datosContenido} options={options} />
+                                    }
+                                </Card.Body>
+                            </Card>
+                        </div>
                     </div>
                 </div>
             </div>
