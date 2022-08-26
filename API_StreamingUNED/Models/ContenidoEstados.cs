@@ -17,4 +17,10 @@ namespace API_StreamingUNED
         [JsonIgnore]
         public virtual ICollection<Contenidos> Contenidos { get; set; }
     }
+    public enum EstadosContenido : int
+    {
+        Proximamente = 1,
+        Activo = 2,
+        Bloqueado = 3
+    };
 }

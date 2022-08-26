@@ -34,12 +34,16 @@ namespace API_StreamingUNED.Controllers
                     .Include(x => x.FkEstadoNavigation)
                     .Include(x => x.FkTipoNavigation)
                     .Include(x => x.FkTematicaNavigation)
+                    .Include(x => x.ContenidoInterpretes)
+                    .Include(x => x.ContenidoDirectores)
                     .ToListAsync();
             else
                 return await _context.Contenidos
                     .Include(x => x.FkEstadoNavigation)
                     .Include(x => x.FkTipoNavigation)
                     .Include(x => x.FkTematicaNavigation)
+                    .Include(x => x.ContenidoInterpretes)
+                    .Include(x => x.ContenidoDirectores)
                     .Where(x => x.Titulo.Contains(search))
                     .ToListAsync();
         }
@@ -48,7 +52,10 @@ namespace API_StreamingUNED.Controllers
         [HttpGet("{tipo}/{tematica}")]
         public ActionResult<List<Contenidos>> GetContenidos(int tipo, int tematica)
         {
-            var usuarios = _context.Contenidos.Where(x => (x.FkTipo== tipo || tipo == 0) && (x.FkTematica == tematica || tematica == 0)).ToList();
+            var usuarios = _context.Contenidos
+                .Where(x => (x.FkTipo== tipo || tipo == 0) && (x.FkTematica == tematica || tematica == 0))
+                .Where(x => x.FkEstado == (int)EstadosContenido.Activo)
+                .ToList();
 
             //int idUsuario = Convert.ToInt16(HttpContext.User.Claims.ToList()[0].Value);
 

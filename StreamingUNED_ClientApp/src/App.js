@@ -45,6 +45,7 @@ import UsuariosList from "./components/UsuariosList";
 
 import InformesVisualizaciones from "./components/InformesVisualizaciones";
 import InformesValoraciones from "./components/InformesValoraciones";
+import ContenidoCatalogo from "./components/ContenidoCatalogo";
 
 const App = () => {
   const [showEmpleadoBoard, setShowEmpleadoBoard] = useState(false);
@@ -119,7 +120,7 @@ const App = () => {
                 <NavDropdown title="Catálogo" id="basic-nav-dropdown">
                   <NavDropdown.Item href="/contenidoportematica">Por temática</NavDropdown.Item>
                   <NavDropdown.Item href="/contenidoportipo">Por tipo</NavDropdown.Item> 
-                  <NavDropdown.Item href="#action/3.2">Búsqueda</NavDropdown.Item>
+                  <NavDropdown.Item href="/contenidocatalogo">Búsqueda</NavDropdown.Item>
                 </NavDropdown>
               )}
               {currentUser && (
@@ -129,7 +130,7 @@ const App = () => {
                 </>
               )}
               {currentUser ? (
-                <Nav.Link href="/login" onClick={logOut}>LogOut</Nav.Link>
+                <Nav.Link href="/login" onClick={logOut}>Cerrar sesión</Nav.Link>
               ) : (
                 <Nav.Link href="/login">Login</Nav.Link>
               )} 
@@ -163,6 +164,7 @@ const App = () => {
           <Route path="/productoras/:id" element={<Productora/>} />
           <Route exact path="/contenidoportematica" element={<ContenidoPorTematica/>} />
           <Route exact path="/contenidoportipo" element={<ContenidoPorTipo/>} />
+          <Route exact path="/contenidocatalogo" element={<ContenidoCatalogo/>} />
           <Route exact path="/viewcontenido/:id" element={<ViewContenido/>} />
           <Route exact path="/historico" element={<Historico/>} />
           <Route exact path="/InformesVisualizaciones" element={<InformesVisualizaciones/>} />

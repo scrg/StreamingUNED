@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+.row-flex {
+	display: flex;
+	flex-flow: row wrap;
+  }
 
 .btn-act {
 	padding: 4px;
