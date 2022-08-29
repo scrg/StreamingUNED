@@ -143,7 +143,7 @@ const ContenidoCatalogo = (props) => {
                         <option value={Number(0)}>Filtro director</option>
                         {
                             listDirectores.map(Element => (
-                                <option key={Element.id} value={Element.id} >{Element.nombre}</option>
+                                <option key={Element.id} value={Element.id} >{Element.nombreCompleto}</option>
                             ))
                         }
                     </select>
@@ -153,7 +153,7 @@ const ContenidoCatalogo = (props) => {
                         <option value={Number(0)}>Filtro interprete</option>
                         {
                             listInterpretes.map(Element => (
-                                <option key={Element.id} value={Element.id} >{Element.nombre}</option>
+                                <option key={Element.id} value={Element.id} >{Element.nombreCompleto}</option>
                             ))
                         }
                     </select>

@@ -9,7 +9,7 @@ import "./App.css";
 import AuthService from "./services/auth.service";
 
 import Login from "./components/login.component";
-import Home from "./components/home.component";
+import Home from "./components/Home";
 import Perfil from "./components/Perfil";
 import BoardUser from "./components/board-user.component";
 import BoardEmpleado from "./components/board-empleado.component";
@@ -81,7 +81,12 @@ const App = () => {
     <div>
       <Navbar bg="light" expand="lg">
         <Container>
-          <Navbar.Brand href="/home"><img src="/logo192.png" alt="profile-img" className="profile-img-card"/></Navbar.Brand>
+        {currentUser ? (
+                <Navbar.Brand href="/home"><img src="/logo192.png" alt="profile-img" className="profile-img-card"/></Navbar.Brand>
+              ) : (
+                <Navbar.Brand href="/login"><img src="/logo192.png" alt="profile-img" className="profile-img-card"/></Navbar.Brand>
+              )} 
+          
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
@@ -141,7 +146,7 @@ const App = () => {
 
       <div className="container mt-3"> 
         <Routes>
-          <Route exact path={"/"} element={<Home/>} />
+          <Route exact path={"/"} element={<Login/>} />
           <Route exact path={"/home"} element={<Home/>} />
           <Route exact path="/login" element={<Login/>} />
           <Route exact path="/register" element={<Registro/>} />

@@ -49,6 +49,41 @@ namespace API_StreamingUNED.Controllers
         }
 
 
+        [HttpGet]
+        [Route("GetTopVisualizaciones")]
+        // GET: api/Contenidos/GetTopVisualizaciones
+        public async Task<ActionResult<IEnumerable<Contenidos>>> GetTopVisualizaciones()
+        {
+            return await _context.Contenidos
+                .Where(x => x.FkEstado == (int)EstadosContenido.Activo)
+                .OrderByDescending(x => x.Visualizaciones.Count)
+                .ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("GetTopValoraciones")]
+        // GET: api/Contenidos/GetTopValoraciones
+        public async Task<ActionResult<IEnumerable<Contenidos>>> GetTopValoraciones()
+        {
+            return await _context.Contenidos
+                .Where(x => x.FkEstado == (int)EstadosContenido.Activo)
+                .OrderByDescending(x => x.Valoraciones.Average(c=>c.Valoracion))
+                .ToListAsync();
+        }
+
+
+        [HttpGet]
+        [Route("GetTopRecientes")]
+        // GET: api/Contenidos/GetTopRecientes
+        public async Task<ActionResult<IEnumerable<Contenidos>>> GetTopRecientes()
+        {
+            return await _context.Contenidos
+                .Where(x => x.FkEstado == (int)EstadosContenido.Activo)
+                .OrderByDescending(x => x.Fecha)
+                .ToListAsync();
+        }
+
+
         [HttpGet("{tipo}/{tematica}")]
         public ActionResult<List<Contenidos>> GetContenidos(int tipo, int tematica)
         {

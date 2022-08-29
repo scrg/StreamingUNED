@@ -5,6 +5,15 @@ const getAll = () => {
 const get = (id) => {
   return http.get(`/contenidos/${id}`);
 };
+const getTopVisualizaciones = () => {
+  return http.get("/contenidos/GetTopVisualizaciones");
+};
+const getTopValoraciones = () => {
+  return http.get("/contenidos/GetTopValoraciones");
+};
+const getTopRecientes = () => {
+  return http.get("/contenidos/GetTopRecientes");
+};
 const create = (data) => {
   return http.post("/contenidos", data);
 };
@@ -27,6 +36,9 @@ const ContenidoService = {
   update,
   remove, 
   findByAll,
-  findByTipoTematica
+  findByTipoTematica,
+  getTopVisualizaciones,
+  getTopValoraciones,
+  getTopRecientes
 };
 export default ContenidoService;
