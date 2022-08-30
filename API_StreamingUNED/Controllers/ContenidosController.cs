@@ -97,7 +97,7 @@ namespace API_StreamingUNED.Controllers
 
                 var res = from u in _context.Visualizaciones
                           join p in _context.Visualizaciones on u.FkContenido equals p.FkContenido
-                          where u.FkSocio == 1 && p.FkSocio != 1
+                          where u.FkSocio == idUsuario && p.FkSocio != idUsuario
                           group p by p.FkSocio into r
                           select new
                           {
@@ -108,7 +108,7 @@ namespace API_StreamingUNED.Controllers
                 var afinidad =
                        (from cte in res
                         join similar in _context.Visualizaciones on cte.idSocio equals similar.FkSocio
-                        where !_context.Visualizaciones.Where(x => x.FkSocio == 1).Select(x => x.FkContenido).Distinct().Contains(similar.FkContenido)
+                        where !_context.Visualizaciones.Where(x => x.FkSocio == idUsuario).Select(x => x.FkContenido).Distinct().Contains(similar.FkContenido)
                         select new
                         {
                             rank = cte.rank,
