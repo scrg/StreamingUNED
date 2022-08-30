@@ -84,6 +84,65 @@ namespace API_StreamingUNED.Controllers
         }
 
 
+        [HttpGet]
+        [Route("GetRecomendacionesVisualizaciones")]
+        // GET: api/Contenidos/GetRecomendacionesVisualizaciones
+        public ActionResult<IEnumerable<Contenidos>> GetRecomendacionesVisualizaciones()
+        {
+            int idUsuario = Convert.ToInt16(HttpContext.User.Claims.ToList()[0].Value);
+
+            try
+            {
+
+
+                var res = from u in _context.Visualizaciones
+                          join p in _context.Visualizaciones on u.FkContenido equals p.FkContenido
+                          where u.FkSocio == 1 && p.FkSocio != 1
+                          group p by p.FkSocio into r
+                          select new
+                          {
+                              idSocio = r.Key,
+                              rank = r.Count()
+                          };
+
+                var afinidad =
+                       (from cte in res
+                        join similar in _context.Visualizaciones on cte.idSocio equals similar.FkSocio
+                        where !_context.Visualizaciones.Where(x => x.FkSocio == 1).Select(x => x.FkContenido).Distinct().Contains(similar.FkContenido)
+                        select new
+                        {
+                            rank = cte.rank,
+                            idContenido = similar.FkContenido
+                        }
+                       ).ToList();
+
+                var groupRank =
+                    (from a in afinidad
+                     group a by a.idContenido into r
+                     select new
+                     {
+                         idContenido = r.Key,
+                         rank = r.Sum(x => x.rank)
+                     }
+                       ).OrderByDescending(x => x.rank).ToList();
+
+                return (from g in groupRank
+                        join c in _context.Contenidos on g.idContenido equals c.Id
+                        select new { g, c }
+                       ).OrderByDescending(x => x.g.rank).Select(x => x.c).ToList();
+
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                return NotFound();
+            }
+        }
+
+
+        
+
+
         [HttpGet("{tipo}/{tematica}")]
         public ActionResult<List<Contenidos>> GetContenidos(int tipo, int tematica)
         {

@@ -14,6 +14,9 @@ const getTopValoraciones = () => {
 const getTopRecientes = () => {
   return http.get("/contenidos/GetTopRecientes");
 };
+const getRecomendacionesVisualizaciones = () => {
+  return http.get("/contenidos/GetRecomendacionesVisualizaciones");
+};
 const create = (data) => {
   return http.post("/contenidos", data);
 };
@@ -39,6 +42,7 @@ const ContenidoService = {
   findByTipoTematica,
   getTopVisualizaciones,
   getTopValoraciones,
-  getTopRecientes
+  getTopRecientes,
+  getRecomendacionesVisualizaciones
 };
 export default ContenidoService;

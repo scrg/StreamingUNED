@@ -24,20 +24,27 @@ export const Home = (props) => {
             .catch((e) => {
                 console.log(e);
             });
-            ContenidoService.getTopVisualizaciones()
-                .then((response) => {
-                    setContenidosVisualizaciones(response.data);
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
-                ContenidoService.getTopValoraciones()
-                    .then((response) => {
-                        setContenidosValoraciones(response.data);
-                    })
-                    .catch((e) => {
-                        console.log(e);
-                    });
+        ContenidoService.getTopVisualizaciones()
+            .then((response) => {
+                setContenidosVisualizaciones(response.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+        ContenidoService.getTopValoraciones()
+            .then((response) => {
+                setContenidosValoraciones(response.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+        ContenidoService.getRecomendacionesVisualizaciones()
+            .then((response) => {
+                setContenidosRecomendacionesVisualizaciones(response.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     };
 
     return (
