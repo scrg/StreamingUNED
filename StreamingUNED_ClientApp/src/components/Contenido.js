@@ -441,13 +441,15 @@ const Contenido = props => {
                         />
                         <img src={contenido.caratula} style={{ height: '10rem', width: '10rem' }} className="card-img-top" alt="caratula"></img>
                     </Form.Group>
-                    <Form.Group className={applyInvalidClass('recurso')}>
+                    <Form.Group>
                         <Form.Label htmlFor="recurso" >Recurso</Form.Label>
                         <Form.Control
-                            type="file"
-                            className="form-control-file"
+                            type="text"
+                            className="form-control"
                             id="recurso"
-                            onChange={handleRecursoChange}
+                            required
+                            value={contenido.recurso}
+                            onChange={handleInputChange}
                             name="recurso"
                         />
                     </Form.Group>
