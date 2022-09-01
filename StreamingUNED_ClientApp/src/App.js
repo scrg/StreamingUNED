@@ -137,7 +137,7 @@ const App = () => {
               {currentUser ? (
                 <Nav.Link href="/login" onClick={logOut}>Cerrar sesión</Nav.Link>
               ) : (
-                <Nav.Link href="/login">Login</Nav.Link>
+                <Nav.Link href="/login">Iniciar sesión</Nav.Link>
               )} 
             </Nav>
           </Navbar.Collapse>
