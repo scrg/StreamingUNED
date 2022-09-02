@@ -80,6 +80,9 @@ export const ViewContenido = props => {
     }
     return (
         <>
+        <div className="d-flex justify-content-center mt-3">
+            <h2>{contenido.titulo}</h2>
+        </div> 
             <div className='player-wrapper'>
                 <ReactPlayer
                     className='react-player'
@@ -89,7 +92,7 @@ export const ViewContenido = props => {
                     height='100%'
                 />
             </div>
-            <div>
+            <div className="d-flex justify-content-center mt-3">
                 <ReactStars
                     size={50}
                     half={false}

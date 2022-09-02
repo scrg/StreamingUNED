@@ -33,6 +33,7 @@ namespace API_StreamingUNED.Controllers
         // GET: api/Directores
         // GET api/Directores?search=ped 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Directores>>> GetDirectores(string search)
         {
             if (string.IsNullOrEmpty(search))
