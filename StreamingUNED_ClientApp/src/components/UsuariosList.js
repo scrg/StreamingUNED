@@ -76,7 +76,7 @@ const UsuariosList = (props) => {
 
 
     const addUsuario = () => {
-        history("/addusuario");
+        history("/addempleado");
     };
 
     const cambiarEstado = (id, idEstado) => {

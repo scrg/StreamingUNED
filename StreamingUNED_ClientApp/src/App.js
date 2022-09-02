@@ -46,6 +46,7 @@ import UsuariosList from "./components/UsuariosList";
 import InformesVisualizaciones from "./components/InformesVisualizaciones";
 import InformesValoraciones from "./components/InformesValoraciones";
 import ContenidoCatalogo from "./components/ContenidoCatalogo";
+import AddEmpleado from "./components/AddEmpleado";
 
 const App = () => {
   const [showEmpleadoBoard, setShowEmpleadoBoard] = useState(false);
@@ -173,7 +174,8 @@ const App = () => {
           <Route exact path="/viewcontenido/:id" element={<ViewContenido/>} />
           <Route exact path="/historico" element={<Historico/>} />
           <Route exact path="/InformesVisualizaciones" element={<InformesVisualizaciones/>} />
-          <Route exact path="/InformesValoraciones" element={<InformesValoraciones/>} />          
+          <Route exact path="/InformesValoraciones" element={<InformesValoraciones/>} />      
+          <Route exact path="/addempleado" element={<AddEmpleado/>} />    
           <Route path="*" element={<Error/>} />
         </Routes> 
       </div>
